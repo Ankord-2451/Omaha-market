@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Models;
 using System.Diagnostics;
+using Omaha_market.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Omaha_market.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private AppDbContext dbContext;
+        public HomeController(AppDbContext appDb)
         {
-            _logger = logger;
+            dbContext = appDb;
         }
 
         public IActionResult Index()
         {
+            //dbContext.Accounts.ToList();
             return View();
         }
 
