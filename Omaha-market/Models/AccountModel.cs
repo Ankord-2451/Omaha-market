@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SQLite;
+﻿using SQLite;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Omaha_market.Models
 {
@@ -29,12 +27,6 @@ namespace Omaha_market.Models
 
         [Required]
         public string Email { get; set; }
-
-        [NotMapped]
-        public ListOfProductModel ShoppingCart { get; set; }
-
-        [NotMapped]
-        public ListOfProductModel Favorite { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 3)]
