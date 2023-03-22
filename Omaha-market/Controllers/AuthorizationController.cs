@@ -1,83 +1,97 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Omaha_market.Core;
+using Omaha_market.Data;
+using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
     public class AuthorizationController : Controller
     {
-        // GET: AuthorizationController
+
+        private AppDbContext dbContext;
+        public static IConfiguration configuration;
+
+        public AuthorizationController(AppDbContext _dbContext, IConfiguration _configuration)
+        {
+            dbContext = _dbContext;
+            configuration = _configuration;
+        }
+
+        [HttpGet("Authorization/Form")]
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: AuthorizationController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: AuthorizationController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AuthorizationController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAuthorized())
             {
-                return RedirectToAction(nameof(Index));
+                return View("Auth",session.GetUserName());
+            }
+             return View();
+        }
+
+        [HttpPost("Authorization/Form")]
+        public ActionResult Index(string login,string password)
+        {
+            AccountModel account;
+
+          
+           password = Encoder.Encode(configuration, password);
+
+            try { 
+            account = dbContext.Accounts.First(e => (e.Login == login) && (e.Password == password));
             }
             catch
             {
-                return View();
+                account = null;
             }
+
+            if(account != null) 
+            {
+                //Object for work with session
+                var session = new SessionWorker(HttpContext);
+
+                //Set in session JWT Token for Authorization
+                var Geterator = new GeneratorJWTTokens(configuration);
+                var token = Geterator.GenerateJWTToken(account);
+                
+                session.SaveToken(token);
+                //Set in session object type of AuthUserModel for Authentication
+                session.SaveUserModel(new AuthorizedUser()
+                { 
+                    ID = account.ID,
+                    name = account.Name,
+                    role = account.Role 
+                });
+
+                return RedirectToAction(nameof(Index));
+            }
+            return StatusCode(401);
         }
 
-        // GET: AuthorizationController/Edit/5
-        public ActionResult Edit(int id)
+
+
+        [HttpPost("Authorization/LogOut")]
+        public ActionResult LogOut()
+        {
+            var session = new SessionWorker(HttpContext);
+            session.Clear();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("Registration/Form")]
+        public ActionResult Regist()
         {
             return View();
         }
 
-        // POST: AuthorizationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpPost("Registration/Form")]
+        public ActionResult Regist(AccountModel account)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            account.Password = Encoder.Encode(configuration, account.Password);
+            dbContext.Accounts.Add(account);
+            dbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: AuthorizationController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AuthorizationController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

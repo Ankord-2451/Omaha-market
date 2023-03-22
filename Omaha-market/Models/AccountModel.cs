@@ -6,7 +6,8 @@ namespace Omaha_market.Models
     public enum role
     {
         Admin,
-        customer
+        
+        Customer
     }
 
     public class AccountModel
