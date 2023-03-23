@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 namespace Omaha_market.Models
 {
     public enum role
-    {
-        Admin,
-        
-        Customer
+    { 
+        Customer,
+
+        Admin     
     }
 
     public class AccountModel
@@ -37,7 +37,7 @@ namespace Omaha_market.Models
         public string Login { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 3)]
+        [StringLength(150,MinimumLength = 8)]
         public string Password { get; set; }
     }
 }

@@ -86,6 +86,7 @@ namespace Omaha_market.Controllers
         [HttpPost("Registration/Form")]
         public ActionResult Regist(AccountModel account)
         {
+            account.Role = role.Customer;
             account.Password = Encoder.Encode(configuration, account.Password);
             dbContext.Accounts.Add(account);
             dbContext.SaveChanges();
