@@ -23,11 +23,14 @@ namespace Omaha_market.Models
         [Required]
         public role Role { get; set; }
 
-        [Required]
+        
         public string PhoneNumber { get; set; }
 
-        [Required]
+        
         public string Email { get; set; }
+
+        
+        public string Address { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 3)]
