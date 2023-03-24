@@ -1,83 +1,55 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Omaha_market.Core;
+using Omaha_market.Data;
+using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        // GET: ShoppingCartController
+        AppDbContext db;
+
+        public ShoppingCartController(AppDbContext _db) 
+        {
+        db= _db;    
+        }
+
+
+        [HttpGet("ShoppingCart")]
         public ActionResult Index()
         {
-            return View();
-        }
-
-        // GET: ShoppingCartController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ShoppingCartController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ShoppingCartController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            var session = new SessionWorker(HttpContext);
+            if(session.IsAuthorized())
             {
-                return RedirectToAction(nameof(Index));
+                List<ProductModel> products = new List<ProductModel>();
+
+                List<CartModel> IdsOfProducts = db.ShoppingCart.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
+                foreach(CartModel cart in IdsOfProducts)
+                {
+                    products.Add(  (ProductModel)db.Products.Where(x=> x.Id==cart.IdOfProduct)  );
+                }
+            return View(products);
             }
-            catch
-            {
-                return View();
-            }
+            return View("View");
         }
 
-        // GET: ShoppingCartController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: ShoppingCartController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpGet("Favorite")]
+        public ActionResult Favorite()
         {
-            try
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAuthorized())
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                List<ProductModel> products = new List<ProductModel>();
 
-        // GET: ShoppingCartController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ShoppingCartController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                List<favoriteModel> IdsOfProducts = db.favorite.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
+                foreach (favoriteModel cart in IdsOfProducts)
+                {
+                    products.Add((ProductModel)db.Products.Where(x => x.Id == cart.IdOfProduct));
+                }
+                return View(products);
             }
-            catch
-            {
-                return View();
-            }
+            return View("View");
         }
     }
 }
