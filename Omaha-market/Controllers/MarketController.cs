@@ -1,83 +1,100 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Omaha_market.Core;
+using Omaha_market.Data;
+using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
+    [Authorize]
     public class MarketController : Controller
     {
-        // GET: MarketController
-        public ActionResult Index()
+        private AppDbContext db;
+        private SessionWorker session;
+        public MarketController(AppDbContext _db) 
         {
-            return View();
+            session = new SessionWorker(HttpContext);
+            db = _db;
         }
 
-        // GET: MarketController/Details/5
+
+        [AllowAnonymous]
+        [HttpGet("Market/?id")]
+        public ActionResult Index(int id)
+        {
+            ViewData["IsAdmin"] = session.IsAdmin();
+            return View(
+                    Helper.PageSplitHelper(
+                    Helper.TakeProductsOnDiscount(db),
+                    id)
+                );
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Market/Details/?id")]
         public ActionResult Details(int id)
         {
-            return View();
+            ViewData["IsAdmin"] = session.IsAdmin();
+            return View( db.Products.First(x=>x.Id==id) ); 
         }
 
-        // GET: MarketController/Create
+       
+        [HttpGet("Market/Create")]
         public ActionResult Create()
         {
+            if (session.IsAdmin()) { 
             return View();
+            }
+            return StatusCode(401);
         }
 
-        // POST: MarketController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        
+        [HttpPost("Market/Create")]
+        public ActionResult Create(ProductModel product)
         {
-            try
+            if (session.IsAdmin())
             {
-                return RedirectToAction(nameof(Index));
+                db.Products.Add(product);
+                db.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return StatusCode(401);
         }
 
-        // GET: MarketController/Edit/5
+        
+        [HttpGet("Market/Edit/?id")]
         public ActionResult Edit(int id)
         {
-            return View();
+            if (session.IsAdmin())
+            {
+                return View( db.Products.First(x => x.Id == id) );
+            }
+            return StatusCode(401);
         }
 
-        // POST: MarketController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+       
+        [HttpPost("Market/Edit/?id")]
+        public ActionResult Edit(ProductModel product)
         {
-            try
+            if (session.IsAdmin())
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                db.Products.Update(product);
+                db.SaveChangesAsync();
                 return View();
             }
+            return StatusCode(401);
         }
 
-        // GET: MarketController/Delete/5
+
+        [HttpPost("Market/Delete/?id")]
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: MarketController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            if (session.IsAdmin())
             {
-                return RedirectToAction(nameof(Index));
+                db.Products.Remove( db.Products.First(x => x.Id == id) );
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return StatusCode(401);
         }
     }
 }

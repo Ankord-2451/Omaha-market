@@ -34,5 +34,10 @@ namespace Omaha_market.Core
             }
             return products;
         }
+
+        public static List<ProductModel> TakeProductsOnDiscount(AppDbContext db)
+        {
+          return db.Products.Where(x=>x.OnDiscount).OrderBy(x=>x.Id).ToList();
+        }
     }
 }

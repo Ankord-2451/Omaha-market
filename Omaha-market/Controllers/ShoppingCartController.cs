@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 
 namespace Omaha_market.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
         AppDbContext db;
