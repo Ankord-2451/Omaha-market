@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
-using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
@@ -16,38 +15,32 @@ namespace Omaha_market.Controllers
 
 
         [HttpGet("ShoppingCart")]
-        public ActionResult Index()
+        public ActionResult Index(int Page = 1)
         {
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
-            {
-                List<ProductModel> products = new List<ProductModel>();
-
-                List<CartModel> IdsOfProducts = db.ShoppingCart.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
-                foreach(CartModel cart in IdsOfProducts)
-                {
-                    products.Add(  (ProductModel)db.Products.Where(x=> x.Id==cart.IdOfProduct)  );
-                }
-            return View(products);
+            {               
+            return View( 
+                    Helper.PageSplitHelper( 
+                    Helper.TakeProductsInCart(session,db),
+                    Page)
+                );
             }
             return View("View");
         }
 
 
         [HttpGet("Favorite")]
-        public ActionResult Favorite()
+        public ActionResult Favorite(int Page = 1)
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())
             {
-                List<ProductModel> products = new List<ProductModel>();
-
-                List<favoriteModel> IdsOfProducts = db.favorite.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
-                foreach (favoriteModel cart in IdsOfProducts)
-                {
-                    products.Add((ProductModel)db.Products.Where(x => x.Id == cart.IdOfProduct));
-                }
-                return View(products);
+                return View(
+                    Helper.PageSplitHelper(
+                    Helper.TakeFavoriteProducts(session, db),
+                    Page)
+                    );
             }
             return View("View");
         }
