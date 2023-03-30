@@ -23,5 +23,7 @@ namespace Omaha_market.Models
         public bool OnDiscount { get; set; }
 
         public int amount{ get; set; }
+
+        public DateTime DateOfLastChange { get; set; }
     }
 }

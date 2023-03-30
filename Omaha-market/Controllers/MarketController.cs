@@ -54,6 +54,7 @@ namespace Omaha_market.Controllers
         {
             if (session.IsAdmin())
             {
+                product.DateOfLastChange = DateTime.Now;
                 db.Products.Add(product);
                 db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -78,6 +79,7 @@ namespace Omaha_market.Controllers
         {
             if (session.IsAdmin())
             {
+                product.DateOfLastChange = DateTime.Now;
                 db.Products.Update(product);
                 db.SaveChangesAsync();
                 return View();
