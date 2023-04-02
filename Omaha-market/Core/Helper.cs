@@ -1,6 +1,5 @@
 ﻿using Omaha_market.Data;
 using Omaha_market.Models;
-using PactNet.Core;
 
 namespace Omaha_market.Core
 {
@@ -80,14 +79,17 @@ namespace Omaha_market.Core
 
         private static List<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
         {
-            List<ProductModel> products = new List<ProductModel>();
-            for(int i= 0;i<AllProducts.Count();i++)
-            {
-                products = (List<ProductModel>)AllProducts.Where(x => Calculate(request, x.Name));
-            }
-            return products;
+
+            var productsByName = (List<ProductModel>)AllProducts.Where(x => Calculate(request, x.Name));
+
+            var products = (List<ProductModel>)AllProducts.Where(x => x.Description.Contains(request));
+
+            return (List<ProductModel>)products.Union(productsByName);
         }
 
-        //public static Async Task<List<ProductModel>> 
+        public static async Task<List<ProductModel>> FuzzySearchAsync(string request, List<ProductModel> AllProducts)
+        {
+            return await Task.Run(() => FuzzySearch(request, AllProducts)); 
+        }
     }
 }
