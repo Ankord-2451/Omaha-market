@@ -3,6 +3,7 @@ using System.Text;
 using Omaha_market.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Omaha_market.Middleware;
 
 namespace Omaha_market
 {
@@ -70,8 +71,8 @@ namespace Omaha_market
             //session
             app.UseSession();
 
-            //app.UseMiddleware<TokenToContextMiddleware>();
-            //swagger
+            app.UseMiddleware<TokenToContextMiddleware>();
+           
            
             app.UseAuthentication();
             app.UseAuthorization();

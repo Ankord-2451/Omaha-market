@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
+using System;
 
 namespace Omaha_market.Controllers
 {
@@ -13,6 +14,7 @@ namespace Omaha_market.Controllers
         public MarketController(AppDbContext _db) 
         {
             db = _db;
+            
         }
 
 
@@ -45,18 +47,30 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin()) {
                 ViewData["CategoryModel"] = db.Category.ToList();
-            return View();
+            return View("AddProduct");
             }
             return StatusCode(401);
         }
 
         
         [HttpPost("Market/Create")]
-        public ActionResult Create(ProductModel product)
+        public ActionResult Create(ProductModel product,Byte[] photoB)
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
+                if (photoB is null)
+                {
+                    //photoB.
+                    product.Img = "~/wwwroot/Image/NoImg.png";
+                }
+                else 
+                {
+                   // FileInfo photo= (FileInfo)photoB;
+                   // photo.MoveTo($"~/wwwroot/Image/{photo.FullName}");
+                   // product.Img = $"~/wwwroot/Image/{photo.FullName}";
+                }
+               
                 product.DateOfLastChange = DateTime.Now;
                 db.Products.Add(product);
                 db.SaveChangesAsync();

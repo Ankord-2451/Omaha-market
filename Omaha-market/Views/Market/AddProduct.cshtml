@@ -7,12 +7,12 @@
 
 <h1>AddProduct</h1>
 
-<form href="#" method="post">
+<form enctype="multipart/form-data" href="#" method="post">
     <div class="bd">
         <div align="center">
 
             <div>
-                Your name:
+                name:
                 <input type="text" asp-for="Name" placeholder="name" />
 
                 <div>
@@ -23,13 +23,13 @@
             <br />
             <div>
                 Img:
-                <input type="image" />
+                <input type="file" name="photo" />
 
             </div>
             <br />
             <div>
 
-                Your Dis:
+                Dis:
                 <input type="text" asp-for="Description" placeholder="Description" />
 
                 <div>
@@ -41,7 +41,7 @@
             <br />
             <div>
 
-                Your Prise:
+                Prise:
                 <input type="number" asp-for="price" placeholder="150" />
 
                 <div>
@@ -53,7 +53,7 @@
 
             <div>
 
-                Your Category:
+                Category:
                 <select asp-for="Category">
                     @foreach (var item in (List<CategoryModel>)ViewData["CategoryModel"])
                     {
@@ -67,14 +67,14 @@
             </div>
             <br />
             <div>
-                Your On Discount:
+                On Discount:
                 <input type="checkbox" asp-for="OnDiscount"/>
 
              
             </div>
 
             <br />
-             Your amount:
+             amount:
                 <input type="number" asp-for="amount"/>
 
                 <div>
