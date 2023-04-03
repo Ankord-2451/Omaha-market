@@ -1,7 +1,95 @@
-﻿
+﻿@model Omaha_market.Models.ProductModel
 @{
     ViewData["Title"] = "AddProduct";
 }
 
+
+
 <h1>AddProduct</h1>
+
+<form href="#" method="post">
+    <div class="bd">
+        <div align="center">
+
+            <div>
+                Your name:
+                <input type="text" asp-for="Name" placeholder="name" />
+
+                <div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div>
+                Img:
+                <input type="image" />
+
+            </div>
+            <br />
+            <div>
+
+                Your Dis:
+                <input type="text" asp-for="Description" placeholder="Description" />
+
+                <div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <br />
+            <div>
+
+                Your Prise:
+                <input type="number" asp-for="price" placeholder="150" />
+
+                <div>
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+
+            <div>
+
+                Your Category:
+                <select asp-for="Category">
+                    @foreach (var item in (List<CategoryModel>)ViewData["CategoryModel"])
+                    {
+                        <option value=@item.Name>@item.Name</option>
+                    }
+                </select>
+                <div>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div>
+                Your On Discount:
+                <input type="checkbox" asp-for="OnDiscount"/>
+
+             
+            </div>
+
+            <br />
+             Your amount:
+                <input type="number" asp-for="amount"/>
+
+                <div>
+                    <span asp-validation-for="amount" class="text-danger"></span>
+                </div>
+
+            </div>
+
+             <br />
+
+            <div class="text-center">
+                <button type="submit"> regist </button>
+            </div>
+
+            <br />
+        </div>
+</form>
 

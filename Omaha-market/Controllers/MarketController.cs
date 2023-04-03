@@ -10,20 +10,19 @@ namespace Omaha_market.Controllers
     public class MarketController : Controller
     {
         private AppDbContext db;
-        private SessionWorker session;
         public MarketController(AppDbContext _db) 
         {
-            session = new SessionWorker(HttpContext);
             db = _db;
         }
 
 
         [AllowAnonymous]
-        [HttpGet("Market/?id")]
+        [HttpGet("Market/{id?}")]
         public ActionResult Index(int id)
         {
+            var session = new SessionWorker(HttpContext);
             ViewData["IsAdmin"] = session.IsAdmin();
-            return View(
+            return View("Market",
                     Helper.PageSplitHelper(
                     Helper.TakeProductsOnDiscount(db),
                     id)
@@ -31,9 +30,10 @@ namespace Omaha_market.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Market/Details/?id")]
+        [HttpGet("Market/Details/{id?}")]
         public ActionResult Details(int id)
         {
+            var session = new SessionWorker(HttpContext);
             ViewData["IsAdmin"] = session.IsAdmin();
             return View( db.Products.First(x=>x.Id==id) ); 
         }
@@ -42,7 +42,9 @@ namespace Omaha_market.Controllers
         [HttpGet("Market/Create")]
         public ActionResult Create()
         {
-            if (session.IsAdmin()) { 
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin()) {
+                ViewData["CategoryModel"] = db.Category.ToList();
             return View();
             }
             return StatusCode(401);
@@ -52,6 +54,7 @@ namespace Omaha_market.Controllers
         [HttpPost("Market/Create")]
         public ActionResult Create(ProductModel product)
         {
+            var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
                 product.DateOfLastChange = DateTime.Now;
@@ -63,9 +66,10 @@ namespace Omaha_market.Controllers
         }
 
         
-        [HttpGet("Market/Edit/?id")]
+        [HttpGet("Market/Edit/{id?}")]
         public ActionResult Edit(int id)
         {
+            var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
                 return View( db.Products.First(x => x.Id == id) );
@@ -74,9 +78,10 @@ namespace Omaha_market.Controllers
         }
 
        
-        [HttpPost("Market/Edit/?id")]
+        [HttpPost("Market/Edit")]
         public ActionResult Edit(ProductModel product)
         {
+            var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
                 product.DateOfLastChange = DateTime.Now;
@@ -88,9 +93,10 @@ namespace Omaha_market.Controllers
         }
 
 
-        [HttpPost("Market/Delete/?id")]
+        [HttpPost("Market/Delete")]
         public ActionResult Delete(int id)
         {
+            var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
                 db.Products.Remove( db.Products.First(x => x.Id == id) );
