@@ -4,6 +4,9 @@ using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
 using System;
+using System.Buffers.Text;
+using System.Drawing;
+using System.IO;
 
 namespace Omaha_market.Controllers
 {
@@ -54,21 +57,24 @@ namespace Omaha_market.Controllers
 
         
         [HttpPost("Market/Create")]
-        public ActionResult Create(ProductModel product,Byte[] photoB)
+        public ActionResult Create(ProductModel product,byte[] photo)
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                if (photoB is null)
+                if (photo is null)
                 {
-                    //photoB.
-                    product.Img = "~/wwwroot/Image/NoImg.png";
+                    product.Img = "~\\wwwroot\\Image\\NoImg.png";
                 }
                 else 
                 {
-                   // FileInfo photo= (FileInfo)photoB;
-                   // photo.MoveTo($"~/wwwroot/Image/{photo.FullName}");
-                   // product.Img = $"~/wwwroot/Image/{photo.FullName}";
+                   
+                    using( FileStream file = new($"F:\\проекты\\Omaha-market\\Omaha-market\\wwwroot\\Image\\{product.Id}.jpg", FileMode.Create))
+                    {
+                        file.Write(photo, 0, photo.Length);
+                    }
+
+                    product.Img = $"~\\wwwroot\\Image\\{product.Id}.jpg";
                 }
                
                 product.DateOfLastChange = DateTime.Now;
