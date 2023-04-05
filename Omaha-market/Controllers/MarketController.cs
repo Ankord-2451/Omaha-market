@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
-using System;
-using System.Buffers.Text;
-using System.Drawing;
-using System.IO;
 
 namespace Omaha_market.Controllers
 {
@@ -14,16 +10,17 @@ namespace Omaha_market.Controllers
     public class MarketController : Controller
     {
         private AppDbContext db;
-        public MarketController(AppDbContext _db) 
+        private IConfiguration configuration;
+        public MarketController(AppDbContext _db, IConfiguration _configuration) 
         {
             db = _db;
-            
+            configuration = _configuration;          
         }
 
 
         [AllowAnonymous]
         [HttpGet("Market/{id?}")]
-        public ActionResult Index(int id)
+        public ActionResult Index(int id = 1)
         {
             var session = new SessionWorker(HttpContext);
             ViewData["IsAdmin"] = session.IsAdmin();
@@ -57,29 +54,27 @@ namespace Omaha_market.Controllers
 
         
         [HttpPost("Market/Create")]
-        public ActionResult Create(ProductModel product,byte[] photo)
+        public ActionResult Create(ProductModel product, IFormFile photo)
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
                 if (photo is null)
                 {
-                    product.Img = "~\\wwwroot\\Image\\NoImg.png";
+                    product.Img = "Images\\NoImg.png";
                 }
                 else 
                 {
-                   
-                    using( FileStream file = new($"F:\\проекты\\Omaha-market\\Omaha-market\\wwwroot\\Image\\{product.Id}.jpg", FileMode.Create))
+                    using (var fileStream = new FileStream($"{configuration["Path:Image"]}{photo.FileName}", FileMode.Create))
                     {
-                        file.Write(photo, 0, photo.Length);
+                        photo.CopyTo(fileStream);
                     }
-
-                    product.Img = $"~\\wwwroot\\Image\\{product.Id}.jpg";
+                    product.Img = $"Images\\{photo.FileName}";
                 }
                
                 product.DateOfLastChange = DateTime.Now;
                 db.Products.Add(product);
-                db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return StatusCode(401);
