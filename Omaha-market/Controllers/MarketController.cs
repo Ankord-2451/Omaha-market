@@ -19,16 +19,25 @@ namespace Omaha_market.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("Market/{id?}")]
-        public ActionResult Index(int id = 1)
+        [HttpGet("Market/{page?}")]
+        public ActionResult Index(int page = 1)
         {
+            if (page <= 0) page = 1;
+
             var session = new SessionWorker(HttpContext);
+
+            var products = Helper.PageSplitHelper(db.Products.ToList(), page);
+
             ViewData["IsAdmin"] = session.IsAdmin();
-            return View("Market",
-                    Helper.PageSplitHelper(
-                    Helper.TakeProductsOnDiscount(db),
-                    id)
-                );
+
+            ViewData["OnDiscount"] = Helper.TakeProductsOnDiscount(db);
+
+            ViewData["ArrowBack"] = (page > 1);
+
+            ViewData["Arrowforward"] = !(products.Last().Id == db.Products.Last().Id);
+
+
+            return View("Market", products);
         }
 
         [AllowAnonymous]
@@ -59,18 +68,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                if (photo is null)
-                {
-                    product.Img = "Images\\NoImg.png";
-                }
-                else 
-                {
-                    using (var fileStream = new FileStream($"{configuration["Path:Image"]}{photo.FileName}", FileMode.Create))
-                    {
-                        photo.CopyTo(fileStream);
-                    }
-                    product.Img = $"Images\\{photo.FileName}";
-                }
+                product.Img = Helper.SaveImg(photo,configuration["Path:Image"]);
                
                 product.DateOfLastChange = DateTime.Now;
                 db.Products.Add(product);
@@ -101,7 +99,7 @@ namespace Omaha_market.Controllers
             {
                 product.DateOfLastChange = DateTime.Now;
                 db.Products.Update(product);
-                db.SaveChangesAsync();
+                db.SaveChanges();
                 return View();
             }
             return StatusCode(401);

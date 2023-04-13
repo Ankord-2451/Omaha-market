@@ -5,6 +5,26 @@ namespace Omaha_market.Core
 {
     public static class  Helper
     {
+        //Create product section
+
+        public static string SaveImg(IFormFile photo, string Path)
+        { 
+                if (photo is null)
+                {
+                    return "Images\\NoImg.png";
+                }
+                else 
+                {
+                    using (var fileStream = new FileStream($"{Path}{photo.FileName}", FileMode.Create))
+                    {
+                        photo.CopyTo(fileStream);
+                    }
+                    return $"Images\\{photo.FileName}";
+                }
+        }
+
+        //Take and split section
+
         public static List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page)
         {
             const int PageSize = 12;
@@ -52,10 +72,10 @@ namespace Omaha_market.Core
 
             // First calculation, if one entry is empty return full length
             if (source1Length == 0)
-                return false;
+                return true;
 
             if (source2Length == 0)
-                return false;
+                return true;
 
             // Initialization of matrix with row size source1Length and columns size source2Length
             for (var i = 0; i <= source1Length; matrix[i, 0] = i++) { }
@@ -80,9 +100,9 @@ namespace Omaha_market.Core
         private static List<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
         {
 
-            var productsByName = (List<ProductModel>)AllProducts.Where(x => Calculate(request, x.Name));
+            var productsByName = (List<ProductModel>)AllProducts.Where(x => Calculate(request, x.NameRu) || Calculate(request, x.NameRo));
 
-            var products = (List<ProductModel>)AllProducts.Where(x => x.Description.Contains(request));
+            var products = (List<ProductModel>)AllProducts.Where(x => x.DescriptionRu.Contains(request)|| x.DescriptionRo.Contains(request));
 
             return (List<ProductModel>)products.Union(productsByName);
         }

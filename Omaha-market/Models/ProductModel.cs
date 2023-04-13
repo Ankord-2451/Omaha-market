@@ -28,11 +28,12 @@ namespace Omaha_market.Models
         public string CategoryRo { get; set; }
 
         [Required]
-        public double price { get; set; }
+        //[Range(1, 100000)]
+        public double Price { get; set; }
 
         public bool OnDiscount { get; set; }
 
-        public int amount{ get; set; }
+        public int Amount { get; set; }
 
         public DateTime DateOfLastChange { get; set; }
     }
