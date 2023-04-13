@@ -69,5 +69,26 @@ namespace Omaha_market.Core
         {
           Context.Session.Clear();
         }
+
+        public void SetLanguage(string lang)
+        {
+            Context.Session.SetString("Lang", lang);
+        }
+
+        public bool IsRu()
+        {
+            return (Context.Session.GetString("Lang") == "Ru");
+        }
+
+        public string GetLanguage()
+        {
+            if (Context.Session.GetString("Lang") != null)
+                return Context.Session.GetString("Lang");
+            else
+            {
+                SetLanguage("Ro");
+                return "Ro";
+            }
+        }
     }
 }

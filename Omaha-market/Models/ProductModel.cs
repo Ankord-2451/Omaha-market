@@ -9,13 +9,23 @@ namespace Omaha_market.Models
         [AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string NameRu { get; set; }
+
+        [Required]
+        public string NameRo { get; set; }
 
         public string Img { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string DescriptionRu { get; set; }
+
         [Required]
-        public string Category { get; set; }
+        public string DescriptionRo { get; set; }
+
+        [Required]
+        public string CategoryRu { get; set; }
+
+        [Required]
+        public string CategoryRo { get; set; }
 
         [Required]
         public double price { get; set; }

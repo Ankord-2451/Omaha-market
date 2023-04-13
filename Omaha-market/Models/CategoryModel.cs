@@ -9,6 +9,9 @@ namespace Omaha_market.Models
         [AutoIncrement]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string NameRu { get; set; }
+
+        [Required]
+        public string NameRo { get; set; }
     }
 }

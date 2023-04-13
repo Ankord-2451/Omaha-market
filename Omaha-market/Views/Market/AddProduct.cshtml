@@ -5,18 +5,23 @@
 
 
 
-<h1>AddProduct</h1>
+<h1 align="center">AddProduct</h1>
+
+<h3></h3>
 
 <form enctype="multipart/form-data" href="#" method="post">
-    <div class="bd">
+    <div align="center">
         <div align="center">
 
             <div>
                 name:
-                <input type="text" asp-for="Name" placeholder="name" />
+                <input type="text" asp-for="NameRu" placeholder="name ru" />
+
+                name:
+                <input type="text" asp-for="NameRo" placeholder="name ro" />
 
                 <div>
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <span asp-validation-for="NameRu" class="text-danger"></span>
                 </div>
 
             </div>
@@ -30,10 +35,13 @@
             <div>
 
                 Dis:
-                <input type="text" asp-for="Description" placeholder="Description" />
+                <input type="text" asp-for="DescriptionRu" placeholder="Description ru" />
+
+                Dis:
+                <input type="text" asp-for="DescriptionRo" placeholder="Description ro" />
 
                 <div>
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <span asp-validation-for="DescriptionRu" class="text-danger"></span>
                 </div>
 
             </div>
@@ -54,14 +62,14 @@
             <div>
 
                 Category:
-                <select asp-for="Category">
+                <select asp-for="CategoryRu">
                     @foreach (var item in (List<CategoryModel>)ViewData["CategoryModel"])
                     {
-                        <option value=@item.Name>@item.Name</option>
+                        <option value=@item.NameRu>@item.NameRu</option>
                     }
                 </select>
                 <div>
-                    <span asp-validation-for="Category" class="text-danger"></span>
+                    <span asp-validation-for="CategoryRu" class="text-danger"></span>
                 </div>
 
             </div>
