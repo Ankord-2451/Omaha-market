@@ -6,7 +6,7 @@ using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class MarketController : Controller
     {
         private AppDbContext db;
@@ -62,10 +62,10 @@ namespace Omaha_market.Controllers
         public ActionResult Create()
         {
             var session = new SessionWorker(HttpContext);
-            //if (session.IsAdmin()) {
+            if (session.IsAdmin()) {
                 ViewData["CategoryModel"] = db.Category.ToList();
             return View("AddProduct");
-           // }
+            }
             return StatusCode(401);
         }
 
@@ -74,7 +74,7 @@ namespace Omaha_market.Controllers
         public ActionResult Create(ProductModel product, IFormFile photo)
         {
             var session = new SessionWorker(HttpContext);
-           // if (session.IsAdmin())
+            if (session.IsAdmin())
             {
                 product.Img = Helper.SaveImg(photo);
                
