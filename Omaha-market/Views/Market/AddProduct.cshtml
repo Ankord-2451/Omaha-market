@@ -14,10 +14,10 @@
         <div align="center">
 
             <div>
-                name:
+                nameRu:
                 <input type="text" asp-for="NameRu" placeholder="name ru" />
-
-                name:
+                <p size="30">|</p>
+                nameRo:
                 <input type="text" asp-for="NameRo" placeholder="name ro" />
 
                 <div>
@@ -34,11 +34,11 @@
             <br />
             <div>
 
-                Dis:
-                <input type="text" asp-for="DescriptionRu" placeholder="Description ru" />
-
-                Dis:
-                <input type="text" asp-for="DescriptionRo" placeholder="Description ro" />
+                DisRu:
+                <p><input type="text" asp-for="DescriptionRu" placeholder="Description ru" /></p>
+                <p size="30">|</p>
+                DisRO:
+                <p><input type="text" asp-for="DescriptionRo" placeholder="Description ro" /></p>
 
                 <div>
                     <span asp-validation-for="DescriptionRu" class="text-danger"></span>

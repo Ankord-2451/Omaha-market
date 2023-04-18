@@ -16,3 +16,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a.Page{
+    color: black;
+    text-decoration:none;
+}
+
+a.On {
+    color: black;
+    text-decoration: underline;
+}

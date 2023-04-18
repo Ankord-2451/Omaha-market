@@ -22,11 +22,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
             {               
-            return View( 
-                    Helper.PageSplitHelper( 
-                    Helper.TakeProductsInCart(session,db),
-                    Page)
-                );
+            return View(Helper.TakeProductsInCart(session,db));
             }
             return View("View");
         }
@@ -38,11 +34,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())
             {
-                return View(
-                    Helper.PageSplitHelper(
-                    Helper.TakeFavoriteProducts(session, db),
-                    Page)
-                    );
+                return View(Helper.TakeFavoriteProducts(session, db));
             }
             return View("View");
         }

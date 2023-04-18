@@ -4,7 +4,35 @@
 }
 
 <h1>Market</h1>
+@if (ViewData["OnDiscount"] != null){
+<h2>ON Discount</h2>
+<table class="table">
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>On discount</th>
+        <th>Amount</th>
 
+        @foreach (var item in (List<ProductModel>)ViewData["OnDiscount"])
+        {
+        <tr>
+            <td><img src="@item.Img" height="60" width="60" /></td>
+            <td>@item.NameRu</td>
+            <td>@item.DescriptionRu</td>
+            <td>@item.CategoryRu</td>
+            <td>@item.Price</td>
+            <td>@item.OnDiscount</td>
+            <td>@item.amount</td>
+               
+        </tr>
+        }
+</table>
+}
+<br />
+<br />
 
 <table class="table">
     <tr>
@@ -26,8 +54,35 @@
             <td>@item.Price</td>
             <td>@item.OnDiscount</td>
             <td>@item.amount</td>
-               
+
         </tr>
         }
 </table>
 
+
+<div align="center">
+@if((bool)ViewData["ArrowBack"])
+{
+    int i = (int)ViewData["Page"] - 1;
+
+    <a align="left" asp-action="Index" asp-controller="Market" asp-route-page="@i"><img height="10" src="~/Images/WebElements/arrowL.png" /></a>
+}
+    @for (int i = 1; i <= (int)ViewData["AmountOfPages"];)
+    {
+        if ((int)ViewData["Page"]==i)
+        {
+            <a class="On" asp-action="Index" asp-controller="Market" asp-route-page="@i">@i</a>
+        }
+        else
+        {           
+           <a class="Page" asp-action="Index" asp-controller="Market" asp-route-page="@i">@i</a>
+        }
+        i++;
+    }
+@if((bool)ViewData["Arrowforward"])
+{
+    int i = (int)ViewData["Page"] + 1; 
+
+    <a align="right" asp-action="Index" asp-controller="Market" asp-route-page="@i"><img height="10" src="~/Images/WebElements/arrowR.png" /></a>
+}
+</div>

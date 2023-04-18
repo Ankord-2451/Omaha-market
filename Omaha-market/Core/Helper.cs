@@ -1,5 +1,9 @@
 ﻿using Omaha_market.Data;
 using Omaha_market.Models;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace Omaha_market.Core
 {
@@ -7,15 +11,17 @@ namespace Omaha_market.Core
     {
         //Create product section
 
-        public static string SaveImg(IFormFile photo, string Path)
+        public static string SaveImg(IFormFile photo)
         { 
                 if (photo is null)
                 {
                     return "Images\\NoImg.png";
                 }
-                else 
+                else
                 {
-                    using (var fileStream = new FileStream($"{Path}{photo.FileName}", FileMode.Create))
+                string Path =$"wwwroot\\Images\\{photo.FileName}";;
+               
+                using (var fileStream = new FileStream(Path, FileMode.Create))
                     {
                         photo.CopyTo(fileStream);
                     }
@@ -25,9 +31,11 @@ namespace Omaha_market.Core
 
         //Take and split section
 
-        public static List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page)
+        public static List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page, out int amount)
         {
-            const int PageSize = 12;
+            const int PageSize = 5;
+            amount = products.Count/PageSize;
+            if (products.Count > amount * PageSize) amount++;
             return products.OrderBy(x => x.Id).Skip((Page - 1) * PageSize).Take(PageSize).ToList();
         }
 

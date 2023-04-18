@@ -6,7 +6,7 @@ using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MarketController : Controller
     {
         private AppDbContext db;
@@ -19,22 +19,30 @@ namespace Omaha_market.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("Market/{page?}")]
+        [HttpGet("Market")]
         public ActionResult Index(int page = 1)
         {
             if (page <= 0) page = 1;
 
-            var session = new SessionWorker(HttpContext);
+            int AmountOfPages;
 
-            var products = Helper.PageSplitHelper(db.Products.ToList(), page);
+            var products = Helper.PageSplitHelper(db.Products.ToList(), page, out AmountOfPages);
 
-            ViewData["IsAdmin"] = session.IsAdmin();
+            if (page > AmountOfPages)
+            {
+                page = 1;
+                products = Helper.PageSplitHelper(db.Products.ToList(), page, out AmountOfPages);
+            }
+
+            ViewData["Page"] = page;
+
+            ViewData["AmountOfPages"] = AmountOfPages;
 
             ViewData["OnDiscount"] = Helper.TakeProductsOnDiscount(db);
 
             ViewData["ArrowBack"] = (page > 1);
 
-            ViewData["Arrowforward"] = !(products.Last().Id == db.Products.Last().Id);
+            ViewData["Arrowforward"] = (page != AmountOfPages);
 
 
             return View("Market", products);
@@ -54,10 +62,10 @@ namespace Omaha_market.Controllers
         public ActionResult Create()
         {
             var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin()) {
+            //if (session.IsAdmin()) {
                 ViewData["CategoryModel"] = db.Category.ToList();
             return View("AddProduct");
-            }
+           // }
             return StatusCode(401);
         }
 
@@ -66,11 +74,12 @@ namespace Omaha_market.Controllers
         public ActionResult Create(ProductModel product, IFormFile photo)
         {
             var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin())
+           // if (session.IsAdmin())
             {
-                product.Img = Helper.SaveImg(photo,configuration["Path:Image"]);
+                product.Img = Helper.SaveImg(photo);
                
                 product.DateOfLastChange = DateTime.Now;
+                product.CategoryRo = db.Category.FirstOrDefault(x => x.NameRu == product.CategoryRu).NameRo;
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
