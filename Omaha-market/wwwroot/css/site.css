@@ -26,3 +26,20 @@ a.On {
     color: black;
     text-decoration: underline;
 }
+
+input[type=text].Search {
+    border-radius: 20px;
+    padding:0px 10px;
+    transition: width ease-in-out 0.6s;
+    width:80px;
+    margin:0px 0px 0px 15px;
+}
+
+input[type=text]:focus.Search {
+    background-color: lightblue;
+    width: 180px;
+}
+button.Search {
+    border: none;
+    background: none;
+}

@@ -22,9 +22,9 @@ namespace Omaha_market.Controllers
         [HttpGet("Market")]
         public ActionResult Index(int page = 1)
         {
-            if (page <= 0) page = 1;
-
             int AmountOfPages;
+
+            if (page <= 0) page = 1;
 
             var products = Helper.PageSplitHelper(db.Products.ToList(), page, out AmountOfPages);
 
@@ -39,11 +39,6 @@ namespace Omaha_market.Controllers
             ViewData["AmountOfPages"] = AmountOfPages;
 
             ViewData["OnDiscount"] = Helper.TakeProductsOnDiscount(db);
-
-            ViewData["ArrowBack"] = (page > 1);
-
-            ViewData["Arrowforward"] = (page != AmountOfPages);
-
 
             return View("Market", products);
         }
@@ -76,10 +71,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                product.Img = Helper.SaveImg(photo);
-               
-                product.DateOfLastChange = DateTime.Now;
-                product.CategoryRo = db.Category.FirstOrDefault(x => x.NameRu == product.CategoryRu).NameRo;
+                product = Helper.PreparationForSaveProduct(product, db, photo);
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");

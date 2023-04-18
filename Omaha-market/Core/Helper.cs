@@ -10,12 +10,20 @@ namespace Omaha_market.Core
     public static class  Helper
     {
         //Create product section
+        public static ProductModel PreparationForSaveProduct(ProductModel product, AppDbContext db, IFormFile photo)
+        {
+                product.Img = Helper.SaveImg(photo);
+               
+                product.DateOfLastChange = DateTime.Now;
+                product.CategoryRo = db.Category.FirstOrDefault(x => x.NameRu == product.CategoryRu).NameRo;
 
+                return product;
+        }
         public static string SaveImg(IFormFile photo)
         { 
                 if (photo is null)
                 {
-                    return "Images\\NoImg.png";
+                    return "NoImg.png";
                 }
                 else
                 {
@@ -25,7 +33,7 @@ namespace Omaha_market.Core
                     {
                         photo.CopyTo(fileStream);
                     }
-                    return $"Images\\{photo.FileName}";
+                    return photo.FileName;
                 }
         }
 
@@ -71,7 +79,7 @@ namespace Omaha_market.Core
         //Search section
         private static bool Calculate(string source1, string source2) //O(n*m)
         {
-            const int AllowableErrorPercentage = 30;
+            const int AllowableErrorPercentage = 40;
 
             var source1Length = source1.Length;
             var source2Length = source2.Length;
@@ -105,19 +113,22 @@ namespace Omaha_market.Core
             return (matrix[source1Length, source2Length]*100/ source2Length) < AllowableErrorPercentage;
         }
 
-        private static List<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
+        private static IEnumerable<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
         {
+           if (request is null)
+            {
+                return AllProducts.GetRange(1,8);
+            }
+            var productsByName = AllProducts.Where(x => Calculate(request, x.NameRu) || Calculate(request, x.NameRo));
 
-            var productsByName = (List<ProductModel>)AllProducts.Where(x => Calculate(request, x.NameRu) || Calculate(request, x.NameRo));
+            var products =AllProducts.Where(x => x.DescriptionRu.Contains(request)|| x.DescriptionRo.Contains(request));
 
-            var products = (List<ProductModel>)AllProducts.Where(x => x.DescriptionRu.Contains(request)|| x.DescriptionRo.Contains(request));
-
-            return (List<ProductModel>)products.Union(productsByName);
+            return products.Union(productsByName);
         }
 
         public static async Task<List<ProductModel>> FuzzySearchAsync(string request, List<ProductModel> AllProducts)
         {
-            return await Task.Run(() => FuzzySearch(request, AllProducts)); 
+            return (await Task.Run(() => FuzzySearch(request, AllProducts))).ToList(); 
         }
     }
 }

@@ -7,7 +7,8 @@
 
 <h1 align="center">AddProduct</h1>
 
-<h3></h3>
+<br />
+<br />
 
 <form enctype="multipart/form-data" href="#" method="post">
     <div align="center">
@@ -16,7 +17,7 @@
             <div>
                 nameRu:
                 <input type="text" asp-for="NameRu" placeholder="name ru" />
-                <p size="30">|</p>
+                <span style="margin:30px" size="50">|</span>
                 nameRo:
                 <input type="text" asp-for="NameRo" placeholder="name ro" />
 
@@ -35,10 +36,10 @@
             <div>
 
                 DisRu:
-                <p><input type="text" asp-for="DescriptionRu" placeholder="Description ru" /></p>
-                <p size="30">|</p>
-                DisRO:
-                <p><input type="text" asp-for="DescriptionRo" placeholder="Description ro" /></p>
+                <input type="text" asp-for="DescriptionRu" placeholder="Description ru" />
+                <span style="margin:30px" size="50">|</span>
+                DisRo:
+                <input type="text" asp-for="DescriptionRo" placeholder="Description ro" />
 
                 <div>
                     <span asp-validation-for="DescriptionRu" class="text-danger"></span>
@@ -94,7 +95,7 @@
              <br />
 
             <div class="text-center">
-                <button type="submit"> regist </button>
+                <button type="submit"> Add </button>
             </div>
 
             <br />

@@ -5,7 +5,6 @@ using Omaha_market.Data;
 
 namespace Omaha_market.Controllers
 {
-    [Authorize]
     public class ShoppingCartController : Controller
     {
         AppDbContext db;
@@ -17,7 +16,7 @@ namespace Omaha_market.Controllers
 
 
         [HttpGet("ShoppingCart")]
-        public ActionResult Index(int Page = 1)
+        public ActionResult Index()
         {
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
@@ -29,7 +28,7 @@ namespace Omaha_market.Controllers
 
 
         [HttpGet("Favorite")]
-        public ActionResult Favorite(int Page = 1)
+        public ActionResult Favorite()
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())

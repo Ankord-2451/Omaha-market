@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Omaha_market.Models.ProductModel>
+@{
+    ViewData["Title"] = "Results";
+}
+
+<h1>Results:</h1>
+
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>On discount</th>
+        <th>Amount</th>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td><img src="~/Images/@item.Img" height="60" width="60" /></td>
+            <td>@item.NameRu</td>
+            <td>@item.DescriptionRu</td>
+            <td>@item.CategoryRu</td>
+            <td>@item.Price</td>
+            <td>@item.OnDiscount</td>
+            <td>@item.amount</td>
+
+        </tr>
+        }
+</table>

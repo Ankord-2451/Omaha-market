@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Omaha_market.Models;
-using System.Diagnostics;
 using Omaha_market.Data;
-using Microsoft.EntityFrameworkCore;
+using Omaha_market.Core;
 
 namespace Omaha_market.Controllers
 {
@@ -16,19 +14,13 @@ namespace Omaha_market.Controllers
 
         public IActionResult Index()
         {
-            //dbContext.Accounts.ToList();
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<IActionResult> Search(string searchstr)
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(await Helper.FuzzySearchAsync(searchstr, dbContext.Products.ToList()));           
         }
     }
 }

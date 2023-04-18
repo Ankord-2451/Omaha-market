@@ -19,7 +19,7 @@
         @foreach (var item in (List<ProductModel>)ViewData["OnDiscount"])
         {
         <tr>
-            <td><img src="@item.Img" height="60" width="60" /></td>
+                <td><img src="~/Images/@item.Img" height="60" width="60" /></td>
             <td>@item.NameRu</td>
             <td>@item.DescriptionRu</td>
             <td>@item.CategoryRu</td>
@@ -47,7 +47,7 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td><img src="@item.Img" height="60" width="60" /></td>
+            <td><img src="~/Images/@item.Img" height="60" width="60" /></td>
             <td>@item.NameRu</td>
             <td>@item.DescriptionRu</td>
             <td>@item.CategoryRu</td>
@@ -61,7 +61,7 @@
 
 
 <div align="center">
-@if((bool)ViewData["ArrowBack"])
+    @if ((int)ViewData["Page"]>1)
 {
     int i = (int)ViewData["Page"] - 1;
 
@@ -79,7 +79,7 @@
         }
         i++;
     }
-@if((bool)ViewData["Arrowforward"])
+    @if ((int)ViewData["Page"] != (int)ViewData["AmountOfPages"])
 {
     int i = (int)ViewData["Page"] + 1; 
 
