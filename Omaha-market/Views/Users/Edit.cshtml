@@ -1,0 +1,78 @@
+﻿@model Omaha_market.Models.AccountModel
+
+@{
+    ViewData["Title"] = "Account";
+}
+
+<h1>Regist</h1>
+<br />
+<br />
+
+<form href="#" method="post">
+    <div class="bd"  align="center">
+       
+            
+            <div>
+                Your name:
+                <input type="text" asp-for="Name" value="@Model.Name" />
+
+                <div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div>
+                Your Phone number:
+            <input type="tel" asp-for="PhoneNumber" value="@Model.PhoneNumber" />
+
+                <div>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div>
+
+                Your Email:
+            <input type="email" asp-for="Email" value="@Model.Email" />
+
+                <div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+            </div>
+
+                 <br />
+            <div>
+
+                Your Address:
+            <input type="text" asp-for="Address" value="@Model.Address" />
+
+                <div>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+
+            <div>
+
+                Your Login:
+            <input type="text" asp-for="Login" value="@Model.Login" />
+
+                <div>
+                    <span asp-validation-for="Login" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+
+        <div class="text-center">
+            <button type="submit"> Edit </button>
+        </div>
+
+        <br />
+    </div>
+</form>
+

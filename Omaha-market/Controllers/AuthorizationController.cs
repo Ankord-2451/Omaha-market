@@ -23,7 +23,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())
             {
-                return View("Auth",session.GetUserName());
+                return RedirectToAction("Index","Users",dbContext.Accounts.First(x=>x.ID==session.GetUserId()));
             }
              return View();
         }
@@ -31,7 +31,7 @@ namespace Omaha_market.Controllers
         [HttpPost("Authorization/Form")]
         public ActionResult Index(string login,string password)
         {
-            AccountModel account;
+            AccountModel? account;
 
           
            password = Encoder.Encode(configuration, password);
@@ -76,23 +76,5 @@ namespace Omaha_market.Controllers
             session.Clear();
             return RedirectToAction(nameof(Index));
         }
-
-        [HttpGet("Registration/Form")]
-        public ActionResult Regist()
-        {
-            return View();
-        }
-
-        [HttpPost("Registration/Form")]
-        public ActionResult Regist(AccountModel account)
-        {
-            account.Role = role.Customer;
-            account.Password = Encoder.Encode(configuration, account.Password);
-            dbContext.Accounts.Add(account);
-            dbContext.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
-        }
-
     }
 }

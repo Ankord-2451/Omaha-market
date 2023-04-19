@@ -8,8 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\Authorization\Auth.cshtml" />
-    <None Include="Views\Authorization\Regist.cshtml" />
+    <Content Remove="Views\Users\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Users\Regist.cshtml" />
+    <None Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
