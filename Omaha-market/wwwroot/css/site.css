@@ -2,9 +2,12 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   html {
     font-size: 16px;
+  }
+  container{
+      max-width:none;
   }
 }
 
@@ -55,4 +58,19 @@ button.Delete {
 div.home{
     display:flex;
     justify-content:space-around;
+}
+div.product {
+    border: 3px solid lightblue;
+    border-radius:15px;
+    max-width:min-content;
+}
+.Buy {
+    border-radius: 10px;
+    border: 2px solid lawngreen;
+    background-color: lawngreen;
+    color: aliceblue;
+}
+a {
+    color:black;
+    text-decoration: none;
 }
