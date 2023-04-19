@@ -17,7 +17,7 @@ namespace Omaha_market.Controllers
             this.configuration = configuration;
         }
 
-        [HttpGet("Account")]
+        [HttpGet("Account/{id}")]
         public ActionResult Index(int id)
         {
             try
@@ -48,11 +48,11 @@ namespace Omaha_market.Controllers
             return RedirectToAction(nameof(Index), "Authorization");
         }
         [HttpGet("Account/Edit/{id?}")]
-        public ActionResult Edit(int id)
+        public ActionResult AccountEdit(int id)
         {
             try
             {
-                return View(db.Accounts.First(x => x.ID == id));
+                return View("Edit",db.Accounts.First(x => x.ID == id));
             }
             catch
             {
@@ -60,12 +60,14 @@ namespace Omaha_market.Controllers
             }
         }
 
-        [HttpPost("Account/Edit")]
-        public ActionResult Edit(AccountModel account)
+        [HttpPost("Account/Edit/{id?}")]
+        public ActionResult AccountEdit(AccountModel account)
         {
-            db.Accounts.Update(account);
+            account.Password = db.Accounts.First(x => x.ID == account.ID).Password;
+            db.Accounts.Remove(db.Accounts.First(x => x.ID == account.ID));
+            db.Accounts.Add(account);
             db.SaveChanges();
-           return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Market");
         }
 
         [HttpPost("Account/Delete/{id?}")]
@@ -74,7 +76,8 @@ namespace Omaha_market.Controllers
             try
             {
                 db.Accounts.Remove(db.Accounts.First(x => x.ID == id));
-                return RedirectToAction(nameof(Index));
+                db.SaveChanges();
+                return RedirectToAction("LogOut", "Authorization");
             }
             catch
             {

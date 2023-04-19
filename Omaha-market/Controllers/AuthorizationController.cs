@@ -69,7 +69,7 @@ namespace Omaha_market.Controllers
 
 
 
-        [HttpPost("Authorization/LogOut")]
+        [HttpGet("Authorization/LogOut")]
         public ActionResult LogOut()
         {
             var session = new SessionWorker(HttpContext);

@@ -24,9 +24,9 @@
     
     <br />
 
-    <div>
-        <form method="post" asp-action="LogOut" asp-controller="Authorization"><button type="submit">Log Out</button></form>
-        <form method="get" asp-action="Edit" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Edit</button></form>
+    <div class="home">
+        <form method="get" asp-action="LogOut" asp-controller="Authorization"><button type="submit">Log Out</button></form>
+        <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Edit</button></form>
         <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Delete</button></form>
     </div>
    

@@ -8,12 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Users\Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Views\Users\Regist.cshtml" />
-    <None Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
