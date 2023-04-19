@@ -4,7 +4,8 @@
 }
 
 <div >
-    <div class="text-center">Нou are logged in as @Model.Name</div>
+    <h5 class="text-center">Нou are logged in as @Model.Name</h5>
+    <br />
     <table class="table">
         <tr>
             <th>Name</th>
@@ -12,13 +13,17 @@
             <th>Address</th>
             <th>Email</th>
             <th>PhoneNumber</th>
+            <th></th>
         </tr>
             <tr>
                 <td>@Model.Name</td>
                 <td>@Model.Login</td>
                 <td>@Model.Address</td>
                 <td>@Model.Email</td>
-                <td>@Model.PhoneNumber</td>           
+                <td>@Model.PhoneNumber</td>
+            <td>
+                <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Edit</button></form>
+            </td>
             </tr>           
     </table>
     
@@ -26,9 +31,34 @@
 
     <div class="home">
         <form method="get" asp-action="LogOut" asp-controller="Authorization"><button type="submit">Log Out</button></form>
-        <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Edit</button></form>
-        <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Delete</button></form>
+        <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button class="Delete" type="submit">Delete Account</button></form>
     </div>
-   
+
+    <br />
+    <br />
+    <h5 class="text-center">Last</h5>
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in (List<RecentPurchasesModel>)ViewData["purchases"])
+        {
+            <tr>
+            <td>@item.Name</td>
+            <td>@item.date</td>
+                <td>
+                    <form method="get" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.IdOfProduct"><button type="submit">Buy</button></form>
+                </td>
+                <td>
+                    <form method="post" asp-action="DeletePurchases" asp-controller="Users" asp-route-id="@item.ID"><button class="Delete" type="submit">Delete</button></form>
+                </td>
+            </tr>
+        }
+    </table>
     
 </div>

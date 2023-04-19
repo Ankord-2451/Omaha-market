@@ -48,7 +48,11 @@ button{
     background:none;
    
 }
+button.Delete {
+    background-color:red;
+    color:aliceblue;
+}
 div.home{
     display:flex;
-    justify-content:space-between;
+    justify-content:space-around;
 }

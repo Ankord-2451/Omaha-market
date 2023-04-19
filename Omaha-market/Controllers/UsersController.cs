@@ -17,12 +17,14 @@ namespace Omaha_market.Controllers
             this.configuration = configuration;
         }
 
-        [HttpGet("Account/{id}")]
+        [HttpGet("Account/{id?}")]
         public ActionResult Index(int id)
         {
             try
             {
-                return View(db.Accounts.First(x => x.ID == id));
+                ViewData["purchases"] = db.RecentPurchases.ToList();
+                var account = db.Accounts.First(x => x.ID == id);
+                return View(account);
             }
             catch
             {
