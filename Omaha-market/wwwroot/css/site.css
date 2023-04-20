@@ -46,31 +46,186 @@ button.Search {
     border: none;
     background: none;
 }
-button{
-    border-radius:15px;
-    background:none;
-   
+/* Общие стили */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f5f5f5;
 }
-button.Delete {
-    background-color:red;
-    color:aliceblue;
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
 }
-div.home{
-    display:flex;
-    justify-content:space-around;
-}
-div.product {
-    border: 3px solid lightblue;
-    border-radius:15px;
-    max-width:min-content;
-}
-.Buy {
-    border-radius: 10px;
-    border: 2px solid lawngreen;
-    background-color: lawngreen;
-    color: aliceblue;
-}
+
 a {
-    color:black;
     text-decoration: none;
+    color: #333;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Стили для таблицы продуктов */
+.table tr:hover {
+    background-color: #fff6e5;
+}
+
+.table img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Стили для блока продукта */
+.product {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+    .product:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product img {
+        margin-bottom: 10px;
+    }
+
+    .product h5 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .product h3 {
+        color: #ff6600;
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+.Buy {
+    display: inline-block;
+    background-color: #ff6600;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+.Buy:active {
+  transform: translateY(2px);
+}
+
+}
+
+    .Buy:hover {
+        background-color: #e55b00;
+    }
+
+/* Стили для страницы */
+.home {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.On {
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.Page {
+    color: #333;
+}
+
+/* Стили для стрелок */
+img[src$="arrowL.png"], img[src$="arrowR.png"] {
+    display: inline-block;
+    margin: 0 10px;
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+}
+
+    img[src$="arrowL.png"]:hover, img[src$="arrowR.png"]:hover {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+
+.product-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding: 10px;
+    animation: scroll 10s linear infinite;
+}
+
+.product {
+    margin-right: 10px;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+.product {
+    flex: 0 0 33%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+    .product:hover {
+        transform: scale(1.1);
+    }
+
+.discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff6600;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Анимация бесконечной прокрутки */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-200% + 33.33%));
+    }
+}
+
+.product-container {
+    animation: scroll 1s linear infinite;
 }

@@ -2,34 +2,25 @@
 @{
     ViewData["Title"] = "Market";
 }
-
 <h1>Market</h1>
 @if (ViewData["OnDiscount"] != null){
-<h2>ON Discount</h2>
-<table class="table">
-        <tr>
-             <th>Image</th>
-             <th>Name</th>
-             <th>Description</th>
-             <th>Category</th>
-             <th>Price</th>
-             <th>On discount</th>
-             <th>Amount</th>
-        </tr>
+    <div class="homed">
         @foreach (var item in (List<ProductModel>)ViewData["OnDiscount"])
         {
-        <tr>
-                <td><img src="~/Images/@item.Img" height="60" width="60" /></td>
-            <td>@item.NameRu</td>
-            <td>@item.DescriptionRu</td>
-            <td>@item.CategoryRu</td>
-            <td>@item.Price</td>
-            <td>@item.OnDiscount</td>
-            <td>@item.amount</td>
-               
-        </tr>
+            
+         <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+            <div class="product-container">
+                <div class="product">
+                    <div class="discount">-0%</div>
+                    <img src="~/Images/@item.Img" width="100" height="100" />
+                    <h5 align="center">@item.NameRu </h5>
+                    <h3>@item.Price</h3>
+                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
+                </div>
+            </div>
+         </a>
         }
-</table>
+   </div> 
 }
 <br />
 <br />
