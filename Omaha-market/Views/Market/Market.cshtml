@@ -4,23 +4,23 @@
 }
 <h1>Market</h1>
 @if (ViewData["OnDiscount"] != null){
-    <div class="homed">
-        @foreach (var item in (List<ProductModel>)ViewData["OnDiscount"])
-        {
-            
-         <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
-            <div class="product-container">
+    <div class="product-container">
+        <div class="product-wrapper">
+            @foreach (var item in (List<ProductModel>)ViewData["OnDiscount"])
+            {
                 <div class="product">
                     <div class="discount">-0%</div>
-                    <img src="~/Images/@item.Img" width="100" height="100" />
-                    <h5 align="center">@item.NameRu </h5>
+                    <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+                        <img src="~/Images/@item.Img" alt="@item.NameRu" width="100" height="100" />
+                    </a>
+                    <h5>@item.NameRu</h5>
                     <h3>@item.Price</h3>
-                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
+                    <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
                 </div>
-            </div>
-         </a>
-        }
-   </div> 
+            }
+        </div>
+    </div>
+
 }
 <br />
 <br />
