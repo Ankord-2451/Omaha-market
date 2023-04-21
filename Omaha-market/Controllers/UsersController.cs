@@ -22,7 +22,6 @@ namespace Omaha_market.Controllers
         {
             try
             {
-                ViewData["purchases"] = db.RecentPurchases.ToList();
                 var account = db.Accounts.First(x => x.ID == id);
                 return View(account);
             }

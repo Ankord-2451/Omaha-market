@@ -32,35 +32,9 @@
     <br />
 
     <div class="home">
-        <form method="get" asp-action="LogOut" asp-controller="Authorization"><button type="submit">Log Out</button></form>
+        <form method="get" asp-action="LogOut" asp-controller="Authorization"><button class="Delete" type="submit">Log Out</button></form>
         <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button class="Delete" type="submit">Delete Account</button></form>
     </div>
 
     <br />
-    <br />
-    <h5 class="text-center">Last</h5>
-    <br />
-
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th></th>
-            <th></th>
-        </tr>
-        @foreach (var item in (List<RecentPurchasesModel>)ViewData["purchases"])
-        {
-            <tr>
-            <td>@item.Name</td>
-            <td>@item.date</td>
-                <td>
-                    <form method="get" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.IdOfProduct"><button type="submit">Buy</button></form>
-                </td>
-                <td>
-                    <form method="post" asp-action="DeletePurchases" asp-controller="Users" asp-route-id="@item.ID"><button class="Delete" type="submit">Delete</button></form>
-                </td>
-            </tr>
-        }
-    </table>
-    
 </div>

@@ -1,24 +1,24 @@
 ﻿/* Стиль для таблицы */
-  table {
+.Cab table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-  }
+}
 
-    table th,
+    .Cab table th,
     table td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
 
-    table th {
+    .Cab table th {
         background-color: #f2f2f2;
         color: #333;
     }
 
 /* Стиль для кнопок */
-button {
+.Cab button {
     display: inline-block;
     background-color: #4CAF50;
     color: #fff;
@@ -32,41 +32,41 @@ button {
     transition: all 0.3s ease-in-out;
 }
 
-    button:hover {
+    .Cab button:hover {
         background-color: #3e8e41;
     }
 
 /* Стиль для кнопки удаления */
-.Delete {
+.Cab .Delete {
     background-color: #f44336;
 }
 
 /* Стиль для заголовка */
-h5 {
+.Cab h5 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
 /* Стиль для блока с кнопками */
-.home {
+.Cab .home {
     text-align: center;
 }
 
-    .home button {
+    .Cab .home button {
         margin-right: 20px;
     }
 
 /* Стиль для формы */
-form {
+.Cab form {
     margin-bottom: 20px;
 }
 
-label {
+.Cab label {
     font-size: 18px;
     margin-right: 10px;
 }
 
-input[type="text"] {
+.Cab input[type="text"] {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 8px;
@@ -76,7 +76,7 @@ input[type="text"] {
 }
 
 /* Стиль для ссылки */
-a {
+.Cab a {
     display: inline-block;
     background-color: #4CAF50;
     color: #fff;
@@ -90,6 +90,6 @@ a {
     transition: all 0.3s ease-in-out;
 }
 
-    a:hover {
+    .Cab a:hover {
         background-color: #3e8e41;
     }

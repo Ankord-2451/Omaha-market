@@ -11,7 +11,6 @@ namespace Omaha_market.Data
         public DbSet<CartModel> ShoppingCart { get; set; } = null!;
         public DbSet<favoriteModel> favorite { get; set; } = null!;
         public DbSet<CategoryModel> Category { get; set; } = null!;
-        public DbSet<RecentPurchasesModel> RecentPurchases { get; set; } = null!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

@@ -6,22 +6,21 @@
 
 <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 
-
+<div class="login">
 <h1 class="text-center">Regist</h1>
 
 <form href="#" method="post">
     <div class="bd" align="center">           
-            <div>
+            
                 Your name:
                 <input type="text" asp-for="Name" placeholder="name" />
-
                 <div>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-            </div>
             
-            <div>
+            
+            
                 Your Phone number:
                 <input type="tel" asp-for="PhoneNumber" placeholder="number of phone" />
 
@@ -29,9 +28,9 @@
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
 
-            </div>
+           
             
-            <div>
+            
 
                 Your Email:
                 <input type="email" asp-for="Email" placeholder="email" />
@@ -40,10 +39,10 @@
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
-            </div>
+           
 
                 
-            <div>
+            
 
                 Your Address:
                 <input type="text" asp-for="Address" placeholder="address" />
@@ -52,10 +51,10 @@
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
 
-            </div>
+            
             
 
-            <div>
+            
 
                 Your Login:
                 <input type="text" asp-for="Login" placeholder="Login" />
@@ -64,9 +63,9 @@
                     <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
 
-            </div>
-           
-            <div>
+            
+          
+            
                 Your Password:
                 <input type="password" asp-for="Password" placeholder="Password" />
 
@@ -74,7 +73,7 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
-            </div>
+            
 
            
 
@@ -84,4 +83,4 @@
 
     </div>
 </form>
-
+</div>
