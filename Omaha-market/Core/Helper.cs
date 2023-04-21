@@ -41,7 +41,7 @@ namespace Omaha_market.Core
 
         public static List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page, out int amount)
         {
-            const int PageSize = 5;
+            const int PageSize = 8;
             amount = products.Count/PageSize;
             if (products.Count > amount * PageSize) amount++;
             return products.OrderBy(x => x.Id).Skip((Page - 1) * PageSize).Take(PageSize).ToList();
