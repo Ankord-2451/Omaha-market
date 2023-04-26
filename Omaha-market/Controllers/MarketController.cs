@@ -57,7 +57,7 @@ namespace Omaha_market.Controllers
             ViewData["AmountOfPages"] = AmountOfPages;
 
 
-            return View("Home/Search", products);
+            return View(products);
         }
         
       
@@ -65,6 +65,7 @@ namespace Omaha_market.Controllers
         [HttpGet("Products/OnDiscount")]
         public ActionResult OnDiscount(int page = 1)
         {
+            ViewData["action"] = "OnDiscount";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
@@ -81,13 +82,14 @@ namespace Omaha_market.Controllers
             ViewData["AmountOfPages"] = AmountOfPages;
 
 
-            return View("Home/Search", products);
+            return View("NewAndOnDiscount", products);
         }
 
         [AllowAnonymous]
         [HttpGet("Products/New")]
         public ActionResult New(int page = 1)
         {
+            ViewData["action"] = "New";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
@@ -104,13 +106,14 @@ namespace Omaha_market.Controllers
             ViewData["AmountOfPages"] = AmountOfPages;
 
 
-            return View("Home/Search", products);
+            return View("NewAndOnDiscount", products);
         }
 
         [AllowAnonymous]
         [HttpGet("Products/Some")]
         public ActionResult Some(int page = 1)
         {
+            ViewData["action"] = "Some";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
@@ -127,7 +130,7 @@ namespace Omaha_market.Controllers
             ViewData["AmountOfPages"] = AmountOfPages;
 
 
-            return View("Home/Search", products);
+            return View("NewAndOnDiscount", products);
         }
         
     }

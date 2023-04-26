@@ -17,7 +17,7 @@ namespace Omaha_market.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Search(string searchstr,int page = 1)
         { 
             int AmountOfPages;
@@ -35,6 +35,8 @@ namespace Omaha_market.Controllers
             ViewData["Page"] = page;
 
             ViewData["AmountOfPages"] = AmountOfPages;
+
+            ViewData["searchstr"] = searchstr;
 
             return View(products);           
         }
