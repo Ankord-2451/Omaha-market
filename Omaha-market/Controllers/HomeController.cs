@@ -18,9 +18,25 @@ namespace Omaha_market.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(string searchstr)
-        {
-            return View(await Helper.FuzzySearchAsync(searchstr, dbContext.Products.ToList()));           
+        public async Task<IActionResult> Search(string searchstr,int page = 1)
+        { 
+            int AmountOfPages;
+
+            if (page <= 0) page = 1;
+
+            var products = Helper.PageSplitHelper(await Helper.FuzzySearchAsync(searchstr, dbContext.Products.ToList()), page, out AmountOfPages);
+
+            if (page > AmountOfPages)
+            {
+                page = 1;
+                products = Helper.PageSplitHelper(await Helper.FuzzySearchAsync(searchstr, dbContext.Products.ToList()), page, out AmountOfPages);
+            }
+
+            ViewData["Page"] = page;
+
+            ViewData["AmountOfPages"] = AmountOfPages;
+
+            return View(products);           
         }
     }
 }

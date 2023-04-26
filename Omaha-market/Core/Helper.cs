@@ -9,6 +9,11 @@ namespace Omaha_market.Core
 {
     public static class  Helper
     {
+        //Time section
+        public static bool IsNew(DateTime date)
+        {
+            return date >= DateTime.Now.AddDays(-7);
+        }
         //Create product section
         public static ProductModel PreparationForSaveProduct(ProductModel product, AppDbContext db, IFormFile photo)
         {
@@ -73,7 +78,7 @@ namespace Omaha_market.Core
 
         public static List<ProductModel> TakeProductsOnDiscount(AppDbContext db)
         {
-          return db.Products.Where(x=>x.OnDiscount).OrderBy(x=>x.Id).ToList();
+          return db.Products.Where(x=> x.OnDiscount).OrderBy(x=>x.Id).ToList();
         }
 
         //Search section
@@ -117,7 +122,7 @@ namespace Omaha_market.Core
         {
            if (request is null)
             {
-                return AllProducts.GetRange(1,8);
+                return null;
             }
             var productsByName = AllProducts.Where(x => Calculate(request, x.NameRu) || Calculate(request, x.NameRo));
 

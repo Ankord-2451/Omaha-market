@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
@@ -20,27 +21,11 @@ namespace Omaha_market.Controllers
 
         [AllowAnonymous]
         [HttpGet("Market")]
-        public ActionResult Index(int page = 1)
-        {
-            int AmountOfPages;
-
-            if (page <= 0) page = 1;
-
-            var products = Helper.PageSplitHelper(db.Products.ToList(), page, out AmountOfPages);
-
-            if (page > AmountOfPages)
-            {
-                page = 1;
-                products = Helper.PageSplitHelper(db.Products.ToList(), page, out AmountOfPages);
-            }
-
-            ViewData["Page"] = page;
-
-            ViewData["AmountOfPages"] = AmountOfPages;
-
+        public ActionResult Index()
+        {          
             ViewData["OnDiscount"] = Helper.TakeProductsOnDiscount(db);
 
-            return View("Market", products);
+            return View("Market", db.Products.ToList());
         }
 
         [AllowAnonymous]
@@ -52,71 +37,98 @@ namespace Omaha_market.Controllers
             return View( db.Products.First(x=>x.Id==id) ); 
         }
 
-       
-        [HttpGet("Market/Create")]
-        public ActionResult Create()
+        [AllowAnonymous]
+        [HttpGet("Category/{Name}")]
+        public ActionResult Category(string Name, int page = 1)
         {
-            var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin()) {
-                ViewData["CategoryModel"] = db.Category.ToList();
-            return View("AddProduct");
-            }
-            return StatusCode(401);
-        }
+            int AmountOfPages;
+            if (page <= 0) page = 1;
 
+            var products = Helper.PageSplitHelper(db.Products.Where(x=>(x.CategoryRu==Name||x.CategoryRo == Name)).ToList(), page, out AmountOfPages);
+
+            if (page > AmountOfPages)
+            {
+                page = 1;
+                products = Helper.PageSplitHelper(db.Products.Where(x => (x.CategoryRu == Name || x.CategoryRo == Name)).ToList(), page, out AmountOfPages);
+            }
+
+            ViewData["Page"] = page;
+
+            ViewData["AmountOfPages"] = AmountOfPages;
+
+
+            return View("Home/Search", products);
+        }
         
-        [HttpPost("Market/Create")]
-        public ActionResult Create(ProductModel product, IFormFile photo)
+      
+        [AllowAnonymous]
+        [HttpGet("Products/OnDiscount")]
+        public ActionResult OnDiscount(int page = 1)
         {
-            var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin())
+            int AmountOfPages;
+            if (page <= 0) page = 1;
+
+            var products = Helper.PageSplitHelper(db.Products.Where(x => x.OnDiscount).ToList(), page, out AmountOfPages);
+
+            if (page > AmountOfPages)
             {
-                product = Helper.PreparationForSaveProduct(product, db, photo);
-                db.Products.Add(product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                page = 1;
+                products = Helper.PageSplitHelper(db.Products.Where(x => x.OnDiscount).ToList(), page, out AmountOfPages);
             }
-            return StatusCode(401);
+
+            ViewData["Page"] = page;
+
+            ViewData["AmountOfPages"] = AmountOfPages;
+
+
+            return View("Home/Search", products);
         }
 
+        [AllowAnonymous]
+        [HttpGet("Products/New")]
+        public ActionResult New(int page = 1)
+        {
+            int AmountOfPages;
+            if (page <= 0) page = 1;
+
+            var products = Helper.PageSplitHelper(db.Products.Where(x => Helper.IsNew(x.DateOfLastChange)).ToList(), page, out AmountOfPages);
+
+            if (page > AmountOfPages)
+            {
+                page = 1;
+                products = Helper.PageSplitHelper(db.Products.Where(x => Helper.IsNew(x.DateOfLastChange)).ToList(), page, out AmountOfPages);
+            }
+
+            ViewData["Page"] = page;
+
+            ViewData["AmountOfPages"] = AmountOfPages;
+
+
+            return View("Home/Search", products);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Products/Some")]
+        public ActionResult Some(int page = 1)
+        {
+            int AmountOfPages;
+            if (page <= 0) page = 1;
+
+            var products = Helper.PageSplitHelper(db.Products.Where(x => x.FromSome).ToList(), page, out AmountOfPages);
+
+            if (page > AmountOfPages)
+            {
+                page = 1;
+                products = Helper.PageSplitHelper(db.Products.Where(x => x.FromSome).ToList(), page, out AmountOfPages);
+            }
+
+            ViewData["Page"] = page;
+
+            ViewData["AmountOfPages"] = AmountOfPages;
+
+
+            return View("Home/Search", products);
+        }
         
-        [HttpGet("Market/Edit/{id?}")]
-        public ActionResult Edit(int id)
-        {
-            var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin())
-            {
-                return View( db.Products.First(x => x.Id == id) );
-            }
-            return StatusCode(401);
-        }
-
-       
-        [HttpPost("Market/Edit")]
-        public ActionResult Edit(ProductModel product)
-        {
-            var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin())
-            {
-                product.DateOfLastChange = DateTime.Now;
-                db.Products.Update(product);
-                db.SaveChanges();
-                return View();
-            }
-            return StatusCode(401);
-        }
-
-
-        [HttpPost("Market/Delete")]
-        public ActionResult Delete(int id)
-        {
-            var session = new SessionWorker(HttpContext);
-            if (session.IsAdmin())
-            {
-                db.Products.Remove( db.Products.First(x => x.Id == id) );
-                return RedirectToAction("Index");
-            }
-            return StatusCode(401);
-        }
     }
 }

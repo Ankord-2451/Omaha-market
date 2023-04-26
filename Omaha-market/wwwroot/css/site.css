@@ -163,30 +163,25 @@ img[src$="arrowL.png"], img[src$="arrowR.png"] {
     transition: all 0.3s ease-in-out;
 }
 
-    img[src$="arrowL.png"]:hover, img[src$="arrowR.png"]:hover {
+img[src$="arrowL.png"]:hover, img[src$="arrowR.png"]:hover {
         opacity: 1;
         transform: translateY(-5px);
     }
 
 .product-container {
-    overflow: hidden;
-    max-height:250px;
-}
-
-.product-wrapper {
-    display: flex;
-    animation: scroll 18s linear infinite;
+   display: flex;
+   overflow:hidden;
 }
 
 .product {
-    margin-right: 30px;
+    margin-right: 3px;
     position: relative;
 }
 
 .discount {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 5px;
+    left: 5px;
     background-color: #ff0000;
     color: #fff;
     padding: 5px;
@@ -216,18 +211,4 @@ img[src$="arrowL.png"], img[src$="arrowR.png"] {
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
-}
-.dScrol {
-   display: flex;
-}
-
-
-@keyframes scroll {
-    0% {
-        transform: translateX(100%);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
 }
