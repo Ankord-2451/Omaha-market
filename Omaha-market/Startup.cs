@@ -30,7 +30,7 @@ namespace Omaha_market
             services.AddSession();
             
             services.AddMvc();
-
+            services.AddHttpClient();
 
             services.AddAuthentication(x =>
             {

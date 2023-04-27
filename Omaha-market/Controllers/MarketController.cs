@@ -24,7 +24,6 @@ namespace Omaha_market.Controllers
         [HttpGet("Market")]
         public ActionResult Index()
         {
-            
             ViewData["OnDiscount"] =Helper.TakeProductsOnDiscount(db) ;
 
             ViewData["New"] = Helper.TakeNewProducts(db);
@@ -138,6 +137,15 @@ namespace Omaha_market.Controllers
 
             return View("NewAndOnDiscount", products);
         }
-        
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult AddEmail(string Email)
+        {
+            db.Email.Add(new EmailModel() { Email = Email});
+            db.SaveChanges();
+            ViewData["Mailmessage"] = "Спасибо за вашу почту";
+            return View("Market");
+        }
     }
 }

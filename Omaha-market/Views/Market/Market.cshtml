@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Market";
 }
-
+<h5> @ViewData["Mailmessage"] </h5>
 @if (ViewData["OnDiscount"] != null){
     <h1>Discount</h1>
       <div class="product-container">
@@ -84,3 +84,12 @@
         </div>
   </a>
 }
+<br />
+<br />
+<div class="text-center">
+<span>Подпишитесь на наши свежие новости :</span>
+    <form method="post" asp-action="AddEmail">
+         <input type="email" name="Email" placeholder="Email"/>
+         <button type="submit">Подписаться</button>
+    </form>
+</div>
