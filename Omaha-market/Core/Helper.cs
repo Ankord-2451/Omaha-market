@@ -9,11 +9,6 @@ namespace Omaha_market.Core
 {
     public static class  Helper
     {
-        //Time section
-        public static bool IsNew(DateTime date)
-        {
-            return date >= DateTime.Now.AddDays(-7);
-        }
         //Create product section
         public static ProductModel PreparationForSaveProduct(ProductModel product, AppDbContext db, IFormFile photo)
         {
@@ -46,10 +41,18 @@ namespace Omaha_market.Core
 
         public static List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page, out int amount)
         {
+            if(products.Count != 0)
+            { 
             const int PageSize = 8;
             amount = products.Count/PageSize;
             if (products.Count > amount * PageSize) amount++;
             return products.OrderBy(x => x.Id).Skip((Page - 1) * PageSize).Take(PageSize).ToList();
+            }
+            else
+            {
+                amount = 1;
+                return null;
+            }
         }
 
         public static List<ProductModel> TakeProductsInCart(SessionWorker session,AppDbContext db)
@@ -78,7 +81,26 @@ namespace Omaha_market.Core
 
         public static List<ProductModel> TakeProductsOnDiscount(AppDbContext db)
         {
-          return db.Products.Where(x=> x.OnDiscount).OrderBy(x=>x.Id).ToList();
+            var products = db.Products.Where(x => x.OnDiscount).OrderBy(x => x.Id).ToList();
+                if(products.Count==0)  return null;
+                return products;
+         
+        }
+
+        public static List<ProductModel> TakeNewProducts(AppDbContext db)
+        {
+            var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).OrderBy(x => x.Id).ToList();
+                if (products.Count == 0) return null;
+            return products;
+
+        }
+
+        public static List<ProductModel> TakeProductsSome(AppDbContext db)
+        {
+            var products = db.Products.Where(x => x.FromSome).OrderBy(x => x.Id).ToList();
+                if (products.Count == 0) return null;
+            return products;
+
         }
 
         //Search section

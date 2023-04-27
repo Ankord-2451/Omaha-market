@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Omaha_market.Models.ProductModel>
+﻿
 @{
     ViewData["Title"] = "Market";
 }
@@ -8,44 +8,53 @@
       <div class="product-container">
             @foreach (var item in (List<ProductModel>)ViewData["OnDiscount"])
             {
-                <div class="product">
+                <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+                 <div class="product">
                     <div class="discount">-0%</div>
-                    <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+                    
                         <img src="~/Images/@item.Img" alt="@item.NameRu" width="100" height="100" />
-                    </a>
+                    
                     <h5>@item.NameRu</h5>
                     <h3>@item.Price</h3>
                     <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
-                </div>
+                 </div>
+                </a>
             }
        
       </div>
+
 }
 <br />
 <br />
-<h1>New</h1>
-<div class="home product-container">
- @foreach (var item in Model)
+@if (ViewData["New"] != null)
+{
+    <h1>New</h1>
+    <div class="product-container">
+        @foreach (var item in (List<ProductModel>)ViewData["New"])
         {
-        <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
-        <div class="product">
+            <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+                <div class="product">
 
-          <img src="~/Images/@item.Img" width="100" height="100"/>
+                    <img src="~/Images/@item.Img" width="100" height="100"/>
 
-          <h5 align="center">@item.NameRu </h5>
+                    <h5 align="center">@item.NameRu </h5>
 
-          <h3>@item.Price</h3>
-            
-          <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
-        </div>
-        </a>  
+                    <h3>@item.Price</h3>
+
+                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
+                </div>
+            </a>
         }
-</div>
+    </div>
+
+}
 <br />
 <br />
-<h1>Some</h1>
-<div class="home product-container">
-    @foreach (var item in Model)
+@if (ViewData["Some"] != null)
+{
+  <h1>Some</h1>
+  <div class="product-container">
+    @foreach (var item in (List<ProductModel>)ViewData["Some"])
     {
         <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
             <div class="product">
@@ -59,5 +68,7 @@
                 <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
             </div>
         </a>
-    }
-</div>
+      }
+  </div>
+
+}

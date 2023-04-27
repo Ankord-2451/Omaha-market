@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Bogus;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Omaha_market.Core;
@@ -22,10 +23,15 @@ namespace Omaha_market.Controllers
         [AllowAnonymous]
         [HttpGet("Market")]
         public ActionResult Index()
-        {          
-            ViewData["OnDiscount"] = Helper.TakeProductsOnDiscount(db);
+        {
+            
+            ViewData["OnDiscount"] =Helper.TakeProductsOnDiscount(db) ;
 
-            return View("Market", db.Products.ToList());
+            ViewData["New"] = Helper.TakeNewProducts(db);
+
+            ViewData["Some"] = Helper.TakeProductsSome(db);
+
+            return View("Market");
         }
 
         [AllowAnonymous]
@@ -62,7 +68,7 @@ namespace Omaha_market.Controllers
         
       
         [AllowAnonymous]
-        [HttpGet("Products/OnDiscount")]
+        [HttpGet("OnDiscount")]
         public ActionResult OnDiscount(int page = 1)
         {
             ViewData["action"] = "OnDiscount";
@@ -86,19 +92,19 @@ namespace Omaha_market.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Products/New")]
+        [HttpGet("New")]
         public ActionResult New(int page = 1)
         {
             ViewData["action"] = "New";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
-            var products = Helper.PageSplitHelper(db.Products.Where(x => Helper.IsNew(x.DateOfLastChange)).ToList(), page, out AmountOfPages);
+            var products = Helper.PageSplitHelper(db.Products.Where(x =>x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList(), page, out AmountOfPages);
 
             if (page > AmountOfPages)
             {
                 page = 1;
-                products = Helper.PageSplitHelper(db.Products.Where(x => Helper.IsNew(x.DateOfLastChange)).ToList(), page, out AmountOfPages);
+                products = Helper.PageSplitHelper(db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList(), page, out AmountOfPages);
             }
 
             ViewData["Page"] = page;
@@ -110,7 +116,7 @@ namespace Omaha_market.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Products/Some")]
+        [HttpGet("Some")]
         public ActionResult Some(int page = 1)
         {
             ViewData["action"] = "Some";

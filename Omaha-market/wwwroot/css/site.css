@@ -11,13 +11,9 @@ html {
   }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+    margin-bottom: 55px;
+    background-color: #f5f5f5;
 }
 
 a.Page{
@@ -33,24 +29,19 @@ a.On {
 input[type=text].Search {
     border-radius: 20px;
     padding:0px 10px;
-    transition: width ease-in-out 0.6s;
-    width:80px;
-    margin:0px 0px 0px 15px;
+    margin:0px 0px 0px 55px;
+    width:150px;
 }
 
 input[type=text]:focus.Search {
     background-color: lightblue;
-    width: 180px;
+   
 }
 button.Search {
     border: none;
     background: none;
 }
 /* Общие стили */
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f5f5f5;
-}
 
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
@@ -171,6 +162,7 @@ img[src$="arrowL.png"]:hover, img[src$="arrowR.png"]:hover {
 .product-container {
    display: flex;
    overflow:hidden;
+   scroll-behavior:auto;
 }
 
 .product {

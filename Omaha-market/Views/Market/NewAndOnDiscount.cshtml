@@ -8,11 +8,18 @@
 <br />
 <br />
 
-  <div class="home">
+  <div class="product-container">
     @foreach (var item in Model)
     {
+          
         <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+
             <div class="product">
+
+                    if (item.OnDiscount)
+                    {
+                    <div class="discount">-0%</div>
+                    }
 
                 <img src="~/Images/@item.Img" width="100" height="100" />
 
@@ -23,7 +30,8 @@
                 <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
             </div>
         </a>
-    }
+     }
+    
   </div>
  <br />
 
