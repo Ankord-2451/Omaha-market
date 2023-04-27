@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Market";
 }
-<h1>Market</h1>
+
 @if (ViewData["OnDiscount"] != null){
     <h1>Discount</h1>
       <div class="product-container">
@@ -21,8 +21,12 @@
                 </a>
             }
        
-      </div>
-
+      </div> 
+      <a class="On" asp-action="OnDiscount" asp-controller="Market">
+        <div class="but text-center">
+            Показать Еще
+        </div>
+    </a>
 }
 <br />
 <br />
@@ -46,7 +50,11 @@
             </a>
         }
     </div>
-
+    <a class="On" asp-action="New" asp-controller="Market">
+         <div class="but text-center">
+            Показать Еще
+        </div>
+    </a>
 }
 <br />
 <br />
@@ -70,5 +78,9 @@
         </a>
       }
   </div>
-
+  <a class="On" asp-action="Some" asp-controller="Market">
+        <div class="but text-center">
+            Показать Еще
+        </div>
+  </a>
 }
