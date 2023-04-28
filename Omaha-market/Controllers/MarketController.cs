@@ -8,7 +8,7 @@ using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
-    [Authorize]
+   
     public class MarketController : Controller
     {
         private AppDbContext db;
@@ -20,7 +20,7 @@ namespace Omaha_market.Controllers
         }
 
 
-        [AllowAnonymous]
+        
         [HttpGet("Market")]
         public ActionResult Index()
         {
@@ -33,16 +33,22 @@ namespace Omaha_market.Controllers
             return View("Market");
         }
 
-        [AllowAnonymous]
+       
         [HttpGet("Market/Details/{id?}")]
         public ActionResult Details(int id)
         {
+
             var session = new SessionWorker(HttpContext);
             ViewData["IsAdmin"] = session.IsAdmin();
+
+            ViewData["Same"] = db.Products.Where(x => x.CategoryRo == db.Products.First(x => x.Id == id).CategoryRo).ToList();
+
+            ViewData["IsRu"] = session.IsRu();
+
             return View( db.Products.First(x=>x.Id==id) ); 
         }
 
-        [AllowAnonymous]
+       
         [HttpGet("Category/{Name}")]
         public ActionResult Category(string Name, int page = 1)
         {
@@ -66,7 +72,7 @@ namespace Omaha_market.Controllers
         }
         
       
-        [AllowAnonymous]
+        
         [HttpGet("OnDiscount")]
         public ActionResult OnDiscount(int page = 1)
         {
@@ -90,7 +96,7 @@ namespace Omaha_market.Controllers
             return View("NewAndOnDiscount", products);
         }
 
-        [AllowAnonymous]
+        
         [HttpGet("New")]
         public ActionResult New(int page = 1)
         {
@@ -114,7 +120,7 @@ namespace Omaha_market.Controllers
             return View("NewAndOnDiscount", products);
         }
 
-        [AllowAnonymous]
+        
         [HttpGet("Some")]
         public ActionResult Some(int page = 1)
         {
@@ -138,7 +144,7 @@ namespace Omaha_market.Controllers
             return View("NewAndOnDiscount", products);
         }
 
-        [AllowAnonymous]
+       
         [HttpPost]
         public ActionResult AddEmail(string Email)
         {
@@ -146,6 +152,29 @@ namespace Omaha_market.Controllers
             db.SaveChanges();
             ViewData["Mailmessage"] = "Спасибо за вашу почту";
             return View("Market");
+        }
+
+        public ActionResult AddInShopingCart(int id)
+        {
+            var session = new SessionWorker(HttpContext);
+            if(session.IsAuthorized())
+            { 
+                db.ShoppingCart.Add(new CartModel{IdOfProduct=id,IdOfCustomer=session.GetUserId()});
+                db.SaveChanges();
+            return RedirectToAction("Index", "ShoppingCart");
+            }
+            return RedirectToAction("Index", "ShoppingCart");
+        }
+        public ActionResult AddInFavorite(int id)
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAuthorized())
+            {
+                db.favorite.Add(new favoriteModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() });
+                db.SaveChanges();
+                return RedirectToAction("Favorite", "ShoppingCart");
+            }
+            return RedirectToAction("Favorite", "ShoppingCart");
         }
     }
 }

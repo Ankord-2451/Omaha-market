@@ -1,0 +1,67 @@
+﻿@model Omaha_market.Models.ProductModel
+@{
+    ViewData["Title"] = $"{Model.NameRo}";
+}
+<link rel="stylesheet" href="~/css/Details.css" asp-append-version="true" />
+
+
+<div class="Details">
+<h1 align="center">
+        @if ((bool)ViewData["IsRu"])
+    {
+            <span>@Model.NameRu;</span>
+        }
+    else
+    {
+            <span>@Model.NameRo;</span>
+        }
+</h1>
+
+<div class="product-container">
+    <img src="~/Images/@Model.Img" class="product-image" />
+    <div class="product-description">
+            @if ((bool)ViewData["IsRu"])
+            {
+                <span>@Model.DescriptionRu;</span>
+            }
+    else
+    {
+               <span> @Model.DescriptionRo</span>
+            }
+    <br />
+    @Model.Price
+    <br />
+    @Model.amount
+    </div>
+    <div class="product-action-buttons">
+     <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">Buy</a>
+     <a class="ShopingCart" asp-action="AddInShopingCart" asp-controller="Market" asp-route-id="@Model.Id">Buy</a>
+     <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id">Buy</a>
+    </div>
+</div>
+    <br />
+</div>
+<br />
+<br />
+<br />
+<h1>Похожие </h1>
+<div class="product-container">
+    @foreach (var item in (List<ProductModel>)ViewData["Same"])
+    {
+        <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+            <div class="product">
+                    @if(item.OnDiscount)
+                    {
+                    <div class="discount">-0%</div>
+                    }
+                <img src="~/Images/@item.Img" alt="@item.NameRu" width="100" height="100" />
+
+                <h5>@item.NameRu</h5>
+                <h3>@item.Price</h3>
+                <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
+            </div>
+        </a>
+    }
+
+</div>
+

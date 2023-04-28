@@ -1,0 +1,55 @@
+﻿/* Стили для обертки контейнера */
+.Details .product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+}
+
+/* Стили для изображения продукта */
+.Details .product-image {
+    width: 50%;
+    max-width: 400px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* Стили для описания продукта */
+.Details .product-description {
+    width: 50%;
+    max-width: 400px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+    .Details .product-description span {
+        font-weight: bold;
+    }
+
+/* Стили для кнопок действий */
+.Details .product-action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+    .Details .product-action-buttons a {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid #e6e6e6;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+        .Details .product-action-buttons a:hover {
+            background-color: #e6e6e6;
+        }
