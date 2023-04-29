@@ -6,44 +6,56 @@
 
 
 <div class="Details">
-<h1 align="center">
+
         @if ((bool)ViewData["IsRu"])
-    {
-            <span>@Model.NameRu;</span>
+        {
+            <h1 class="text-center"> @Model.NameRu</h1>
         }
-    else
-    {
-            <span>@Model.NameRo;</span>
+        else
+        {
+            <h1 class="text-center"> @Model.NameRo</h1>
         }
-</h1>
+
 
 <div class="product-container">
     <img src="~/Images/@Model.Img" class="product-image" />
-    <div class="product-description">
+    <div class ="product-description">
+
+        <span align="left" class="element">Описание :</span>
+       
             @if ((bool)ViewData["IsRu"])
             {
-                <span>@Model.DescriptionRu;</span>
+                <div class="dis">@Model.DescriptionRu</div>
             }
-    else
-    {
-               <span> @Model.DescriptionRo</span>
+            else
+            {
+                <div class="dis"> @Model.DescriptionRo</div>
             }
-    <br />
-    @Model.Price
-    <br />
-    @Model.amount
-    </div>
-    <div class="product-action-buttons">
-     <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">Buy</a>
-     <a class="ShopingCart" asp-action="AddInShopingCart" asp-controller="Market" asp-route-id="@Model.Id">Buy</a>
-     <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id">Buy</a>
+            <br />
+
+            <span align="left" class="element">Цена :</span>
+                <h2>@Model.Price</h2>
+
+            <br />
+            <br />
+            <span align="left" class="element">Количество на складе :</span>
+               @Model.amount
+
+        <div class="product-action-buttons">
+             <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">Buy</a>
+             <a class="ShopingCart" asp-action="AddInShopingCart" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/shopping-cart.png" /></a>
+             <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/like.png" /></a>
+        </div>
+
     </div>
 </div>
     <br />
 </div>
+
 <br />
 <br />
 <br />
+
 <h1>Похожие </h1>
 <div class="product-container">
     @foreach (var item in (List<ProductModel>)ViewData["Same"])
@@ -61,7 +73,11 @@
                 <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
             </div>
         </a>
-    }
-
+    }  
 </div>
 
+<a class="On" asp-action="Category" asp-controller="Market" asp-route-Name="@Model.CategoryRu">
+    <div class="but text-center">
+        Показать Еще
+    </div>
+</a>

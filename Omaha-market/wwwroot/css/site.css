@@ -1,13 +1,16 @@
 html {
-  font-size: 14px;
+  font-size: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   html {
-    font-size: 16px;
+    font-size: 20px;
+  }
+  a{
+      margin:unset;
   }
   container{
-      max-width:none;
+    max-width:none;
   }
 }
 

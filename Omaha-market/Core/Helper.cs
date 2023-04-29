@@ -62,7 +62,7 @@ namespace Omaha_market.Core
                 List<CartModel> IdsOfProducts = db.ShoppingCart.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
                 foreach(CartModel cart in IdsOfProducts)
                 {
-                    products = db.Products.Where(x=> x.Id==cart.IdOfProduct).ToList();
+                    products.Add(db.Products.First(x=> x.Id==cart.IdOfProduct));
                 }
                 return products;
         }
@@ -74,7 +74,7 @@ namespace Omaha_market.Core
             List<favoriteModel> IdsOfProducts = db.favorite.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
             foreach (favoriteModel cart in IdsOfProducts)
             {
-                products = db.Products.Where(x => x.Id == cart.IdOfProduct).ToList();
+                products.Add(db.Products.First(x => x.Id == cart.IdOfProduct));
             }
             return products;
         }

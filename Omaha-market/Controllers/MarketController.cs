@@ -49,7 +49,7 @@ namespace Omaha_market.Controllers
         }
 
        
-        [HttpGet("Category/{Name}")]
+        [HttpGet("Category/{Name?}")]
         public ActionResult Category(string Name, int page = 1)
         {
             int AmountOfPages;
