@@ -1,61 +1,70 @@
-﻿/* Стили для обертки контейнера */
-.Details .product-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px;
-    border: 1px solid #e6e6e6;
-    border-radius: 10px;
-}
+﻿
+@media (max-width: 767px) {
 
-/* Стили для изображения продукта */
-.Details .product-image {
-    width: 50%;
-    max-width: 400px;
-    height: auto;
-    object-fit: contain;
-    border-radius: 15px;
-}
+    .Details .product-container {
+        flex-direction: row;
+    }
 
-/* Стили для описания продукта */
-.Details .product-description {
-    width: 50%;
-    max-width: 400px;
-    font-size: 2rem;
-    line-height: 1.5;
-    padding: 15px;
 }
-.Details span {
-    color: dimgrey;
-    font-weight:300;
-    font-size:1.0rem;
-}
+    /* Стили для обертки контейнера */
+    .Details .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px;
+        border: 1px solid #e6e6e6;
+        border-radius: 10px;
+    }
+
+    /* Стили для изображения продукта */
+    .Details .product-image {
+        width: 50%;
+        max-width: 400px;
+        height: auto;
+        object-fit: contain;
+        border-radius: 20px;
+    }
+
+    /* Стили для описания продукта */
+    .Details .product-description {
+        width: 50%;
+        max-width: 400px;
+        font-size: 2rem;
+        line-height: 1.5;
+        padding: 15px;
+    }
+
+    .Details span {
+        color: dimgrey;
+        font-weight: 300;
+        font-size: 1.0rem;
+    }
 
     .Details dis div {
         font-weight: bold;
-        color:black;
+        color: black;
     }
 
-/* Стили для кнопок действий */
-.Details .product-action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-    .Details .product-action-buttons a {
-        display: inline-block;
-        padding: 10px 20px;
-        border: 1px solid #e6e6e6;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 1.5rem;
-        color: #333;
-        transition: all 0.3s ease;
+    /* Стили для кнопок действий */
+    .Details .product-action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
     }
 
-        .Details .product-action-buttons a:hover {
-            background-color: #e6e6e6;
+        .Details .product-action-buttons a {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #e6e6e6;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            color: #333;
+            transition: all 0.3s ease;
         }
+
+            .Details .product-action-buttons a:hover {
+                background-color: #e6e6e6;
+            }

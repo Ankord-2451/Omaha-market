@@ -32,7 +32,7 @@ namespace Omaha_market.Controllers
         }
 
        
-        [HttpGet("Market/Details/{id?}")]
+        [HttpGet("Market/Details/{id}")]
         public ActionResult Details(int id)
         {
 

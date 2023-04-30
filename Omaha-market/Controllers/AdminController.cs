@@ -47,22 +47,22 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                return View( db.Products.First(x => x.Id == id) );
+                ViewData["CategoryModel"]=db.Category.ToList();
+                return View("EditProduct", db.Products.First(x => x.Id == id) );
             }
             return StatusCode(401);
         }
 
        
-        [HttpPost("Product/Edit")]
-        public ActionResult Edit(ProductModel product)
+        [HttpPost("Product/Edit/{id?}")]
+        public ActionResult Edit(int id,ProductModel product, IFormFile photo)
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                product.DateOfLastChange = DateTime.Now;
-                db.Products.Update(product);
-                db.SaveChanges();
-                return View();
+                var helper = new Helper();
+                helper.UpdateProduct(product, db, photo);
+                return RedirectToAction("Details", "Market", product.Id);
             }
             return StatusCode(401);
         }

@@ -1,4 +1,5 @@
-﻿using Omaha_market.Data;
+﻿using Bogus.DataSets;
+using Omaha_market.Data;
 using Omaha_market.Models;
 using System;
 using System.Diagnostics;
@@ -10,6 +11,33 @@ namespace Omaha_market.Core
     public class  Helper
     {
         //Create product section
+        public void UpdateProduct(ProductModel product, AppDbContext db, IFormFile photo)
+        {
+            var originalProduct = db.Products.First(x=>x.Id== product.Id);
+
+            product.CategoryRo=originalProduct.CategoryRo;
+            product.DateOfLastChange=DateTime.Now;
+
+            if (photo == null) 
+            {
+                product.Img = originalProduct.Img;
+            }
+            else
+            {
+                if(originalProduct.Img!= "NoImg.png") { 
+
+                    string Path = $"wwwroot\\Images\\{originalProduct.Img}";
+
+                    File.Delete(Path);             
+                }
+
+                product.Img = SaveImg(photo);
+            }
+
+            db.Products.Remove(originalProduct);
+            db.Products.Add(product);
+            db.SaveChanges();
+        }
         public ProductModel PreparationForSaveProduct(ProductModel product, AppDbContext db, IFormFile photo)
         {
                 product.Img = SaveImg(photo);
@@ -27,13 +55,14 @@ namespace Omaha_market.Core
                 }
                 else
                 {
-                string Path =$"wwwroot\\Images\\{photo.FileName}";;
+                string PartPath = $"{DateTime.Now.Millisecond}{photo.FileName}";
+                string Path =$"wwwroot\\Images\\{PartPath}";
                
                 using (var fileStream = new FileStream(Path, FileMode.Create))
                     {
                         photo.CopyTo(fileStream);
                     }
-                    return photo.FileName;
+                    return PartPath;
                 }
         }
 
