@@ -1,4 +1,29 @@
-﻿/* Стиль для таблицы */
+﻿
+@media (max-width: 767px) {
+    /* Скрытие заголовков таблицы */
+    thead {
+        display: none;
+    }
+
+    /* Стиль строк таблицы */
+    tr {
+        display: block;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+    }
+
+    td {
+        display: flex;
+        flex-direction: row;
+    }
+        /* Стиль ячеек таблицы на мобильном телефоне */
+        td:before {
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+        }
+}
+
 .Cab table {
     width: 100%;
     border-collapse: collapse;
@@ -16,7 +41,9 @@
         background-color: #f2f2f2;
         color: #333;
     }
-
+.table tr:hover {
+    background-color: #fff6e5;
+}
 /* Стиль для кнопок */
 .Cab button {
     display: inline-block;

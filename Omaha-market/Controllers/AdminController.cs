@@ -28,10 +28,11 @@ namespace Omaha_market.Controllers
         [HttpPost("Product/Create")]
         public ActionResult Create(ProductModel product, IFormFile photo)
         {
+            var helper = new Helper();
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                product = Helper.PreparationForSaveProduct(product, db, photo);
+                product = helper.PreparationForSaveProduct(product, db, photo);
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");

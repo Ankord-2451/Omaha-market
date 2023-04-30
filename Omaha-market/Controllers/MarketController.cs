@@ -1,14 +1,11 @@
-﻿using Bogus;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
-   
+
     public class MarketController : Controller
     {
         private AppDbContext db;
@@ -24,11 +21,12 @@ namespace Omaha_market.Controllers
         [HttpGet("Market")]
         public ActionResult Index()
         {
-            ViewData["OnDiscount"] =Helper.TakeProductsOnDiscount(db) ;
+            var helper = new Helper();
+            ViewData["OnDiscount"] =helper.TakeProductsOnDiscount(db) ;
 
-            ViewData["New"] = Helper.TakeNewProducts(db);
+            ViewData["New"] = helper.TakeNewProducts(db);
 
-            ViewData["Some"] = Helper.TakeProductsSome(db);
+            ViewData["Some"] = helper.TakeProductsSome(db);
 
             return View("Market");
         }
@@ -52,15 +50,16 @@ namespace Omaha_market.Controllers
         [HttpGet("Category/{Name?}")]
         public ActionResult Category(string Name, int page = 1)
         {
+            var helper = new Helper();
             int AmountOfPages;
             if (page <= 0) page = 1;
 
-            var products = Helper.PageSplitHelper(db.Products.Where(x=>(x.CategoryRu==Name||x.CategoryRo == Name)).ToList(), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(db.Products.Where(x=>(x.CategoryRu==Name||x.CategoryRo == Name)).ToList(), page, out AmountOfPages);
 
             if (page > AmountOfPages)
             {
                 page = 1;
-                products = Helper.PageSplitHelper(db.Products.Where(x => (x.CategoryRu == Name || x.CategoryRo == Name)).ToList(), page, out AmountOfPages);
+                products = helper.PageSplitHelper(db.Products.Where(x => (x.CategoryRu == Name || x.CategoryRo == Name)).ToList(), page, out AmountOfPages);
             }
 
             ViewData["Page"] = page;
@@ -76,16 +75,17 @@ namespace Omaha_market.Controllers
         [HttpGet("OnDiscount")]
         public ActionResult OnDiscount(int page = 1)
         {
+            var helper = new Helper();
             ViewData["action"] = "OnDiscount";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
-            var products = Helper.PageSplitHelper(db.Products.Where(x => x.OnDiscount).ToList(), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(helper.TakeProductsOnDiscountAll(db), page, out AmountOfPages);
 
             if (page > AmountOfPages)
             {
                 page = 1;
-                products = Helper.PageSplitHelper(db.Products.Where(x => x.OnDiscount).ToList(), page, out AmountOfPages);
+                products = helper.PageSplitHelper(helper.TakeProductsOnDiscountAll(db), page, out AmountOfPages);
             }
 
             ViewData["Page"] = page;
@@ -100,16 +100,17 @@ namespace Omaha_market.Controllers
         [HttpGet("New")]
         public ActionResult New(int page = 1)
         {
+            var helper = new Helper();
             ViewData["action"] = "New";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
-            var products = Helper.PageSplitHelper(db.Products.Where(x =>x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList(), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(helper.TakeNewProductsAll(db), page, out AmountOfPages);
 
             if (page > AmountOfPages)
             {
                 page = 1;
-                products = Helper.PageSplitHelper(db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList(), page, out AmountOfPages);
+                products = helper.PageSplitHelper(helper.TakeNewProductsAll(db), page, out AmountOfPages);
             }
 
             ViewData["Page"] = page;
@@ -124,16 +125,17 @@ namespace Omaha_market.Controllers
         [HttpGet("Some")]
         public ActionResult Some(int page = 1)
         {
+            var helper = new Helper();
             ViewData["action"] = "Some";
             int AmountOfPages;
             if (page <= 0) page = 1;
 
-            var products = Helper.PageSplitHelper(db.Products.Where(x => x.FromSome).ToList(), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(helper.TakeProductsSomeAll(db), page, out AmountOfPages);
 
             if (page > AmountOfPages)
             {
                 page = 1;
-                products = Helper.PageSplitHelper(db.Products.Where(x => x.FromSome).ToList(), page, out AmountOfPages);
+                products = helper.PageSplitHelper(helper.TakeProductsSomeAll(db), page, out AmountOfPages);
             }
 
             ViewData["Page"] = page;

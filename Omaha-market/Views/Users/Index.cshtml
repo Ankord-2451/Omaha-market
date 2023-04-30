@@ -9,6 +9,7 @@
     <h5 class="text-center">Нou are logged in as @Model.Name</h5>
     <br />
     <table class="table">
+        <thead>
         <tr>
             <th>Name</th>
             <th>Login</th>
@@ -16,15 +17,16 @@
             <th>Email</th>
             <th>PhoneNumber</th>
             <th></th>
-        </tr>
+            </tr>
+        </thead>
             <tr>
-                <td>@Model.Name</td>
-                <td>@Model.Login</td>
-                <td>@Model.Address</td>
-                <td>@Model.Email</td>
-                <td>@Model.PhoneNumber</td>
+            <td data-label="Name: ">@Model.Name</td>
+            <td data-label="Login: ">@Model.Login</td>
+            <td data-label="Address: ">@Model.Address</td>
+            <td data-label="Email: ">@Model.Email</td>
+            <td data-label="PhoneNumber: ">@Model.PhoneNumber</td>
             <td>
-                <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button type="submit">Edit</button></form>
+                <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button align="center" type="submit">Edit</button></form>
             </td>
             </tr>           
     </table>

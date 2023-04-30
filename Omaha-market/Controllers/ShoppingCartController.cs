@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 
@@ -18,10 +17,11 @@ namespace Omaha_market.Controllers
         [HttpGet("ShoppingCart")]
         public ActionResult Index()
         {
+            var helper = new Helper();
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
             {               
-            return View(Helper.TakeProductsInCart(session,db));
+            return View(helper.TakeProductsInCart(session,db));
             }
             return View("View");
         }
@@ -30,10 +30,11 @@ namespace Omaha_market.Controllers
         [HttpGet("Favorite")]
         public ActionResult Favorite()
         {
+            var helper = new Helper();
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())
             {
-                return View(Helper.TakeFavoriteProducts(session, db));
+                return View(helper.TakeFavoriteProducts(session, db));
             }
             return View("View");
         }

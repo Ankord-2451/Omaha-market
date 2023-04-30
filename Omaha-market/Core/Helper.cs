@@ -7,19 +7,19 @@ using System.Reflection;
 
 namespace Omaha_market.Core
 {
-    public static class  Helper
+    public class  Helper
     {
         //Create product section
-        public static ProductModel PreparationForSaveProduct(ProductModel product, AppDbContext db, IFormFile photo)
+        public ProductModel PreparationForSaveProduct(ProductModel product, AppDbContext db, IFormFile photo)
         {
-                product.Img = Helper.SaveImg(photo);
+                product.Img = SaveImg(photo);
                
                 product.DateOfLastChange = DateTime.Now;
                 product.CategoryRo = db.Category.FirstOrDefault(x => x.NameRu == product.CategoryRu).NameRo;
 
                 return product;
         }
-        public static string SaveImg(IFormFile photo)
+        public string SaveImg(IFormFile photo)
         { 
                 if (photo is null)
                 {
@@ -39,7 +39,7 @@ namespace Omaha_market.Core
 
         //Take and split section
 
-        public static List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page, out int amount)
+        public List<ProductModel> PageSplitHelper(List<ProductModel> products,int Page, out int amount)
         {
             if(products.Count != 0)
             { 
@@ -55,7 +55,8 @@ namespace Omaha_market.Core
             }
         }
 
-        public static List<ProductModel> TakeProductsInCart(SessionWorker session,AppDbContext db)
+
+        public List<ProductModel> TakeProductsInCart(SessionWorker session,AppDbContext db)
         {
             List<ProductModel> products = new List<ProductModel>();
 
@@ -65,9 +66,8 @@ namespace Omaha_market.Core
                     products.Add(db.Products.First(x=> x.Id==cart.IdOfProduct));
                 }
                 return products;
-        }
-
-        public static List<ProductModel> TakeFavoriteProducts(SessionWorker session, AppDbContext db)
+        }  
+        public  List<ProductModel> TakeFavoriteProducts(SessionWorker session, AppDbContext db)
         {
             List<ProductModel> products = new List<ProductModel>();
 
@@ -78,24 +78,22 @@ namespace Omaha_market.Core
             }
             return products;
         }
-
-        public static List<ProductModel> TakeProductsOnDiscount(AppDbContext db)
+       
+        
+        public  List<ProductModel> TakeNewProductsAll(AppDbContext db)
+        {
+            var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).OrderBy(x => x.Id).ToList();
+                if (products.Count == 0) return null;
+            return products;
+        }
+        public  List<ProductModel> TakeProductsOnDiscountAll(AppDbContext db)
         {
             var products = db.Products.Where(x => x.OnDiscount).OrderBy(x => x.Id).ToList();
                 if(products.Count==0)  return null;
                 return products;
          
         }
-
-        public static List<ProductModel> TakeNewProducts(AppDbContext db)
-        {
-            var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).OrderBy(x => x.Id).ToList();
-                if (products.Count == 0) return null;
-            return products;
-
-        }
-
-        public static List<ProductModel> TakeProductsSome(AppDbContext db)
+        public  List<ProductModel> TakeProductsSomeAll(AppDbContext db)
         {
             var products = db.Products.Where(x => x.FromSome).OrderBy(x => x.Id).ToList();
                 if (products.Count == 0) return null;
@@ -103,8 +101,30 @@ namespace Omaha_market.Core
 
         }
 
+
+        public List<ProductModel> TakeProductsOnDiscount(AppDbContext db)
+        {
+            var products = db.Products.Where(x => x.OnDiscount).ToList();
+            if (products.Count == 0) return null;
+            return products.GetRange(0, 8);
+        }
+        public List<ProductModel> TakeNewProducts(AppDbContext db)
+        {
+            var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList();
+            if (products.Count == 0) return null;
+            return products.GetRange(0, 8);
+
+        }
+        public List<ProductModel> TakeProductsSome(AppDbContext db)
+        {
+            var products = db.Products.Where(x => x.FromSome).ToList();
+            if (products.Count == 0) return null; 
+            return products.GetRange(0,8);
+
+        }
+
         //Search section
-        private static bool Calculate(string source1, string source2) //O(n*m)
+        private bool Calculate(string source1, string source2) //O(n*m)
         {
             const int AllowableErrorPercentage = 40;
 
@@ -140,7 +160,7 @@ namespace Omaha_market.Core
             return (matrix[source1Length, source2Length]*100/ source2Length) < AllowableErrorPercentage;
         }
 
-        private static IEnumerable<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
+        private IEnumerable<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
         {
            if (request is null)
             {
@@ -153,7 +173,7 @@ namespace Omaha_market.Core
             return products.Union(productsByName);
         }
 
-        public static async Task<List<ProductModel>> FuzzySearchAsync(string request, List<ProductModel> AllProducts)
+        public async Task<List<ProductModel>> FuzzySearchAsync(string request, List<ProductModel> AllProducts)
         {
             return (await Task.Run(() => FuzzySearch(request, AllProducts))).ToList(); 
         }
