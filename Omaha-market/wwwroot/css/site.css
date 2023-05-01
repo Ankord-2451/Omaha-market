@@ -1,8 +1,7 @@
 html {
   font-size: 16px;
 }
-body {
-        margin-bottom: 55px;
+body {      
         background-color: #f5f5f5;
     }
 @media (max-width: 767px) {
@@ -12,10 +11,6 @@ body {
     a {
             margin: unset;
         } 
-    container {
-            max-width: none;
-    }
-
 }
 
     
@@ -188,8 +183,8 @@ div.but{
     border:1px solid black;
 }
 
-
-.List {
-    overflow: hidden;
-    transition: 1s ease;
+.banner {
+    width: 100%;
+    background-color: sandybrown;
+    color: azure;
 }
