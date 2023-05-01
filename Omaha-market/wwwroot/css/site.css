@@ -187,3 +187,9 @@ div.but{
     background-color:darkgray;
     border:1px solid black;
 }
+
+
+.List {
+    overflow: hidden;
+    transition: 1s ease;
+}

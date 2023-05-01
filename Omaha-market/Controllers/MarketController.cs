@@ -21,12 +21,17 @@ namespace Omaha_market.Controllers
         [HttpGet("Market")]
         public ActionResult Index()
         {
+            var session = new SessionWorker(HttpContext);
+            ViewData["IsRu"] = session.IsRu();
+
             var helper = new Helper();
             ViewData["OnDiscount"] =helper.TakeProductsOnDiscount(db) ;
 
             ViewData["New"] = helper.TakeNewProducts(db);
 
             ViewData["Some"] = helper.TakeProductsSome(db);
+
+            ViewData["Category"] = db.Category.ToList();
 
             return View("Market");
         }

@@ -2,7 +2,29 @@
 @{
     ViewData["Title"] = "Market";
 }
+<script src="~/js/site.js"></script>
 <h5> @ViewData["Mailmessage"] </h5>
+
+<div class="but text-center" id="showMore">
+        категории
+    </div>
+    <div class="List">
+<ul>
+@foreach (var item in (List<CategoryModel>)ViewData["Category"]){
+    <li>
+    <a class="On" asp-action="Category" asp-controller="Market" asp-route-Name="@item.NameRu">
+                 @if ((bool)ViewData["IsRu"])
+                 {
+                     @item.NameRu
+                 }
+                else
+                {
+                     @item.NameRo           
+                }
+    </a>
+    </li>
+}
+</ul></div>
 @if (ViewData["OnDiscount"] != null){
     <h1>Discount</h1>
       <div class="product-container">

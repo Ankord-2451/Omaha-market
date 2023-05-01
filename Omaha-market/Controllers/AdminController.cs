@@ -62,7 +62,7 @@ namespace Omaha_market.Controllers
             {
                 var helper = new Helper();
                 helper.UpdateProduct(product, db, photo);
-                return RedirectToAction("Details", "Market", product.Id);
+                return RedirectToRoute("Details",product.Id);
             }
             return StatusCode(401);
         }
@@ -74,7 +74,12 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
-                db.Products.Remove( db.Products.First(x => x.Id == id) );
+                var product = db.Products.First(x => x.Id == id);
+                string Path = $"wwwroot\\Images\\{product.Img}";
+
+                System.IO.File.Delete(Path);
+
+                db.Products.Remove(product);
                 return RedirectToAction("Index");
             }
             return StatusCode(401);
