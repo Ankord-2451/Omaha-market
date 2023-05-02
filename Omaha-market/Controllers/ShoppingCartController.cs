@@ -38,5 +38,28 @@ namespace Omaha_market.Controllers
             }
             return View("View");
         }
+
+        
+        public ActionResult DeleteSh(int id)
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin()) { 
+            db.ShoppingCart.Remove(db.ShoppingCart.First(x => x.IdOfProduct == id && x.IdOfCustomer == session.GetUserId()));
+            db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+      
+        public ActionResult DeleteFa(int id)
+        {
+            var session=new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+                db.favorite.Remove(db.favorite.First(x => x.IdOfProduct == id && x.IdOfCustomer == session.GetUserId()));
+                db.SaveChanges();
+            }
+            return RedirectToAction("Favorite");
+        }
     }
 }

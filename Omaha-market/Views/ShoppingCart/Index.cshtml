@@ -6,27 +6,24 @@
 <h1>ShoppingCart</h1>
 
 
-<table class="table">
+<table>
     <tr>
         <th>Image</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Category</th>
+        <th>Name</th>   
         <th>Price</th>
-        <th>On discount</th>
-        <th>Amount</th>
-
+        <th></th>
+        <th></th>
+    </tr>
         @foreach (var item in Model)
         {
+        <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
         <tr>
-            <td><img src="@item.Img" /></td>
+            <td><img src="~/Images/@item.Img" width="100px"/></td>
             <td>@item.NameRu</td>
-            <td>@item.DescriptionRu</td>
-            <td>@item.CategoryRu</td>
             <td>@item.Price</td>
-            <td>@item.OnDiscount</td>
-            <td>@item.amount</td>
-
+            <td><a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a></td>
+            <td><a asp-action="DeleteSh" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" width="20px" /></a></td>
         </tr>
+        </a>
         }
 </table>
