@@ -20,9 +20,21 @@ namespace Omaha_market.Controllers
         
         [HttpGet("Market")]
         public ActionResult Index()
-        {
+        { 
             var session = new SessionWorker(HttpContext);
             ViewData["IsRu"] = session.IsRu();
+
+            var text = db.Text.FirstOrDefault();
+            if (session.IsRu()) {
+                ViewData["Mess"] = text.BannerRu;
+                ViewData["SomeN"] = text.BannerRo;
+            }
+            else
+            {
+                ViewData["Mess"] = text.BannerRo;
+                ViewData["SomeN"] = text.SomeRo;
+            }
+           
 
             var helper = new Helper();
             ViewData["OnDiscount"] =helper.TakeProductsOnDiscount(db) ;
@@ -165,7 +177,8 @@ namespace Omaha_market.Controllers
         {
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
-            { 
+            {   if(db.ShoppingCart.ToList().Contains(new CartModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() }))
+                    return RedirectToAction("Index", "ShoppingCart");
                 db.ShoppingCart.Add(new CartModel{IdOfProduct=id,IdOfCustomer=session.GetUserId()});
                 db.SaveChanges();
             return RedirectToAction("Index", "ShoppingCart");
@@ -177,6 +190,8 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())
             {
+                if (db.favorite.ToList().Contains(new favoriteModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() }))
+                    return RedirectToAction("Favorite", "ShoppingCart");
                 db.favorite.Add(new favoriteModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() });
                 db.SaveChanges();
                 return RedirectToAction("Favorite", "ShoppingCart");

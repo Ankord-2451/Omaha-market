@@ -94,7 +94,7 @@
 <br />
 @if (ViewData["Some"] != null)
 {
-  <h1>Some</h1>
+    <h1>@ViewData["SomeN"]</h1>
   <div class="product-container">
     @foreach (var item in (List<ProductModel>)ViewData["Some"])
     {
