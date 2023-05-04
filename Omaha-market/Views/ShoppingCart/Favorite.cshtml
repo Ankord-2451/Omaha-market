@@ -14,13 +14,15 @@
     </tr>
     @foreach (var item in Model)
         {
-        <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
-        <tr>
+      
+        <tr> 
+            <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
             <td><img src="~/Images/@item.Img" width="100px" /></td>
             <td>@item.NameRu</td>
             <td>@item.Price</td>
             <td><a asp-action="DeleteFa" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" width="20px" /></a></td>
+            </a>
         </tr>
-        </a>
+        
         }
 </table>

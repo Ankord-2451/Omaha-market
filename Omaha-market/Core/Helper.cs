@@ -1,10 +1,5 @@
-﻿using Bogus.DataSets;
-using Omaha_market.Data;
+﻿using Omaha_market.Data;
 using Omaha_market.Models;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 
 namespace Omaha_market.Core
 {

@@ -5,7 +5,7 @@
 <h5> @ViewData["Mailmessage"] </h5>
 
 <br />
-
+@if (ViewData["Category"] != null){
 <button style="width: 100%; justify-content:center;" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
     Категории
 </button>
@@ -31,7 +31,7 @@
         </div>
     </div>
 </div>
-
+}
 
 @if (ViewData["OnDiscount"] != null){
     <h1>Discount</h1>
@@ -125,6 +125,7 @@
 }
 <br />
 <br />
+@if(ViewData["Mailmessage"] == null){
 <div class="text-center">
 <span>Подпишитесь на наши свежие новости :</span>
     <form method="post" asp-action="AddEmail">
@@ -132,3 +133,4 @@
          <button type="submit">Подписаться</button>
     </form>
 </div>
+}
