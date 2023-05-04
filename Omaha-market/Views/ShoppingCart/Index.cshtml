@@ -11,17 +11,20 @@
     <div>Карзина Пуста</div>
 }
 else{
-@foreach (var item in Model)
-        {
-        <div>
-          <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
-            <div class="justify-content-between">
-                    <div><img src="~/Images/@item.Img" class="cart" /></div>
-                    <div>@item.NameRu</div>
-                    <div><a asp-action="DeleteSh" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></div>
-            </div>
-          </a>
-        </div>
-        <br />
+    <div align="right">
+        @ViewData["Sum"]
+
+        <form method="post"  asp-action="BuyAll" asp-controller="Pay" ><button class="Buy" type="submit">Купить все</button></form>
+    </div>
+<table class="table">
+    @foreach (var item in Model)
+        {     
+        <tr>
+            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id"><img src="~/Images/@item.Img" class="cart"/></a></td>
+            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">@item.NameRu</a></td>
+            <td><a asp-action="DeleteSh" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></td>           
+        </tr>
         }
+</table>
+
 }

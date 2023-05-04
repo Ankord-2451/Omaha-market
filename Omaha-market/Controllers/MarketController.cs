@@ -177,10 +177,12 @@ namespace Omaha_market.Controllers
         {
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
-            {   if(db.ShoppingCart.ToList().Contains(new CartModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() }))
-                    return RedirectToAction("Index", "ShoppingCart");
+            {   if (db.ShoppingCart.Where(x=>x.IdOfCustomer==session.GetUserId() && x.IdOfProduct==id).ToList().Count != 0)
+                    return RedirectToAction("Index", "ShoppingCart"); 
+                
                 db.ShoppingCart.Add(new CartModel{IdOfProduct=id,IdOfCustomer=session.GetUserId()});
-                db.SaveChanges();
+                db.SaveChanges(); 
+                
             return RedirectToAction("Index", "ShoppingCart");
             }
             return RedirectToAction("Index", "ShoppingCart");
@@ -190,7 +192,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAuthorized())
             {
-                if (db.favorite.ToList().Contains(new favoriteModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() }))
+                if (db.favorite.Where(x => x.IdOfCustomer == session.GetUserId() && x.IdOfProduct == id).ToList().Count != 0)
                     return RedirectToAction("Favorite", "ShoppingCart");
                 db.favorite.Add(new favoriteModel { IdOfProduct = id, IdOfCustomer = session.GetUserId() });
                 db.SaveChanges();

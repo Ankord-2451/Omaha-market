@@ -5,24 +5,19 @@
 
 <h1>Favorite</h1>
 
+@if (Model.Count() == 0)
+{
+    <div>Любимых нет</div>
+}
+else{
 <table class="table">
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th></th>
-    </tr>
     @foreach (var item in Model)
-        {
-      
-        <tr> 
-            <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
-            <td><img src="~/Images/@item.Img" width="100px" /></td>
-            <td>@item.NameRu</td>
-            <td>@item.Price</td>
-            <td><a asp-action="DeleteFa" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" width="20px" /></a></td>
-            </a>
+        {     
+        <tr>
+            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id"><img src="~/Images/@item.Img" class="cart"/></a></td>
+            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">@item.NameRu</a></td>
+            <td><a asp-action="DeleteFa" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></td>           
         </tr>
-        
         }
 </table>
+}

@@ -196,3 +196,8 @@ div.but{
     height: auto;
 }
 
+.Elements {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}

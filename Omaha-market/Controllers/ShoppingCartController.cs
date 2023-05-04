@@ -20,8 +20,15 @@ namespace Omaha_market.Controllers
             var helper = new Helper();
             var session = new SessionWorker(HttpContext);
             if(session.IsAuthorized())
-            {               
-            return View(helper.TakeProductsInCart(session,db));
+            {
+                var products = helper.TakeProductsInCart(session, db);
+                int sum = 0;
+                foreach(var product in products)
+                {
+                  sum += (int)product.Price;
+                }
+                ViewData["Sum"] = sum;
+            return View(products);
             }
             return View("View");
         }
