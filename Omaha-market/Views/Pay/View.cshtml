@@ -1,7 +1,13 @@
-﻿
+﻿@model List<int>
 @{
     ViewData["Title"] = "View";
 }
 
+
 <h1>View</h1>
+    @foreach (var item in Model)
+    {     
+          <div>@item</div>
+    }
+
 

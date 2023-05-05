@@ -80,14 +80,22 @@ namespace Omaha_market.Core
         }
 
 
-        public List<ProductModel> TakeProductsInCart(SessionWorker session,AppDbContext db)
+        public List<CartHelperModel> TakeProductsInCart(SessionWorker session,AppDbContext db)
         {
-            List<ProductModel> products = new List<ProductModel>();
+            List<CartHelperModel> products = new List<CartHelperModel>();
 
                 List<CartModel> IdsOfProducts = db.ShoppingCart.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
                 foreach(CartModel cart in IdsOfProducts)
                 {
-                    products.Add(db.Products.First(x=> x.Id==cart.IdOfProduct));
+                var prod = db.Products.First(x => x.Id == cart.IdOfProduct);
+                    products.Add(new CartHelperModel { 
+                       IdOfProduct = prod.Id,
+                       Img = prod.Img,
+                       Price = prod.Price,
+                       NameRo = prod.NameRo,
+                       NameRu = prod.NameRu,
+                       Quantity = cart.Quantity
+                    });
                 }
                 return products;
         }  

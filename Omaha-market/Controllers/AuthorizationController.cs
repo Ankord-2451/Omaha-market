@@ -64,7 +64,8 @@ namespace Omaha_market.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return StatusCode(401);
+            ViewData["Eror"] = "неверный пороль или логин";
+            return View("Index");
         }
 
 

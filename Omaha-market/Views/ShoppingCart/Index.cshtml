@@ -1,29 +1,42 @@
-﻿@model IEnumerable<Omaha_market.Models.ProductModel>
+﻿@model List<CartHelperModel>
 @{
     ViewData["Title"] = "ShoppingCart";
 }
 
-<h1>ShoppingCart</h1>
-
+<h1 align="center">ShoppingCart</h1>
+<br />
 
 @if (Model.Count() == 0)
 {
-    <div>Карзина Пуста</div>
+    <h1 align="center">Карзина Пуста</h1>
 }
 else{
-    <div align="right">
-        @ViewData["Sum"]
-
-        <form method="post"  asp-action="BuyAll" asp-controller="Pay" ><button class="Buy" type="submit">Купить все</button></form>
+    <div align="center">
+        <h1>@ViewData["Sum"] MDL</h1>
+       
+        @using (Html.BeginForm("buyAll","pay"))
+        {
+            <div style="overflow: hidden; height:0px;">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+               @Html.EditorFor(m => m[i].NameRu)
+                @Html.EditorFor(m => m[i].IdOfProduct)
+                @Html.EditorFor(m => m[i].Quantity)
+            }
+            </div>
+            <button type="submit" class="Buy">Купить все</button>
+        }
     </div>
+    <br />
 <table class="table">
     @foreach (var item in Model)
         {     
         <tr>
-            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id"><img src="~/Images/@item.Img" class="cart"/></a></td>
-            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">@item.NameRu</a></td>
-            <td><a asp-action="DeleteSh" asp-controller="ShoppingCart" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></td>           
-        </tr>
+            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct"><img src="~/Images/@item.Img" class="cart"/></a></td>
+                <td><a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct">@item.NameRu</a></td>
+                <td><a asp-action="Quantityminus" asp-controller="ShoppingCart" asp-route-id="@item.IdOfProduct">-</a> @item.Quantity <a asp-action="Quantityplus" asp-controller="ShoppingCart" asp-route-id="@item.IdOfProduct">+</a></td>
+                <td><a asp-action="DeleteSh" asp-controller="ShoppingCart" asp-route-id="@item.IdOfProduct"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></td>
+            </tr>
         }
 </table>
 

@@ -13,5 +13,8 @@ namespace Omaha_market.Models
 
         [Required]
         public int IdOfCustomer { get; set; }
+
+        public int Quantity { get; set; }
+
     }
 }

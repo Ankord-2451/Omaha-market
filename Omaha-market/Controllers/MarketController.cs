@@ -180,7 +180,7 @@ namespace Omaha_market.Controllers
             {   if (db.ShoppingCart.Where(x=>x.IdOfCustomer==session.GetUserId() && x.IdOfProduct==id).ToList().Count != 0)
                     return RedirectToAction("Index", "ShoppingCart"); 
                 
-                db.ShoppingCart.Add(new CartModel{IdOfProduct=id,IdOfCustomer=session.GetUserId()});
+                db.ShoppingCart.Add(new CartModel{IdOfProduct=id,IdOfCustomer=session.GetUserId(),Quantity=1});
                 db.SaveChanges(); 
                 
             return RedirectToAction("Index", "ShoppingCart");

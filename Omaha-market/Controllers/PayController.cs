@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Data;
+using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
@@ -17,8 +18,17 @@ namespace Omaha_market.Controllers
         {
             return View("View");
         }
+        [HttpPost("pay/buyAll")]
+        public ActionResult BuyAll(List<CartHelperModel> list)
+        {
+            List<int> lis= new List<int>();
+            foreach (CartHelperModel item in list)
+            {
+                lis.Add(item.IdOfProduct);
+            }
+            return View("View",lis);
+        }
 
-       
-        
+
     }
 }
