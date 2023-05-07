@@ -173,5 +173,16 @@ namespace Omaha_market.Controllers
             }
             return RedirectToAction("Index","Authorization");
         }
+
+        public ActionResult OrdersList()
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+
+                return View("Orders");
+            }
+            return StatusCode(401);
+        }
     }
 }
