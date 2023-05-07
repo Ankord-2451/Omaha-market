@@ -18,7 +18,15 @@
 
                 <h5 align="center">@item.NameRu </h5>
 
-                <h3>@item.Price</h3>
+                    @if (item.OnDiscount)
+                    {
+                        <div style="text-decoration:line-through; color:gray;">@item.Price</div>
+                        <h3 style="color:darkred;">@item.PriceOnDiscount</h3>
+                    }
+                    else
+                    {
+                        <h3>@item.Price</h3>
+                    }
 
                 <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
             </div>

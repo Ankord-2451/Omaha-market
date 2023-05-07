@@ -30,6 +30,7 @@ namespace Omaha_market.Models
         [Required]
         [Range(1, 100000)]
         public double Price { get; set; }
+        public double PriceOnDiscount { get; set; }
 
         public bool OnDiscount { get; set; }
 

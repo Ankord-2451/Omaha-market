@@ -34,7 +34,15 @@
             <br />
 
             <span align="left" class="element">Цена :</span>
-                <h2>@Model.Price</h2>
+            @if (Model.OnDiscount)
+            {
+                <div style="text-decoration:line-through; color:gray;">@Model.Price</div>
+                <h3 style="color:darkred;">@Model.PriceOnDiscount</h3>
+            }
+            else
+            {
+                <h3>@Model.Price</h3>
+            }
 
             <span align="left" class="element">Количество на складе :</span>
                @Model.amount
@@ -59,14 +67,19 @@
     {
         <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
             <div class="product">
-                    @if(item.OnDiscount)
-                    {
-                    <div class="discount">-0%</div>
-                    }
+                  
                 <img src="~/Images/@item.Img" alt="@item.NameRu" width="100" height="100" />
 
                 <h5>@item.NameRu</h5>
-                <h3>@item.Price</h3>
+                @if (item.OnDiscount)
+                {
+                    <div style="text-decoration:line-through; color:gray;">@item.Price</div>
+                    <h3 style="color:darkred;">@item.PriceOnDiscount</h3>
+                }
+                else
+                {
+                    <h3>@item.Price</h3>
+                }
                 <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
             </div>
         </a>
