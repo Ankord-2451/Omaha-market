@@ -110,7 +110,8 @@ namespace Omaha_market.Controllers
             db.SaveChanges();
             return RedirectToAction("Category");
         }
-        [HttpGet("Admin/CategoryC")]
+
+        [HttpGet("Admin/CategoryC/{id?}")]
         public ActionResult CategoryC(CategoryModel category)
         {
             db.Category.Remove(db.Category.First(x => x.Id == category.Id));
@@ -118,6 +119,7 @@ namespace Omaha_market.Controllers
             db.SaveChanges();
             return RedirectToAction("Category");
         }
+
         [HttpGet("Admin/AddCategory")]
         public ActionResult AddCategory()
         {

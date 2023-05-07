@@ -22,6 +22,8 @@ namespace Omaha_market.Controllers
         {
             try
             {
+                var session = new SessionWorker(HttpContext);
+                ViewData["IsAdmin"] = session.IsAdmin();
                 var account = db.Accounts.First(x => x.ID == id);
                 return View(account);
             }

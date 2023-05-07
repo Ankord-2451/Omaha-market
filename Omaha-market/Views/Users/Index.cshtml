@@ -26,17 +26,32 @@
             <td data-label="Email: ">@Model.Email</td>
             <td data-label="PhoneNumber: ">@Model.PhoneNumber</td>
             <td>
-                <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button align="center" type="submit">Edit</button></form>
+                 @if(!(bool)ViewData["IsAdmin"])
+                 {
+                     <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button align="center" type="submit">Edit</button></form>
+                 }
             </td>
             </tr>           
     </table>
     
     <br />
-
-    <div class="home">
+    @if((bool)ViewData["IsAdmin"])
+    {
+        <div class="home">
+            <form method="get" asp-action="LogOut" asp-controller="Authorization"><button class="Delete" type="submit">Log Out</button></form>
+            <a class="Delete" asp-action="Category" asp-controller="Admin">Упрвалять Категориями</a>
+            <a class="Delete" asp-action="ChangeText" asp-controller="Admin">Упрвалять Баннером</a>
+            <a class="Delete" asp-action="Category" asp-controller="Admin">Список Заказов</a>
+        </div>
+    }
+    else
+    {
+         <div class="home">
         <form method="get" asp-action="LogOut" asp-controller="Authorization"><button class="Delete" type="submit">Log Out</button></form>
         <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button class="Delete" type="submit">Delete Account</button></form>
-    </div>
+         </div>
+    }
+   
 
     <br />
 </div>
