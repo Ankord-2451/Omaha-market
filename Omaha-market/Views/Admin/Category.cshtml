@@ -1,0 +1,15 @@
+﻿@model List<CategoryModel>
+
+    <a asp-action="AddCategory" asp-controller="Admin">+Добавить</a>
+
+    @foreach(var item in Model)
+    {       
+        <form asp-action="CategoryC" asp-controller="Admin">
+        <input type="hidden" asp-for="@item.Id" value="@item.Id">
+        NameRO: <input type="text" asp-for="@item.NameRo" value="@item.NameRo">
+        <span style="margin:30px" size="50">|</span>
+        NameRu:<input type="text" asp-for="@item.NameRu" value="@item.NameRu">
+        <button type="submit">Изменить</button>
+        </form>
+        <a asp-action="CategoryD" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
+    }

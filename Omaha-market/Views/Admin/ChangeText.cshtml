@@ -1,0 +1,14 @@
+﻿@model TextModel
+
+ <form >
+
+    BannerRO: <input type="text" asp-for="@Model.BannerRo" value="@Model.BannerRo">
+        <span style="margin:30px" size="50">|</span>
+    BannerRu:<input type="text" asp-for="@Model.BannerRu" value="@Model.BannerRu">
+        <br />
+    SomeRO: <input type="text" asp-for="@Model.SomeRo" value="@Model.SomeRo">
+    <span style="margin:30px" size="50">|</span>
+    SomeRu:<input type="text" asp-for="@Model.SomeRu" value="@Model.SomeRu">
+
+        <button type="submit">Сохранить</button>
+ </form>
