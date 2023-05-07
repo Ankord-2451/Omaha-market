@@ -3,13 +3,12 @@
     <a asp-action="AddCategory" asp-controller="Admin">+Добавить</a>
 
     @foreach(var item in Model)
-    {
-    <form method="get" asp-action="CategoryC" asp-controller="Admin" asp-route-id="@item.Id">
-   
-        NameRO: <input type="text" asp-for="@item.NameRo" value="@item.NameRo">
+    { 
+        <div>
+        <span>NameRO:  @item.NameRo</span>
         <span style="margin:30px" size="50">|</span>
-        NameRu:<input type="text" asp-for="@item.NameRu" value="@item.NameRu">
-        <button type="submit">Изменить</button>
-        </form>
+        <span>NameRu:  @item.NameRu</span>
+        <a asp-action="CategoryC" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a>
         <a asp-action="CategoryD" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
+        </div>
     }

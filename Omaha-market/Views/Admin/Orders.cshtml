@@ -1,0 +1,29 @@
+﻿@model List<OrderModel>
+
+<table class="table">
+    <tr>
+        <td>Id</td>
+        <td>способ оплаты</td>
+        <td>Id-транзакции</td>
+        <td>ссылки на товары-количество</td>
+        <td>Сумма</td>
+        <td>Имя</td>
+        <td>телефон</td>
+        <td>Адрес</td>
+        <td>комментарий</td>
+    </tr>
+    <tr>
+        @foreach(var item in Model)
+        {
+        <td>@item.Id</td>
+        <td>@item.PaymentMethod</td>
+        <td>@item.IdOfTransaction</td>
+        <td>ссылки на товары-количество</td>
+            <td>@item.PriceOfOrder</td>
+            <td>@item.Name</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Address</td>
+            <td>@item.CommentToOrder</td>
+        }
+    </tr>
+</table>

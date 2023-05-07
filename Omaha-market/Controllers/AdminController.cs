@@ -75,7 +75,11 @@ namespace Omaha_market.Controllers
         [HttpGet("YouSure/{id}")]
         public ActionResult WantDelete(int id)
         {
-            return View("YouSure", id);
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+                return View("YouSure", id);
+
+            return StatusCode(401);
         }
 
         [HttpGet("Product/Delete/{id}")]
@@ -106,18 +110,32 @@ namespace Omaha_market.Controllers
         [HttpGet("Admin/CategoryD/{id}")]
         public ActionResult CategoryD(int id)
         {
-            db.Category.Remove(db.Category.First(x => x.Id == id));
-            db.SaveChanges();
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+                db.Category.Remove(db.Category.First(x => x.Id == id));
+                db.SaveChanges();
+            }
             return RedirectToAction("Category");
         }
 
         [HttpGet("Admin/CategoryC/{id?}")]
+        public ActionResult CategoryC(int id)
+        {
+            return View("EditCategory", db.Category.First(x => x.Id == id));
+        }
+        [HttpPost("Admin/CategoryC/{id?}")]
         public ActionResult CategoryC(CategoryModel category)
         {
-            db.Category.Remove(db.Category.First(x => x.Id == category.Id));
-            db.Category.Add(category);
-            db.SaveChanges();
-            return RedirectToAction("Category");
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+                db.Category.Remove(db.Category.First(x => x.Id == category.Id));
+                db.Category.Add(category);
+                db.SaveChanges();
+            }
+                return RedirectToAction("Category");
+            
         }
 
         [HttpGet("Admin/AddCategory")]
@@ -125,10 +143,15 @@ namespace Omaha_market.Controllers
         {
             return View();
         }
-        [HttpGet("Admin/AddCategory")]
+        [HttpPost("Admin/AddCategory")]
         public ActionResult AddCategory(CategoryModel category)
         {
-            db.Category.Add(category);
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+                db.Category.Add(category);
+                db.SaveChanges();
+            }
             return RedirectToAction("Category");
         }
 
@@ -138,12 +161,16 @@ namespace Omaha_market.Controllers
         {
             return View(db.Text.FirstOrDefault());
         }
-        [HttpGet("Admin/Text")]
+        [HttpPost("Admin/Text")]
         public ActionResult ChangeText(TextModel text)
         {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin()) { 
             db.Text.Remove(db.Text.FirstOrDefault());
             db.Text.Add(text);
-            db.SaveChanges();
+                try { db.SaveChanges(); }
+                catch { }
+            }
             return RedirectToAction("Index","Authorization");
         }
     }
