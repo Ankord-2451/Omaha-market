@@ -138,19 +138,22 @@ namespace Omaha_market.Core
         {
             var products = db.Products.Where(x => x.OnDiscount).ToList();
             if (products.Count == 0) return null;
+            if (products.Count < 8) return products;
             return products.GetRange(0, 8);
         }
         public List<ProductModel> TakeNewProducts(AppDbContext db)
         {
             var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList();
             if (products.Count == 0) return null;
+            if (products.Count < 8) return products;
             return products.GetRange(0, 8);
 
         }
         public List<ProductModel> TakeProductsSome(AppDbContext db)
         {
             var products = db.Products.Where(x => x.FromSome).ToList();
-            if (products.Count == 0) return null; 
+            if (products.Count == 0) return null;
+            if (products.Count < 8) return products;
             return products.GetRange(0,8);
 
         }

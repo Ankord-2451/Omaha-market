@@ -46,12 +46,22 @@
 
             <span align="left" class="element">Количество на складе :</span>
                @Model.amount
-
-        <div class="product-action-buttons">
-             <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">Buy</a>
-             <a class="ShopingCart" asp-action="AddInShopingCart" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/shopping-cart.png" /></a>
-             <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/like.png" /></a>
-        </div>
+            @if ((bool)ViewData["IsAdmin"])
+            {
+                 <div class="product-action-buttons">
+                    <a asp-action="Edit" asp-controller="Admin" asp-route-id="@Model.Id">Edit</a>
+                    <a asp-action="Delete" asp-controller="Admin" asp-route-id="@Model.Id">Delete</a>
+                    <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/like.png" /></a>
+                 </div>
+            }
+            else
+            {
+                <div class="product-action-buttons">
+                    <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">Buy</a>
+                    <a class="ShopingCart" asp-action="AddInShopingCart" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/shopping-cart.png" /></a>
+                    <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/like.png" /></a>
+                </div>
+            }
 
     </div>
 </div>

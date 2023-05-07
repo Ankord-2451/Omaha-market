@@ -62,13 +62,13 @@ namespace Omaha_market.Controllers
             {
                 var helper = new Helper();
                 helper.UpdateProduct(product, db, photo);
-                return RedirectToRoute("Details",product.Id);
+                return View("PWC",product.Id);
             }
             return StatusCode(401);
         }
 
 
-        [HttpPost("Product/Delete")]
+        [HttpGet("Product/Delete/{id}")]
         public ActionResult Delete(int id)
         {
             var session = new SessionWorker(HttpContext);
@@ -80,6 +80,7 @@ namespace Omaha_market.Controllers
                 System.IO.File.Delete(Path);
 
                 db.Products.Remove(product);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return StatusCode(401);
