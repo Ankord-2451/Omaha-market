@@ -174,13 +174,24 @@ namespace Omaha_market.Controllers
             return RedirectToAction("Index","Authorization");
         }
 
+        [HttpGet("Admin/Orders")]
         public ActionResult OrdersList()
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
+            {            
+                return View("Orders",db.Orders.ToList());
+            }
+            return StatusCode(401);
+        }
+        [HttpGet("Admin/OrdersProducts/{id}")]
+        public ActionResult ProductsInOrder(int id)
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
             {
-
-                return View("Orders");
+                var helper= new Helper();             
+                return View(helper.TakeProductsInOrder(db.Orders.First(x => x.Id == id).IdAndNameAndQuantityOfProduct));
             }
             return StatusCode(401);
         }

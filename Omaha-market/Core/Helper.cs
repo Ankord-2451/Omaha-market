@@ -1,10 +1,17 @@
 ﻿using Omaha_market.Data;
 using Omaha_market.Models;
+using System.Text.Json;
 
 namespace Omaha_market.Core
 {
     public class  Helper
     {
+        //Order section
+        public List<CartHelperModel> TakeProductsInOrder(string IdAndNameAndQuantityOfProducts)
+        {           
+            var ListOfProducts = JsonSerializer.Deserialize<List<CartHelperModel>>(IdAndNameAndQuantityOfProducts);
+            return ListOfProducts;
+        }
         //Create product section
         public void UpdateProduct(ProductModel product, AppDbContext db, IFormFile photo)
         {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Data;
 using Omaha_market.Models;
+using System.Text.Json;
 
 namespace Omaha_market.Controllers
 {
@@ -21,11 +22,7 @@ namespace Omaha_market.Controllers
         [HttpPost("pay/buyAll")]
         public ActionResult BuyAll(List<CartHelperModel> list)
         {
-            List<int> lis= new List<int>();
-            foreach (CartHelperModel item in list)
-            {
-                lis.Add(item.IdOfProduct);
-            }
+            string lis = JsonSerializer.Serialize<List<CartHelperModel>>(list);
             return View("View",lis);
         }
 

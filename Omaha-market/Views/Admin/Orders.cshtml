@@ -18,7 +18,7 @@
         <td>@item.Id</td>
         <td>@item.PaymentMethod</td>
         <td>@item.IdOfTransaction</td>
-        <td>ссылки на товары-количество</td>
+            <td><a asp-action="ProductsInOrder" asp-controller="Admin" asp-route-id="@item.Id">Список Товаров!</a></td>
             <td>@item.PriceOfOrder</td>
             <td>@item.Name</td>
             <td>@item.PhoneNumber</td>

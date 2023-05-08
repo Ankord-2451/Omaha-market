@@ -1,0 +1,17 @@
+﻿@model List<CartHelperModel>
+
+    <table class="table" align="center">
+        <tr>
+            <td>Имя</td>
+            <td>количество</td>
+            <td>Ссылка на товар</td>
+        </tr>
+        @foreach(var item in Model)
+        {
+         <tr>
+            <td>@item.NameRu</td>
+            <td>@item.Quantity</td>
+            <td><a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct">Товар!</a></td>
+         </tr>
+        }
+    </table>
