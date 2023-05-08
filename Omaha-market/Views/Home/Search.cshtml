@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<Omaha_market.Models.ProductModel>
-@{
-    ViewData["Title"] = "Results";
-}
-@if(Model != null){
-<h1>Results:</h1>
 
+@if(Model != null){
 <br />
 <br />
 
@@ -28,7 +24,7 @@
                         <h3>@item.Price</h3>
                     }
 
-                <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">Buy</a>
+                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
             </div>
         </a>
     }
@@ -60,8 +56,8 @@
 
             <a align="right" asp-action="Search" asp-controller="Home" asp-route-searchstr="@ViewData["searchstr"]" asp-route-page="@i"><img height="10" src="~/Images/WebElements/arrowR.png" /></a>
     }
-  </div>
+    </div>
 }
 else{
-    <h3 align="center">Ничего не найдено</h3>
+    <h3 align="center">@ViewBag.Lang["Ничего не найдено"]</h3>
 }

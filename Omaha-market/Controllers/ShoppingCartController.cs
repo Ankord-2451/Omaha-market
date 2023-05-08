@@ -19,7 +19,15 @@ namespace Omaha_market.Controllers
         {
             var helper = new Helper();
             var session = new SessionWorker(HttpContext);
-            if(session.IsAuthorized())
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Index");
+            returnP.Add("con", "ShoppingCart");
+
+            ViewBag.returnP = returnP;
+
+            if (session.IsAuthorized())
             {
                 var products = helper.TakeProductsInCart(session, db);
                 int sum = 0;
@@ -39,6 +47,14 @@ namespace Omaha_market.Controllers
         {
             var helper = new Helper();
             var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Favorite");
+            returnP.Add("con", "ShoppingCart");
+
+            ViewBag.returnP = returnP;
+
             if (session.IsAuthorized())
             {
                 return View(helper.TakeFavoriteProducts(session, db));

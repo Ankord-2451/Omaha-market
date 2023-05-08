@@ -7,66 +7,66 @@
 <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 
 <div class="login">
-<h1 class="text-center">Regist</h1>
+    <h1 class="text-center">@ViewBag.Lang["Регистрация"]</h1>
 
 <form href="#" method="post">
-    <div class="bd" align="center">           
-            
-                Your name:
+    <div class="bd" align="center">
+
+                @ViewBag.Lang["Имя:"]
                 <input type="text" asp-for="Name" placeholder="name" />
                 <div>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
-            
-            
-            
-                Your Phone number:
+
+
+
+                @ViewBag.Lang["телефон:"]
                 <input type="tel" asp-for="PhoneNumber" placeholder="number of phone" />
 
                 <div>
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
 
-           
-            
-            
 
-                Your Email:
+
+
+
+                E-mail:
                 <input type="email" asp-for="Email" placeholder="email" />
 
                 <div>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
-           
 
-                
-            
 
-                Your Address:
+
+
+
+            @ViewBag.Lang["Адрес:"]
                 <input type="text" asp-for="Address" placeholder="address" />
 
                 <div>
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
 
-            
-            
 
-            
 
-                Your Login:
+
+
+
+            @ViewBag.Lang["логин :"]
                 <input type="text" asp-for="Login" placeholder="Login" />
 
                 <div>
                     <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
 
-            
-          
-            
-                Your Password:
+
+
+
+            @ViewBag.Lang["пароль :"]
                 <input type="password" asp-for="Password" placeholder="Password" />
 
                 <div>
@@ -78,7 +78,7 @@
            
 
         <div class="text-center">
-            <button type="submit"> regist </button>
+                <button type="submit">@ViewBag.Lang["Регистрация"]</button>
         </div>
 
     </div>

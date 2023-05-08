@@ -3,12 +3,11 @@
     ViewData["Title"] = "ShoppingCart";
 }
 
-<h1 align="center">ShoppingCart</h1>
 <br />
 
 @if (Model.Count() == 0)
 {
-    <h1 align="center">Карзина Пуста</h1>
+    <h1 align="center">@ViewBag.Lang["Корзина Пуста"]</h1>
 }
 else{
     <div align="center">
@@ -24,7 +23,7 @@ else{
                 @Html.EditorFor(m => m[i].Quantity)
             }
             </div>
-            <button type="submit" class="Buy">Купить все</button>
+            <button type="submit" class="Buy">@ViewBag.Lang["Купить все"]</button>
         }
     </div>
     <br />
@@ -33,7 +32,16 @@ else{
         {     
         <tr>
             <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct"><img src="~/Images/@item.Img" class="cart"/></a></td>
-                <td><a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct">@item.NameRu</a></td>
+                <td><a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct">
+                        @if (ViewData["Language"]=="Ru")
+                        {
+                            <span>@item.NameRu</span>
+                        }
+                        else
+                        {
+                            <span>@item.NameRo</span>
+                        }
+                </a></td>
                 <td><a asp-action="Quantityminus" asp-controller="ShoppingCart" asp-route-id="@item.IdOfProduct">-</a> @item.Quantity <a asp-action="Quantityplus" asp-controller="ShoppingCart" asp-route-id="@item.IdOfProduct">+</a></td>
                 <td><a asp-action="DeleteSh" asp-controller="ShoppingCart" asp-route-id="@item.IdOfProduct"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></td>
             </tr>

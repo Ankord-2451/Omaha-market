@@ -22,6 +22,12 @@ namespace Omaha_market.Controllers
         public ActionResult Index()
         { 
             var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Index");
+            returnP.Add("con", "Market");
+            ViewBag.returnP = returnP;
             ViewData["IsRu"] = session.IsRu();
 
             var text = db.Text.FirstOrDefault();
@@ -54,6 +60,14 @@ namespace Omaha_market.Controllers
         {
 
             var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Details");
+            returnP.Add("con", "Market");
+            returnP.Add("id", $"{id}");
+            ViewBag.returnP = returnP;
+
             ViewData["IsAdmin"] = session.IsAdmin();
 
             ViewData["Same"] = db.Products.Where(x => x.CategoryRo == db.Products.First(x => x.Id == id).CategoryRo).ToList();
@@ -67,6 +81,16 @@ namespace Omaha_market.Controllers
         [HttpGet("Category/{Name?}")]
         public ActionResult Category(string Name, int page = 1)
         {
+            var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Category");
+            returnP.Add("con", "Market");
+            ViewBag.returnP = returnP;
+
+            ViewData["IsRu"] = session.IsRu();
+
             var helper = new Helper();
             int AmountOfPages;
             if (page <= 0) page = 1;
@@ -92,6 +116,16 @@ namespace Omaha_market.Controllers
         [HttpGet("OnDiscount")]
         public ActionResult OnDiscount(int page = 1)
         {
+            var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "OnDiscount");
+            returnP.Add("con", "Market");
+            ViewBag.returnP = returnP;
+
+            ViewData["IsRu"] = session.IsRu();
+
             var helper = new Helper();
             ViewData["action"] = "OnDiscount";
             int AmountOfPages;
@@ -117,6 +151,16 @@ namespace Omaha_market.Controllers
         [HttpGet("New")]
         public ActionResult New(int page = 1)
         {
+            var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "New");
+            returnP.Add("con", "Market");
+            ViewBag.returnP = returnP;
+
+            ViewData["IsRu"] = session.IsRu();
+
             var helper = new Helper();
             ViewData["action"] = "New";
             int AmountOfPages;
@@ -142,6 +186,16 @@ namespace Omaha_market.Controllers
         [HttpGet("Some")]
         public ActionResult Some(int page = 1)
         {
+            var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Some");
+            returnP.Add("con", "Market");
+            ViewBag.returnP = returnP;
+
+            ViewData["IsRu"] = session.IsRu();
+
             var helper = new Helper();
             ViewData["action"] = "Some";
             int AmountOfPages;
@@ -167,9 +221,18 @@ namespace Omaha_market.Controllers
         [HttpPost]
         public ActionResult AddEmail(string Email)
         {
+            var session = new SessionWorker(HttpContext);
             db.Email.Add(new EmailModel() { Email = Email});
             db.SaveChanges();
-            ViewData["Mailmessage"] = "Спасибо за вашу почту";
+            if(session.IsRu())
+            { 
+                ViewData["Mailmessage"] = "Спасибо за вашу почту";
+            }
+            else
+            {
+                ViewData["Mailmessage"] = "Mulțumesc pentru e-mail";
+            }
+           
             return View("Market");
         }
 

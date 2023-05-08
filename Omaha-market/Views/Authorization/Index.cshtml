@@ -6,16 +6,16 @@
 <div class="login">
    <div class="text-center">
     <form method="post">
-        <label name="Login">Login :</label>
+            <label name="Login">@ViewBag.Lang["логин :"]</label>
         <input type="text" name="login"/>
         <br />
-        <label name="Password">Password :</label>
+            <label name="Password">@ViewBag.Lang["пароль :"]</label>
         <input type="password" name="password"/>
         <br />
         <div class="text-danger">@ViewData["Eror"]</div>
-        <button type="submit">Log in</button>
+            <button type="submit">@ViewBag.Lang["Зайти"]</button>
     </form>
     <br />
-    <a asp-action="Regist" asp-controller="Users">Make your account</a>
+    <a asp-action="Regist" asp-controller="Users">@ViewBag.Lang["Создать аккаунт"]</a>
    </div>
 </div>

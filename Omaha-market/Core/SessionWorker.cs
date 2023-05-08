@@ -90,5 +90,20 @@ namespace Omaha_market.Core
                 return "Ro";
             }
         }
+
+        public IDictionary<string,string> GetLangDic()
+        {
+            var dic = Context.Session.GetString("LangDic");
+            if (dic != null)
+            {
+                return (JsonSerializer.Deserialize<IDictionary<string,string>>(dic));
+            }
+            return null;
+        }
+
+        public void SetLangDic(Dictionary<string, string> dic)
+        {
+            Context.Session.SetString("LangDic", JsonSerializer.Serialize<IDictionary<string, string>>(dic));
+        }
     }
 }

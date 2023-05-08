@@ -38,7 +38,7 @@
                             </span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Language">@ViewData["Language"]</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Lang" asp-all-route-data="(IDictionary<string,string>)ViewBag.returnP">@ViewData["Language"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Favorite"><img height="30" src="~/Images/WebElements/like.png" /></a>

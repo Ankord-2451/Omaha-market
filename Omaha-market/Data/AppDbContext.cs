@@ -14,6 +14,7 @@ namespace Omaha_market.Data
         public DbSet<EmailModel> Email { get; set; } = null!;
         public DbSet<TextModel> Text { get; set; } = null!;
         public DbSet<OrderModel> Orders { get; set; } = null!;
+        public DbSet<languageModel> Lang { get; set; } = null!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

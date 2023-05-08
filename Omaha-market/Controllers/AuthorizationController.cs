@@ -21,6 +21,14 @@ namespace Omaha_market.Controllers
         public ActionResult Index()
         {
             var session = new SessionWorker(HttpContext);
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Index");
+            returnP.Add("con", "Authorization");
+
+            ViewBag.returnP = returnP;
+
             if (session.IsAuthorized())
             {
                 return RedirectToAction("Index","Users",dbContext.Accounts.First(x=>x.ID==session.GetUserId()));
@@ -75,7 +83,7 @@ namespace Omaha_market.Controllers
         {
             var session = new SessionWorker(HttpContext);
             session.Clear();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Home");
         }
     }
 }

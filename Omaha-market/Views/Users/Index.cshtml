@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="~/css/personalCab.css" asp-append-version="true" />
 
 <div class="Cab">
-    <h5 class="text-center">Нou are logged in as @Model.Name</h5>
     <br />
     <table class="table">
         <thead>
@@ -28,7 +27,7 @@
             <td>
                  @if(!(bool)ViewData["IsAdmin"])
                  {
-                     <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button align="center" type="submit">Edit</button></form>
+                    <form method="get" asp-action="AccountEdit" asp-controller="Users" asp-route-id="@Model.ID"><button align="center" type="submit">@ViewBag.Lang["Изменить"]</button></form>
                  }
             </td>
             </tr>           
@@ -48,8 +47,8 @@
     else
     {
          <div class="home">
-        <form method="get" asp-action="LogOut" asp-controller="Authorization"><button class="Delete" type="submit">Log Out</button></form>
-        <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button class="Delete" type="submit">Delete Account</button></form>
+            <form method="get" asp-action="LogOut" asp-controller="Authorization"><button class="Delete" type="submit">@ViewBag.Lang["Выйти"]</button></form>
+            <form method="post" asp-action="Delete" asp-controller="Users" asp-route-id="@Model.ID"><button class="Delete" type="submit">@ViewBag.Lang["Удалить Аккаунт"]</button></form>
          </div>
     }
    
