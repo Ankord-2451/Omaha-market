@@ -40,6 +40,8 @@ namespace Omaha_market.Controllers
         public ActionResult Index(string login,string password)
         {
             AccountModel? account;
+            
+            var session = new SessionWorker(HttpContext);
 
           
            password = Encoder.Encode(configuration, password);
@@ -54,9 +56,6 @@ namespace Omaha_market.Controllers
 
             if(account != null) 
             {
-                //Object for work with session
-                var session = new SessionWorker(HttpContext);
-
                 //Set in session JWT Token for Authorization
                 var Geterator = new GeneratorJWTTokens(configuration);
                 var token = Geterator.GenerateJWTToken(account);
@@ -71,8 +70,25 @@ namespace Omaha_market.Controllers
                 });
 
                 return RedirectToAction(nameof(Index));
+            } 
+            
+            if(session.IsRu())
+            {
+                ViewData["Eror"] = "неверный пороль или логин"; 
             }
-            ViewData["Eror"] = "неверный пороль или логин";
+            else
+            {
+                ViewData["Eror"] = "parolă sau autentificare nevalidă";
+            }
+           
+            ViewBag.Lang = session.GetLangDic();
+            ViewData["Language"] = session.GetLanguage();
+            var returnP = new Dictionary<string, string>();
+            returnP.Add("act", "Index");
+            returnP.Add("con", "Authorization");
+
+            ViewBag.returnP = returnP;
+
             return View("Index");
         }
 

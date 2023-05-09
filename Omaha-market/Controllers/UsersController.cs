@@ -62,6 +62,7 @@ namespace Omaha_market.Controllers
             account.Role = role.Customer;
             account.Password = Encoder.Encode(configuration, account.Password);
             db.Accounts.Add(account);
+            db.Email.Add(new EmailModel(){Email = account.Email });
             db.SaveChanges();
 
             return RedirectToAction(nameof(Index), "Authorization");

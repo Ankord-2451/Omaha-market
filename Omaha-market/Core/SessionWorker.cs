@@ -105,5 +105,36 @@ namespace Omaha_market.Core
         {
             Context.Session.SetString("LangDic", JsonSerializer.Serialize<IDictionary<string, string>>(dic));
         }
+
+        public void SaveOrder(OrderModel list)
+        {
+            Context.Session.SetString("Order",JsonSerializer.Serialize<OrderModel>(list));
+        }
+
+        public OrderModel GetOrder()
+        {
+            var prod = Context.Session.GetString("Order");
+            if (prod != null)
+            {
+                return JsonSerializer.Deserialize<OrderModel>(prod);
+            }
+            return null;
+        }
+
+        public void SaveOrderProd(List<CartHelperModel> list)
+        {
+            Context.Session.SetString("ProductsInOrder", JsonSerializer.Serialize<List<CartHelperModel>>(list));
+        }
+
+        public List<CartHelperModel> GetOrderProd(out string str)
+        {
+            str = Context.Session.GetString("ProductsInOrder");
+            if (str != null)
+            {
+
+                return JsonSerializer.Deserialize<List<CartHelperModel>>(str);
+            }
+            return null;
+        }
     }
 }

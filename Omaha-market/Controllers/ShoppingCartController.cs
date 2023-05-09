@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
+using Omaha_market.Models;
 
 namespace Omaha_market.Controllers
 {
@@ -41,6 +42,14 @@ namespace Omaha_market.Controllers
             return View("View");
         }
 
+        [HttpPost]
+        public ActionResult ProdInOrder(List<CartHelperModel> Prod)            
+        {
+            var session = new SessionWorker(HttpContext);
+            session.SaveOrderProd(Prod);
+
+            return RedirectToAction("BuyAll", "Pay");
+        }
 
         [HttpGet("Favorite")]
         public ActionResult Favorite()
@@ -106,5 +115,6 @@ namespace Omaha_market.Controllers
 
             return RedirectToAction("Index");
         }
+
     }
 }

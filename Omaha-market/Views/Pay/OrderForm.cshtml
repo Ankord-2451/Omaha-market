@@ -1,0 +1,87 @@
+﻿@model OrderModel
+
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+
+<div class="login">
+    <h1 class="text-center">@ViewBag.Lang["Оформление заказа"]</h1>
+
+    <form method="post">
+        <div class="bd" align="center">
+
+            <table class="table">
+                @foreach (var item in (List<CartHelperModel>)ViewData["Order"])
+                {
+                    <tr>
+                        <td><img height="50px" width="50px" src="~/Images/@item.Img"/></td>
+                        <td>                     
+                                @if ((bool)ViewData["IsRu"])
+                                {
+                                    <span>@item.NameRu</span>
+                                }
+                                else
+                                {
+                                    <span>@item.NameRo</span>
+                                }
+                        </td>
+                        <td> @item.Quantity * @item.Price</td>
+                        <td>@(item.Price*item.Quantity)MDL</td>
+                        <td><a asp-action="DeleteProdFromOrder" asp-controller="Pay" asp-route-id="@item.IdOfProduct"><img src="~/Images/WebElements/крест.png" class="dcart" /></a></td>
+                    </tr>
+                }
+            </table>
+            <div> @ViewBag.Lang["Общая сумма заказа:"] @ViewData["Sum"] MDL</div>
+
+            <input type="hidden" asp-for="PriceOfOrder" value="@ViewData["Sum"]" />
+            <input type="hidden" asp-for="IdAndNameAndQuantityOfProduct" value="@ViewData["IdAndNameAndQuantityOfProduct"]" />
+
+            @ViewBag.Lang["Способ Оплаты:"]
+            <select asp-for="PaymentMethod">
+                @if ((bool)ViewData["IsRu"])
+                {
+                    <option value="Cash">Наличные</option>
+                    <option value="Card">Карта</option>
+                }
+                else
+                {
+                    <option value="Cash">Cash</option>
+                    <option value="Card">Card</option>
+                }
+                           
+            </select>
+            <div>
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+
+
+            @ViewBag.Lang["Имя:"]
+            <input type="text" asp-for="Name" value="@ViewBag.HelpOrderForm["Имя"]" />
+            <div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+
+            @ViewBag.Lang["телефон:"]
+            <input type="tel" asp-for="PhoneNumber" value="@ViewBag.HelpOrderForm["телефон"]" />
+
+            <div>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+
+            @ViewBag.Lang["Адрес:"]
+            <input type="text" asp-for="Address" value="@ViewBag.HelpOrderForm["Адрес"]" />
+
+            <div>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            @ViewBag.Lang["Комментарий:"]
+            <input type="text" asp-for="CommentToOrder" value="Comment"/>
+
+            <div class="text-center">
+                <button type="submit">@ViewBag.Lang["Оформить"]</button>
+            </div>
+
+        </div>
+    </form>
+</div>

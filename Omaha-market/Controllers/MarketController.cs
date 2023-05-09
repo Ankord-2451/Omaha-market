@@ -221,6 +221,8 @@ namespace Omaha_market.Controllers
         [HttpPost]
         public ActionResult AddEmail(string Email)
         {
+            if(Email != null)
+            { 
             var session = new SessionWorker(HttpContext);
             db.Email.Add(new EmailModel() { Email = Email});
             db.SaveChanges();
@@ -232,7 +234,7 @@ namespace Omaha_market.Controllers
             {
                 ViewData["Mailmessage"] = "Mulțumesc pentru e-mail";
             }
-           
+           }
             return View("Market");
         }
 

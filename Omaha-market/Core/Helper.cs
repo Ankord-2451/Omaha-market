@@ -7,6 +7,26 @@ namespace Omaha_market.Core
     public class  Helper
     {
         //Order section
+
+        public Dictionary<string,string> OrderFormHelp(AppDbContext db, SessionWorker session)
+        {
+            var helpForm = new Dictionary<string, string>();
+            if(session.IsAuthorized())
+            {
+                var user = db.Accounts.First(x=>x.ID==session.GetUserId());
+               
+                helpForm.Add("Имя",$"{user.Name}");
+                helpForm.Add("Адрес",$"{user.Address}");
+                helpForm.Add("телефон",$"{user.PhoneNumber}");  
+            }
+            else
+            {
+                helpForm.Add("Имя", "");
+                helpForm.Add("Адрес", "");
+                helpForm.Add("телефон", "");
+            }
+            return helpForm;
+        }
         public List<CartHelperModel> TakeProductsInOrder(string IdAndNameAndQuantityOfProducts)
         {           
             var ListOfProducts = JsonSerializer.Deserialize<List<CartHelperModel>>(IdAndNameAndQuantityOfProducts);
@@ -94,7 +114,22 @@ namespace Omaha_market.Core
                 List<CartModel> IdsOfProducts = db.ShoppingCart.Where(x => x.IdOfCustomer == session.GetUserId()).ToList();
                 foreach(CartModel cart in IdsOfProducts)
                 {
+                
                 var prod = db.Products.First(x => x.Id == cart.IdOfProduct);
+                  if(prod.OnDiscount)
+                  {
+                    products.Add(new CartHelperModel
+                    {
+                        IdOfProduct = prod.Id,
+                        Img = prod.Img,
+                        Price = prod.PriceOnDiscount,
+                        NameRo = prod.NameRo,
+                        NameRu = prod.NameRu,
+                        Quantity = cart.Quantity
+                    });
+                  }
+                  else 
+                  { 
                     products.Add(new CartHelperModel { 
                        IdOfProduct = prod.Id,
                        Img = prod.Img,
@@ -103,6 +138,7 @@ namespace Omaha_market.Core
                        NameRu = prod.NameRu,
                        Quantity = cart.Quantity
                     });
+                  }
                 }
                 return products;
         }  

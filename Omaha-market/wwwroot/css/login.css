@@ -63,3 +63,13 @@
     .login a:hover {
         color: #16a085;
     }
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+.dcart {
+    height: 25px;
+    width: 25px;
+}
