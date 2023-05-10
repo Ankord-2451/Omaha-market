@@ -131,7 +131,6 @@ namespace Omaha_market.Core
             str = Context.Session.GetString("ProductsInOrder");
             if (str != null)
             {
-
                 return JsonSerializer.Deserialize<List<CartHelperModel>>(str);
             }
             return null;

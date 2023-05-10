@@ -1,10 +1,26 @@
-﻿@model string
+﻿@model List<CartHelperModel> 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Buy";
 }
-
-
-<h1>View</h1>
-  @Model
-
-
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> <a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct"><img src="~/Images/@item.Img" class="cart" /></a></td>
+            <td>
+                <a asp-action="Details" asp-controller="Market" asp-route-id="@item.IdOfProduct">
+                    @if (ViewData["Language"] == "Ru")
+                    {
+                        <span>@item.NameRu</span>
+                    }
+                    else
+                    {
+                        <span>@item.NameRo</span>
+                    }
+                </a>
+            </td>
+             <td><a asp-action="Quantityminus" asp-controller="Pay" asp-route-id="@item.IdOfProduct">-</a> @item.Quantity <a asp-action="Quantityplus" asp-controller="Pay" asp-route-id="@item.IdOfProduct">+</a></td>
+           </tr>
+    }
+</table>
+<a class="Buy" asp-action="BuyAll" asp-controller="Pay">@ViewBag.Lang["Оформить"]</a>

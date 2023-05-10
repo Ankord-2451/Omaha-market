@@ -96,11 +96,12 @@ namespace Omaha_market.Controllers
         public ActionResult Quantityplus(int id)
         {
             var session = new SessionWorker(HttpContext);
-   
+            if(db.Products.First(x=>x.Id==id).amount > db.ShoppingCart.First(x => x.IdOfProduct == id && x.IdOfCustomer == session.GetUserId()).Quantity)
+            {   
                db.ShoppingCart.First(x => x.IdOfProduct == id && x.IdOfCustomer == session.GetUserId()).Quantity++;
 
                db.SaveChanges();
-
+            }
             return RedirectToAction("Index");
         }
 
