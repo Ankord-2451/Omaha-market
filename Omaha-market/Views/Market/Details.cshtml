@@ -57,7 +57,9 @@
             else
             {
                 <div class="product-action-buttons">
-                    <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">@ViewBag.Lang["Купить"]</a>
+                    @if (Model.amount != 0) { 
+                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@Model.Id">@ViewBag.Lang["Купить"]</a>
+                    }
                     <a class="ShopingCart" asp-action="AddInShopingCart" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/shopping-cart.png" /></a>
                     <a class="Favorite" asp-action="AddInFavorite" asp-controller="Market" asp-route-id="@Model.Id"><img height="30" src="~/Images/WebElements/like.png" /></a>
                 </div>

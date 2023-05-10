@@ -61,7 +61,10 @@
                     {
                         <h3>@item.Price</h3>
                     }
-                    <a class="Buy" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    @if (item.amount != 0)
+                    {
+                        <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    }
                  </div>
                 </a>
             }
@@ -108,7 +111,10 @@
                         <h3>@item.Price</h3>
                     }
 
-                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    @if (item.amount != 0)
+                    {
+                        <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    }
                 </div>
             </a>
         }
@@ -157,7 +163,10 @@
                         <h3>@item.Price</h3>
                     }
 
-                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    @if (item.amount != 0)
+                    {
+                        <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    }
             </div>
         </a>
       }

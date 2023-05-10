@@ -6,7 +6,7 @@
 <br />
 <br />
 
-    <div class="product-container">
+    <div class="home">
     @foreach (var item in Model)
     {
           
@@ -39,7 +39,9 @@
                         <h3>@item.Price</h3>
                     }
 
+                    @if (item.amount != 0) { 
                     <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    }
             </div>
         </a>
      }
