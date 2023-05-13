@@ -4,6 +4,7 @@ using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Migrations;
 using Omaha_market.Models;
+using Stripe;
 using System.Text.Json;
 
 namespace Omaha_market.Controllers
@@ -130,36 +131,36 @@ namespace Omaha_market.Controllers
         }
 
         [HttpPost("pay/buyAll")]
-        public ActionResult BuyAll(OrderModel order) 
+        public ActionResult BuyAll(OrderModel order)
         {
             if (ModelState.IsValid)
             {
+                var helper = new Helper();
                 var session = new SessionWorker(HttpContext);
 
-                if (order.PaymentMethod == "Cash")
+                if (helper.CheckingTheQuantityOfGoodsInStock(db, order.IdAndNameAndQuantityOfProduct))
                 {
-                    ViewData["IsRu"] = session.IsRu();
+                    if (order.PaymentMethod == "Cash")
+                    {
+                        ViewData["IsRu"] = session.IsRu();
 
-                    var helper = new Helper();
-                   if(helper.CheckingAndChangingTheQuantityOfGoodsInStock(db,order.IdAndNameAndQuantityOfProduct))
-                   {                                     
-                    db.Orders.Add(order);
-                    db.SaveChanges();
-                      return View("OrderIsProcessed");
-
-                   }
-                   else
-                   {
-                     return View("NotEnough");
-                   }
+                        helper.ChangingTheQuantityOfGoodsInStock(db, order.IdAndNameAndQuantityOfProduct);
+                        db.Orders.Add(order);
+                        db.SaveChanges();
+                        return View("OrderIsProcessed");
+                    }
+                    else
+                    {
+                        session.SaveOrder(order);
+                        return RedirectToAction("CardPay");
+                    }
                 }
                 else
-                {                   
-                    session.SaveOrder(order);
-                    return RedirectToAction("CardPay");
+                {
+                    return View("NotEnough");
                 }
             }
-            return BuyAll();
+                return BuyAll();           
         }
 
         [HttpGet]
@@ -178,18 +179,48 @@ namespace Omaha_market.Controllers
         }
 
         [HttpPost]
-        public ActionResult CardPay(int i)
+        public ActionResult CardPay(string stripeEmail,string stripeToken)
         {
-            if(ModelState.IsValid) { 
+           var helper = new Helper();
             var session = new SessionWorker(HttpContext);
             var order = session.GetOrder();
             ViewData["IsRu"] = session.IsRu();
-            db.Orders.Add(order);
-            db.SaveChanges();
-            return View("OrderIsProcessed");
-              return View("Fail");
-            }
-            return CardPay();
+
+                var Customers = new CustomerService();
+                var Charges = new ChargeService();
+
+                var customer = Customers.Create(new CustomerCreateOptions
+                {
+                    Email= stripeEmail,
+                    Source=stripeToken
+                });
+
+                var Charge = Charges.Create(new ChargeCreateOptions
+                {
+                    Currency = "mdl",
+                    Amount = (long)(order.PriceOfOrder*100),
+                    Customer = customer.Id,
+                    Metadata = new Dictionary<string,string>()
+                    {
+                        {"Name :",$"{order.Name}"},
+                        {"PhoneNumber :",$"{order.PhoneNumber}"}
+                    }
+                });
+
+                if(Charge.Status == "succeeded")
+                {
+                    helper.ChangingTheQuantityOfGoodsInStock(db, order.IdAndNameAndQuantityOfProduct);
+               
+                    order.IdOfTransaction = Charge.BalanceTransactionId;
+
+                    db.Orders.Add(order);
+                    db.SaveChanges();
+
+                    return View("OrderIsProcessed");
+                }
+                
+                return View("Fail");
+                        
         }
         public ActionResult DeleteProdFromOrder(int id)
         {

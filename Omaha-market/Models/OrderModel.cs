@@ -12,7 +12,7 @@ namespace Omaha_market.Models
         [Required]
         public string PaymentMethod { get; set; }
 
-        public long IdOfTransaction { get; set; }
+        public string? IdOfTransaction { get; set; }
 
         public string IdAndNameAndQuantityOfProduct { get; set; }
         public double PriceOfOrder { get; set; }

@@ -7,16 +7,21 @@ namespace Omaha_market.Core
     public class  Helper
     {
         //Order section
-        public bool CheckingAndChangingTheQuantityOfGoodsInStock(AppDbContext db, string IdAndNameAndQuantityOfProducts)
+        public void ChangingTheQuantityOfGoodsInStock(AppDbContext db, string IdAndNameAndQuantityOfProducts)
+        {
+            var ProdInOrder = TakeProductsInOrder(IdAndNameAndQuantityOfProducts);
+            foreach (var item in ProdInOrder)
+            {         
+               db.Products.First(x => x.Id == item.IdOfProduct).amount -= item.Quantity;
+            }
+        }
+
+        public bool CheckingTheQuantityOfGoodsInStock(AppDbContext db, string IdAndNameAndQuantityOfProducts)
         {
             var ProdInOrder = TakeProductsInOrder(IdAndNameAndQuantityOfProducts);
               foreach(var item in ProdInOrder)
               {
-                  if(item.Quantity<=db.Products.First(x=>x.Id==item.IdOfProduct).amount)
-                  {
-                    db.Products.First(x => x.Id == item.IdOfProduct).amount -= item.Quantity;
-                  }
-                  else
+                  if(item.Quantity>db.Products.First(x=>x.Id==item.IdOfProduct).amount)
                   {
                     return false;
                   }
