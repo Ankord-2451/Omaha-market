@@ -165,6 +165,15 @@ namespace Omaha_market.Controllers
         [HttpGet]
         public ActionResult CardPay()
         {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsRu()) 
+            { 
+                ViewData["CardButton"] = "Ввести данные карты";
+            }
+            else
+            {
+                ViewData["CardButton"] = "Introduceți detaliile cardului";
+            }
             return View("CardPayForm");
         }
 

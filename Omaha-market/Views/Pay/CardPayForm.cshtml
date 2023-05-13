@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<Omaha_market.Data.StripeSettings> stripe
+
 @{
+    ViewData["Title"] = "CardPay";
 }
+
+<div class="text-center">
+    <form id="myForm" asp-action="CardPay" asp-controller="Pay" method="post">
+
+        <script src="//checkout.stripe.com/v3/checkout.js"
+          class="stripe-button"
+                data-name="My Website"
+                
+                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-key="@stripe.Value.PublicKey"
+          data-locale="auto"
+          data-description="hellow">
+        </script>
+ 
+         <script>
+           document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+         </script>
+
+        <button type="submit" class="CardB">@ViewData["CardButton"]</button>
+
+    </form>
+</div>

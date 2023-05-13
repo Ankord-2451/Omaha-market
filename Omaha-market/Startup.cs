@@ -4,6 +4,7 @@ using Omaha_market.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Omaha_market.Middleware;
+using Stripe;
 
 namespace Omaha_market
 {
@@ -37,7 +38,6 @@ namespace Omaha_market
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
-
               { 
                  x.RequireHttpsMetadata = true;
                  x.SaveToken = true;
@@ -49,7 +49,7 @@ namespace Omaha_market
                  };
 
               });
-
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
         }
 
 
@@ -64,6 +64,9 @@ namespace Omaha_market
                 app.UseExceptionHandler("/Home/Error");
                  app.UseHsts();
             }
+
+            StripeConfiguration.ApiKey=Configuration.GetSection("Stripe")["SecretKey"];
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

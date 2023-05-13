@@ -202,3 +202,20 @@ div.but{
     justify-content: space-between;
     text-align: center;
 }
+
+.CardB {
+    display: inline-block;
+    color:green;
+    border:3px solid green;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+    .CardB:hover {
+        background-color: forestgreen;
+        color:white;
+    }
