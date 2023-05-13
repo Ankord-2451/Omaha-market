@@ -31,7 +31,7 @@ namespace Omaha_market.Controllers
 
             if (session.IsAuthorized())
             {
-                return RedirectToAction("Index","Users",dbContext.Accounts.First(x=>x.ID==session.GetUserId()));
+                return RedirectToAction("Index","Users",new { id = session.GetUserId() });
             }
              return View();
         }

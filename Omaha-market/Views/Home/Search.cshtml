@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Omaha_market.Models.ProductModel>
 
+@{
+    ViewData["Title"] = "Search";
+}
+
 @if(Model != null){
 <br />
 <br />
@@ -12,12 +16,22 @@
 
                 <img src="~/Images/@item.Img" width="100" height="100" />
 
-                <h5 align="center">@item.NameRu </h5>
+                    <h5 align="center">
+
+                        @if ((bool)ViewData["IsRu"])
+                        {
+                            @item.NameRu
+                        }
+                        else
+                        {
+                            @item.NameRo
+                        }
+                    </h5>
 
                     @if (item.OnDiscount)
                     {
                         <div style="text-decoration:line-through; color:gray;">@item.Price</div>
-                        <h3 style="color:darkred;">@item.PriceOnDiscount</h3>
+                        <h3 style="color:red;">@item.PriceOnDiscount</h3>
                     }
                     else
                     {

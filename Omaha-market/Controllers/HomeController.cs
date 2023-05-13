@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Data;
 using Omaha_market.Core;
-using System;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Omaha_market.Controllers
 {
@@ -25,7 +23,7 @@ namespace Omaha_market.Controllers
         {
             var session = new SessionWorker(HttpContext);
             ViewBag.Lang = session.GetLangDic();
-            ViewData["Language"] = session.GetLanguage();
+            ViewData["IsRu"] = session.IsRu();
             var returnP = new Dictionary<string, string>();
             returnP.Add("act", "Search");
             returnP.Add("con", "Home");

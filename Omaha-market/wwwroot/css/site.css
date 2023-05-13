@@ -37,7 +37,7 @@ body {
         border-radius: 20px;
         padding: 0px 10px;
         margin: 0px 0px 0px 55px;
-        width: 150px;
+        width: 250px;
     }
 
     input[type=text]:focus.Search {
@@ -143,6 +143,7 @@ img[src$="arrowL.png"]:hover, img[src$="arrowR.png"]:hover {
 .product {
     margin-right: 3px;
     position: relative;
+    max-width:140px;
 }
 
 .discount {

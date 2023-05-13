@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<Omaha_market.Models.ProductModel>
 @{
-    ViewData["Title"] = "Results";
+    ViewData["Title"] = "Category";
 }
 @if(Model != null){
 
 <br />
 
-    <div class="product-container">
+    <div class="home">
     @foreach (var item in Model)
     {
         <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">

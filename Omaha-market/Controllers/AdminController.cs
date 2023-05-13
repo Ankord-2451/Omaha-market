@@ -37,7 +37,7 @@ namespace Omaha_market.Controllers
                 product = helper.PreparationForSaveProduct(product, db, photo);
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Users",new {id = session.GetUserId()});
             }
             return StatusCode(401);
         }
