@@ -180,7 +180,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {            
-                return View("Orders",db.Orders.ToList());
+                return View("Orders",db.Orders.OrderByDescending(x => x.Id).ToList());
             }
             return StatusCode(401);
         }
@@ -192,6 +192,32 @@ namespace Omaha_market.Controllers
             {
                 var helper= new Helper();             
                 return View(helper.TakeProductsInOrder(db.Orders.First(x => x.Id == id).IdAndNameAndQuantityOfProduct));
+            }
+            return StatusCode(401);
+        }
+
+        [HttpGet("WantDeleteOrder/{id}")]
+        public ActionResult WantDeleteOrder(int id)
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+                return View("DeleteOrder", id);
+
+            return StatusCode(401);
+        }
+
+        [HttpGet("DeleteOrder/{id}")]
+        public ActionResult DeleteOrder(int id)
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+                var order = db.Orders.First(x => x.Id == id);
+
+                db.Orders.Remove(order);
+               
+                db.SaveChanges();
+                return RedirectToAction("OrdersList");
             }
             return StatusCode(401);
         }

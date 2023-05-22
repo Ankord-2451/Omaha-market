@@ -25,7 +25,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <form method="get" asp-controller="Home" asp-action="Search">
-                                <input class="Search" type="text" name="searchstr" placeholder="Я ищу..." />
+                                <input class="Search" type="text" name="searchstr" placeholder="@ViewBag.Lang["Яищу"]" />
                                 <span><button class="Search" type="submit"><img height="20" src="~/Images/WebElements/лупа.png" /></button></span>
                             </form>
                         </li>

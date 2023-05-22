@@ -11,6 +11,7 @@
         <td>телефон</td>
         <td>Адрес</td>
         <td>комментарий</td>
+        <td></td>
     </tr>
    
         @foreach(var item in Model)
@@ -25,6 +26,7 @@
             <td>@item.PhoneNumber</td>
             <td>@item.Address</td>
             <td>@item.CommentToOrder</td>
+            <td> <a asp-action="WantDeleteOrder" asp-controller="Admin" asp-route-id="@item.Id"><img src="~/Images/WebElements/крест.png"width="15px" height="15px" /></a></td>
         </tr>
         }
    

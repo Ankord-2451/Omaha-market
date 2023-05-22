@@ -34,20 +34,21 @@
             <input type="hidden" asp-for="PriceOfOrder" value="@ViewData["Sum"]" />
             <input type="hidden" asp-for="IdAndNameAndQuantityOfProduct" value="@ViewData["IdAndNameAndQuantityOfProduct"]" />
 
-            @ViewBag.Lang["Способ Оплаты:"]
-            <select asp-for="PaymentMethod">
-                @if ((bool)ViewData["IsRu"])
-                {
-                    <option value="Cash">Наличные</option>
-                    <option value="Card">Карта</option>
-                }
-                else
-                {
-                    <option value="Cash">Cash</option>
-                    <option value="Card">Card</option>
-                }
-                           
-            </select>
+            @ViewBag.Lang["Способ Оплаты:"] Cash 
+            <input type="hidden" asp-for="PaymentMethod" value="Cash"/>
+           @{ //<select asp-for="PaymentMethod">
+               // @if ((bool)ViewData["IsRu"])
+               // {
+               //    <option value="Cash">Наличные</option>
+               //  <option value="Card">Карта</option>
+                //}
+               // else
+                //{
+                 //   <option value="Cash">Cash</option>
+                 //   <option value="Card">Card</option>
+               // }                          
+             // </select>
+            }
             <div>
                 <span asp-validation-for="PaymentMethod" class="text-danger"></span>
             </div>
