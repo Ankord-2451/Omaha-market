@@ -33,7 +33,7 @@ namespace Omaha_market.Controllers
             var text = db.Text.FirstOrDefault();
             if (session.IsRu()) {
                 ViewData["Mess"] = text.BannerRu;
-                ViewData["SomeN"] = text.BannerRo;
+                ViewData["SomeN"] = text.SomeRu;
             }
             else
             {
