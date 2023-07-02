@@ -52,7 +52,7 @@
             <div>
 
                 Prise:
-                <input type="number" asp-for="Price" value="@Model.Price" />
+                <input type="text" name="Price" value="@Model.Price" />
 
                 <div>
                     <span asp-validation-for="Price" class="text-danger"></span>
@@ -62,7 +62,7 @@
             <div>
 
                 PriseOnDis:
-                <input type="number" asp-for="PriceOnDiscount" value="@Model.PriceOnDiscount" />
+                <input type="text" name="PriceOnDiscount" value="@Model.PriceOnDiscount" />
 
                 <div>
                     <span asp-validation-for="PriceOnDiscount" class="text-danger"></span>

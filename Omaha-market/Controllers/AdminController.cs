@@ -28,12 +28,15 @@ namespace Omaha_market.Controllers
         }
 
         [HttpPost("Product/Create")]
-        public ActionResult Create(ProductModel product, IFormFile photo)
+        public ActionResult Create(ProductModel product, IFormFile photo,string Price,string PriceOnDiscount)
         {
             var helper = new Helper();
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
+                product.Price=double.Parse(Price);
+                if(PriceOnDiscount != null)  product.PriceOnDiscount = double.Parse(PriceOnDiscount);
+               
                 product = helper.PreparationForSaveProduct(product, db, photo);
                 db.Products.Add(product);
                 try{db.SaveChanges();} 
@@ -59,11 +62,14 @@ namespace Omaha_market.Controllers
 
 
         [HttpPost("Product/Edit/{id?}")]
-        public ActionResult Edit(int id, ProductModel product, IFormFile photo)
+        public ActionResult Edit(int id, ProductModel product, IFormFile photo, string Price, string PriceOnDiscount)
         {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
+                product.Price = double.Parse(Price);
+                if (PriceOnDiscount != null) product.PriceOnDiscount = double.Parse(PriceOnDiscount);
+
                 var helper = new Helper();
                 helper.UpdateProduct(product, db, photo);
                 return View("PWC", product.Id);

@@ -31,10 +31,10 @@ namespace Omaha_market.Controllers
             if (session.IsAuthorized())
             {
                 var products = helper.TakeProductsInCart(session, db);
-                int sum = 0;
+                double sum = 0;
                 foreach(var product in products)
                 {
-                  sum += (int)(product.Price*product.Quantity);
+                  sum +=(product.Price*product.Quantity);
                 }
                 ViewData["Sum"] = sum;
             return View(products);

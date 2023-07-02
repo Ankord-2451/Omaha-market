@@ -117,10 +117,10 @@ namespace Omaha_market.Controllers
 
             ViewData["Order"] = list;
 
-            int sum = 0;
+            double sum = 0;
             foreach (var product in list)
             {
-                sum += (int)(product.Price * product.Quantity);
+                sum += (product.Price * product.Quantity);
             }
             ViewData["Sum"] = sum;
 
