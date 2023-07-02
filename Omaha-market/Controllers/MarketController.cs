@@ -87,6 +87,7 @@ namespace Omaha_market.Controllers
             var returnP = new Dictionary<string, string>();
             returnP.Add("act", "Category");
             returnP.Add("con", "Market");
+            returnP.Add("name", Name);
             ViewBag.returnP = returnP;
 
             ViewData["IsRu"] = session.IsRu();
@@ -107,6 +108,7 @@ namespace Omaha_market.Controllers
 
             ViewData["AmountOfPages"] = AmountOfPages;
 
+            ViewData["Category"] = db.Category.ToList();
 
             return View(products);
         }

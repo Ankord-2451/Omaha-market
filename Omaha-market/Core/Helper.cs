@@ -199,32 +199,29 @@ namespace Omaha_market.Core
 
         public List<ProductModel> TakeProductsOnDiscount(AppDbContext db)
         {
-            var products = db.Products.Where(x => x.OnDiscount).ToList();
+            var products = db.Products.Where(x => x.OnDiscount).Take(6).ToList();
             if (products.Count == 0) return null;
-            if (products.Count < 8) return products;
-            return products.GetRange(0, 8);
+            return products;
         }
         public List<ProductModel> TakeNewProducts(AppDbContext db)
         {
-            var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).ToList();
+            var products = db.Products.Where(x => x.DateOfLastChange >= DateTime.Now.AddDays(-7)).Take(6).ToList();
             if (products.Count == 0) return null;
-            if (products.Count < 8) return products;
-            return products.GetRange(0, 8);
+            return products;
 
         }
         public List<ProductModel> TakeProductsSome(AppDbContext db)
         {
-            var products = db.Products.Where(x => x.FromSome).ToList();
+            var products = db.Products.Where(x => x.FromSome).Take(6).ToList();
             if (products.Count == 0) return null;
-            if (products.Count < 8) return products;
-            return products.GetRange(0,8);
+            return products;
 
         }
 
         //Search section
         private bool Calculate(string source1, string source2) //O(n*m)
         {
-            const int AllowableErrorPercentage = 40;
+            const int AllowableErrorPercentage = 30;
 
             var source1Length = source1.Length;
             var source2Length = source2.Length;
@@ -258,15 +255,36 @@ namespace Omaha_market.Core
             return (matrix[source1Length, source2Length]*100/ source2Length) < AllowableErrorPercentage;
         }
 
+        private bool fooforSearch(string[] wordsR,string[] wordsP)
+        {
+            foreach(var wordP in wordsP)
+            {
+                foreach (var wordR in wordsR)
+                {
+                   if(Calculate(wordR, wordP))
+                    { return true; }
+                }
+            }
+            return false;
+        }
+
         private IEnumerable<ProductModel> FuzzySearch(string request, List<ProductModel> AllProducts)
         {
            if (request is null)
             {
                 return null;
             }
-            var productsByName = AllProducts.Where(x => Calculate(request, x.NameRu) || Calculate(request, x.NameRo));
+
+            string[] wordsR = request.Split(' ');
+
+           
+            var productsByName = AllProducts.Where(x => fooforSearch(wordsR, x.NameRu.Split(' ')) || fooforSearch(wordsR, x.NameRo.Split(' ')));
 
             var products =AllProducts.Where(x => x.DescriptionRu.Contains(request)|| x.DescriptionRo.Contains(request));
+
+            var productsContName = AllProducts.Where(x => x.NameRu.Contains(request) || x.NameRo.Contains(request));
+
+            productsByName.Union(productsContName);
 
             return products.Union(productsByName);
         }

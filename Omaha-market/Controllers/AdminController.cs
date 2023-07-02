@@ -36,7 +36,8 @@ namespace Omaha_market.Controllers
             {
                 product = helper.PreparationForSaveProduct(product, db, photo);
                 db.Products.Add(product);
-                db.SaveChanges();
+                try{db.SaveChanges();} 
+                catch{ return Create(); }
                 return RedirectToAction("Index","Users",new {id = session.GetUserId()});
             }
             return StatusCode(401);
@@ -127,6 +128,8 @@ namespace Omaha_market.Controllers
         [HttpPost("Admin/CategoryC/{id?}")]
         public ActionResult CategoryC(CategoryModel category)
         {
+             if (ModelState.IsValid)
+            {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
@@ -135,6 +138,8 @@ namespace Omaha_market.Controllers
                 db.SaveChanges();
             }
                 return RedirectToAction("Category");
+            }
+            return CategoryC(category.Id);
             
         }
 
@@ -146,6 +151,8 @@ namespace Omaha_market.Controllers
         [HttpPost("Admin/AddCategory")]
         public ActionResult AddCategory(CategoryModel category)
         {
+            if (ModelState.IsValid)
+            {
             var session = new SessionWorker(HttpContext);
             if (session.IsAdmin())
             {
@@ -153,6 +160,8 @@ namespace Omaha_market.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Category");
+            }
+            return AddCategory();
         }
 
 
@@ -171,7 +180,7 @@ namespace Omaha_market.Controllers
                 try { db.SaveChanges(); }
                 catch { }
             }
-            return RedirectToAction("Index","Authorization");
+            return RedirectToAction("Index","Authorization");       
         }
 
         [HttpGet("Admin/Orders")]
@@ -221,5 +230,18 @@ namespace Omaha_market.Controllers
             }
             return StatusCode(401);
         }
+
+        
+         [HttpGet("Admin/Emails")]
+        public ActionResult ShowEmails()
+        {
+            var session = new SessionWorker(HttpContext);
+            if (session.IsAdmin())
+            {
+                return View("mail",db.Email.ToList());
+            }
+            return StatusCode(401);
+        }
+
     }
 }

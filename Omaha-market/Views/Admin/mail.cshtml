@@ -1,0 +1,15 @@
+@model List<EmailModel>
+
+<table class="table" align="center">
+    <tr>
+        <td>Email</td>
+    </tr>
+   
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td>@item.Email</td>
+        </tr>
+        }
+   
+</table>

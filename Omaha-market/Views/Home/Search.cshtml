@@ -11,12 +11,13 @@
   <div class="home">
     @foreach (var item in Model)
     {
-        <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
-            <div class="product">
+            <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+                <div class="product">
 
-                <img src="~/Images/@item.Img" width="100" height="100" />
 
-                    <h5 align="center">
+                    <img src="~/Images/@item.Img" width="160" height="160" />
+
+                    <div align="center">
 
                         @if ((bool)ViewData["IsRu"])
                         {
@@ -26,22 +27,23 @@
                         {
                             @item.NameRo
                         }
-                    </h5>
+                    </div>
 
                     @if (item.OnDiscount)
                     {
-                        <div style="text-decoration:line-through; color:gray;">@item.Price</div>
-                        <h3 style="color:red;">@item.PriceOnDiscount</h3>
+                        <div style="text-decoration:line-through; color:gray;">@item.Price mdl</div>
+                        <h3 style="color:darkred;">@item.PriceOnDiscount mdl</h3>
                     }
                     else
                     {
-                        <h3>@item.Price</h3>
+                        <h3>@item.Price mdl</h3>
                     }
-                    @if (item.amount != 0) { 
-                    <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                    @if (item.amount != 0)
+                    {
+                        <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
                     }
                 </div>
-        </a>
+            </a>
     }
   </div>
  <br />

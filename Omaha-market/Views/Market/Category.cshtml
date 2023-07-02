@@ -2,6 +2,40 @@
 @{
     ViewData["Title"] = "Category";
 }
+
+<br />
+@if (ViewData["Category"] != null)
+{
+    <button style="width: 100%; justify-content:center;" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        @ViewBag.Lang["Категории"]
+    </button>
+
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <div align="center">
+                @foreach (var item in (List<CategoryModel>)ViewData["Category"])
+                {
+                    <div>
+                        <a class="On" asp-action="Category" asp-controller="Market" asp-route-Name="@item.NameRu">
+                            @if ((bool)ViewData["IsRu"])
+                            {
+                                @item.NameRu
+                            }
+                            else
+                            {
+                                @item.NameRo
+                            }
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+<br />
+<br />
+<br />
+
 @if(Model != null){
 
 <br />
@@ -13,9 +47,9 @@
             <div class="product">
 
                  
-                <img src="~/Images/@item.Img" width="100" height="100" />
+                <img src="~/Images/@item.Img" width="160" height="160" />
 
-                    <h5 align="center">
+                    <div align="center">
 
                         @if ((bool)ViewData["IsRu"])
                         {
@@ -25,16 +59,16 @@
                         {
                             @item.NameRo
                         }
-                    </h5>
+                    </div>
 
                     @if (item.OnDiscount)
                     {
-                        <div style="text-decoration:line-through; color:gray;">@item.Price</div>
-                        <h3 style="color:darkred;">@item.PriceOnDiscount</h3>
+                        <div style="text-decoration:line-through; color:gray;">@item.Price mdl</div>
+                        <h3 style="color:darkred;">@item.PriceOnDiscount mdl</h3>
                     }
                     else
                     {
-                        <h3>@item.Price</h3>
+                        <h3>@item.Price mdl</h3>
                     }
                     @if (item.amount != 0)
                     { 
