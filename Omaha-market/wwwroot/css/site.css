@@ -59,15 +59,20 @@ button.Search {
         color: #333;
     }
 
+
 .product {
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 10px;
-        text-align: center;
-        transition: all 0.3s ease-in-out;
-        margin-bottom: 10px;
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 10px;
+}
 
 .product:hover {
             transform: translateY(-5px);
@@ -143,8 +148,8 @@ img[src$="arrowL.png"]:hover, img[src$="arrowR.png"]:hover {
 .product {
     margin-right: 3px;
     position: relative;
-    min-width:160px;
-    max-width:180px;
+    min-width:250px;
+    max-width:251px;
 }
 
 .discount {

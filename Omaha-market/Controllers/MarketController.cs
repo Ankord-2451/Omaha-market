@@ -145,6 +145,8 @@ namespace Omaha_market.Controllers
 
             ViewData["AmountOfPages"] = AmountOfPages;
 
+            ViewData["Category"] = db.Category.ToList();
+
 
             return View("NewAndOnDiscount", products);
         }
@@ -180,6 +182,8 @@ namespace Omaha_market.Controllers
 
             ViewData["AmountOfPages"] = AmountOfPages;
 
+            ViewData["Category"] = db.Category.ToList();
+
 
             return View("NewAndOnDiscount", products);
         }
@@ -214,6 +218,8 @@ namespace Omaha_market.Controllers
             ViewData["Page"] = page;
 
             ViewData["AmountOfPages"] = AmountOfPages;
+
+            ViewData["Category"] = db.Category.ToList();
 
 
             return View("NewAndOnDiscount", products);
