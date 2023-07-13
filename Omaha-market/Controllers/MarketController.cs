@@ -57,7 +57,7 @@ namespace Omaha_market.Controllers
 
             ViewData["Category"] = db.Category.ToList();
 
-            return View("Market");
+            return View("Market",db.Products.ToList());
         }
 
        

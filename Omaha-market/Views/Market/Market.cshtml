@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Omaha_market.Models.ProductModel>
 @{
     ViewData["Title"] = "Market";
 }
@@ -183,6 +183,70 @@
 }
 <br />
 <br />
+@foreach (var Category in (List<CategoryModel>)ViewData["Category"])
+{
+    if ((bool)ViewData["IsRu"])
+    {
+        <h1>@Category.NameRu</h1>
+    }
+    else
+    {
+        <h1>@Category.NameRo</h1>
+    }
+    @if((Model.Where(x=> x.NameRu==Category.NameRu)) != null){
+
+     <div class="product-container">
+    
+        @foreach (var item in (Model.Where(x=> x.CategoryRu==Category.NameRu).Take(6)))
+        {
+            <a asp-action="Details" asp-controller="Market" asp-route-id="@item.Id">
+                <div class="product">
+
+
+                    <img src="~/Images/@item.Img" width="250" height="250" />
+
+                    <div align="center">
+
+                        @if ((bool)ViewData["IsRu"])
+                        {
+                            @item.NameRu
+                        }
+                        else
+                        {
+                            @item.NameRo
+                        }
+                    </div>
+                    <div style="margin-top: auto;">
+                        @if (item.OnDiscount)
+                        {
+                            <div style="text-decoration:line-through; color:gray;">@item.Price mdl</div>
+                            <h3 style="color:darkred;">@item.PriceOnDiscount mdl</h3>
+                        }
+                        else
+                        {
+                            <h3>@item.Price mdl</h3>
+                        }
+                        @if (item.amount != 0)
+                        {
+                            <a class="Buy" align="right" asp-action="Buy" asp-controller="Pay" asp-route-id="@item.Id">@ViewBag.Lang["Купить"]</a>
+                        }
+                    </div>
+                </div>
+            </a>
+        }
+     </div>
+
+      <a class ="On" asp-action="Category" asp-controller="Market" asp-route-Name="@Category.NameRu">
+        <div class="text-center">
+            @ViewBag.Lang["Показать Еще"]
+        </div>
+      </a> 
+    }
+
+<br />
+<br />
+}
+
 @if(ViewData["Mailmessage"] == null){
 <div class="text-center">
         <span> @ViewBag.Lang["Подпишитесь на наши свежие новости :"]</span>
