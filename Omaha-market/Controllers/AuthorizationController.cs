@@ -24,7 +24,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "Index", con = "Authorization" });
+                return RedirectToAction("Lang", "Home", new { act = "Index", con = "Authorization" });
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();

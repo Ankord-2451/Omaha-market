@@ -25,7 +25,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic()== null)
             {
-                return RedirectToAction("Lang", new { act = "Index", con = "Market" });
+                return RedirectToAction("Lang", "Home", new { act = "Index", con = "Market" });
             }
             ViewBag.Lang = session.GetLangDic();
             
@@ -68,7 +68,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "Details", con = "Market" });
+                return RedirectToAction("Lang", "Home", new { act = "Details", con = "Market" });
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
@@ -94,7 +94,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "Category", con = "Market",name=Name });
+                return RedirectToAction("Lang", "Home", new { act = "Category", con = "Market",name=Name });
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
@@ -135,7 +135,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "OnDiscount", con = "Market"});
+                return RedirectToAction("Lang", "Home", new { act = "OnDiscount", con = "Market"});
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
@@ -176,7 +176,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "New", con = "Market", id=id });
+                return RedirectToAction("Lang", "Home", new { act = "New", con = "Market", id=id });
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
@@ -217,7 +217,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "Some", con = "Market", id = id });
+                return RedirectToAction("Lang", "Home", new { act = "Some", con = "Market", id = id });
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();

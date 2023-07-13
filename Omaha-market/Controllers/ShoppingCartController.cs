@@ -22,7 +22,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "Index", con = "ShoppingCart" });
+                return RedirectToAction("Lang", "Home", new { act = "Index", con = "ShoppingCart" });
             }
            
             ViewBag.Lang = session.GetLangDic();
@@ -63,7 +63,7 @@ namespace Omaha_market.Controllers
             var session = new SessionWorker(HttpContext);
             if (session.GetLangDic() == null)
             {
-                return RedirectToAction("Lang", new { act = "Favorite", con = "ShoppingCart" });
+                return RedirectToAction("Lang", "Home", new { act = "Favorite", con = "ShoppingCart" });
             }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
