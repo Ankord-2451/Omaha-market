@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bogus.DataSets;
+using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
@@ -21,6 +22,10 @@ namespace Omaha_market.Controllers
         public ActionResult Index()
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Index", con = "Authorization" });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();

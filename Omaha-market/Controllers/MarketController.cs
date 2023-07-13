@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bogus.DataSets;
+using Microsoft.AspNetCore.Mvc;
 using Omaha_market.Core;
 using Omaha_market.Data;
 using Omaha_market.Models;
@@ -22,7 +23,12 @@ namespace Omaha_market.Controllers
         public ActionResult Index()
         { 
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic()== null)
+            {
+                return RedirectToAction("Lang", new { act = "Index", con = "Market" });
+            }
             ViewBag.Lang = session.GetLangDic();
+            
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
             returnP.Add("act", "Index");
@@ -60,6 +66,10 @@ namespace Omaha_market.Controllers
         {
 
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Details", con = "Market" });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -82,6 +92,10 @@ namespace Omaha_market.Controllers
         public ActionResult Category(string Name, int page = 1)
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Category", con = "Market",name=Name });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -119,6 +133,10 @@ namespace Omaha_market.Controllers
         public ActionResult OnDiscount(int page = 1)
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "OnDiscount", con = "Market"});
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -152,10 +170,14 @@ namespace Omaha_market.Controllers
         }
 
         
-        [HttpGet("New")]
-        public ActionResult New(int page = 1)
+        [HttpGet("New/{id?}")]
+        public ActionResult New(int id = 1)
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "New", con = "Market", id=id });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -168,17 +190,17 @@ namespace Omaha_market.Controllers
             var helper = new Helper();
             ViewData["action"] = "New";
             int AmountOfPages;
-            if (page <= 0) page = 1;
+            if (id <= 0) id = 1;
 
-            var products = helper.PageSplitHelper(helper.TakeNewProductsAll(db), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(helper.TakeNewProductsAll(db), id, out AmountOfPages);
 
-            if (page > AmountOfPages)
+            if (id > AmountOfPages)
             {
-                page = 1;
-                products = helper.PageSplitHelper(helper.TakeNewProductsAll(db), page, out AmountOfPages);
+                id = 1;
+                products = helper.PageSplitHelper(helper.TakeNewProductsAll(db), id, out AmountOfPages);
             }
 
-            ViewData["Page"] = page;
+            ViewData["Page"] = id;
 
             ViewData["AmountOfPages"] = AmountOfPages;
 
@@ -189,10 +211,14 @@ namespace Omaha_market.Controllers
         }
 
         
-        [HttpGet("Some")]
-        public ActionResult Some(int page = 1)
+        [HttpGet("Some/{id?}")]
+        public ActionResult Some(int id = 1)
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Some", con = "Market", id = id });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -205,17 +231,17 @@ namespace Omaha_market.Controllers
             var helper = new Helper();
             ViewData["action"] = "Some";
             int AmountOfPages;
-            if (page <= 0) page = 1;
+            if (id <= 0) id = 1;
 
-            var products = helper.PageSplitHelper(helper.TakeProductsSomeAll(db), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(helper.TakeProductsSomeAll(db), id, out AmountOfPages);
 
-            if (page > AmountOfPages)
+            if (id > AmountOfPages)
             {
-                page = 1;
-                products = helper.PageSplitHelper(helper.TakeProductsSomeAll(db), page, out AmountOfPages);
+                id = 1;
+                products = helper.PageSplitHelper(helper.TakeProductsSomeAll(db), id, out AmountOfPages);
             }
 
-            ViewData["Page"] = page;
+            ViewData["Page"] = id;
 
             ViewData["AmountOfPages"] = AmountOfPages;
 

@@ -23,6 +23,10 @@ namespace Omaha_market.Controllers
             try
             {
                 var session = new SessionWorker(HttpContext);
+                if (session.GetLangDic() == null)
+                {
+                    return RedirectToAction("Lang", new { act = "Index", con = " Users",id = id });
+                }
                 ViewBag.Lang = session.GetLangDic();
                 ViewData["Language"] = session.GetLanguage();
                 var returnP = new Dictionary<string, string>();
@@ -45,6 +49,10 @@ namespace Omaha_market.Controllers
         public ActionResult Regist()
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Regist", con = " Users" });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -73,6 +81,10 @@ namespace Omaha_market.Controllers
             try
             {
                 var session = new SessionWorker(HttpContext);
+                if (session.GetLangDic() == null)
+                {
+                    return RedirectToAction("Lang", new { act = "AccountEdit", con = " Users", id=id });
+                }
                 ViewBag.Lang = session.GetLangDic();
                 ViewData["Language"] = session.GetLanguage();
                 var returnP = new Dictionary<string, string>();

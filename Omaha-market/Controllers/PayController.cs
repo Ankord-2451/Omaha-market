@@ -22,6 +22,10 @@ namespace Omaha_market.Controllers
         public ActionResult Buy(int id)
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Buy", con = "Pay", id = id });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();
@@ -107,6 +111,10 @@ namespace Omaha_market.Controllers
             if (list.Count == 0) 
                 return RedirectToAction("Index", "Market");
 
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "BuyAll", con = "Pay" });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             var returnP = new Dictionary<string, string>();

@@ -20,9 +20,13 @@ namespace Omaha_market.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string Name,int page = 1)
+        public async Task<IActionResult> Search(string Name,int id = 1)
         {
             var session = new SessionWorker(HttpContext);
+            if (session.GetLangDic() == null)
+            {
+                return RedirectToAction("Lang", new { act = "Search", con = "Home",name=Name ,id = id });
+            }
             ViewBag.Lang = session.GetLangDic();
             ViewData["Language"] = session.GetLanguage();
             ViewData["IsRu"] = session.IsRu();
@@ -37,17 +41,17 @@ namespace Omaha_market.Controllers
             var helper = new Helper();
             int AmountOfPages;
 
-            if (page <= 0) page = 1;
+            if (id <= 0) id = 1;
 
-            var products = helper.PageSplitHelper(await helper.FuzzySearchAsync(Name, dbContext.Products.ToList()), page, out AmountOfPages);
+            var products = helper.PageSplitHelper(await helper.FuzzySearchAsync(Name, dbContext.Products.ToList()), id, out AmountOfPages);
 
-            if (page > AmountOfPages)
+            if (id > AmountOfPages)
             {
-                page = 1;
-                products = helper.PageSplitHelper(await helper.FuzzySearchAsync(Name, dbContext.Products.ToList()), page, out AmountOfPages);
+                id = 1;
+                products = helper.PageSplitHelper(await helper.FuzzySearchAsync(Name, dbContext.Products.ToList()), id, out AmountOfPages);
             }
 
-            ViewData["Page"] = page;
+            ViewData["Page"] = id;
 
             ViewData["AmountOfPages"] = AmountOfPages;
 
